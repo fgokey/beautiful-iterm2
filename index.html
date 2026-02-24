@@ -483,13 +483,107 @@
             transform: translateY(0);
         }
 
-        .oneclick-install.installing {
-            background: linear-gradient(135deg, #6b7280, #4b5563);
-            cursor: not-allowed;
+        .oneclick-install.installed {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
         }
 
-        .oneclick-install.success {
-            background: linear-gradient(135deg, #a6e3a1, #89b4fa);
+        .oneclick-install.installed:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(245, 158, 11, 0.4);
+        }
+
+        /* Uninstall Button */
+        .uninstall-btn {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: #fff;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+            margin-top: 8px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .uninstall-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
+        }
+
+        /* Install Status */
+        .install-status {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 12px;
+            font-size: 0.8em;
+            display: none;
+        }
+
+        .install-status.visible {
+            display: block;
+        }
+
+        .install-status-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+            color: #8888aa;
+        }
+
+        .install-status-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .install-status-item.success {
+            color: #a6e3a1;
+        }
+
+        .install-status-item.error {
+            color: #f38ba8;
+        }
+
+        .install-status-item.warning {
+            color: #f9e2af;
+        }
+
+        .status-icon {
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .status-icon.success {
+            background: rgba(166, 227, 161, 0.2);
+            color: #a6e3a1;
+        }
+
+        .status-icon.error {
+            background: rgba(243, 139, 138, 0.2);
+            color: #f38ba8;
+        }
+
+        .status-icon.warning {
+            background: rgba(249, 226, 175, 0.2);
+            color: #f9e2af;
+        }
+
+        /* Action Buttons Group */
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 12px;
         }
 
         /* Quick Actions */
@@ -1498,10 +1592,25 @@
                 <span>下载脚本</span>
             </button>
         </div>
-        <button class="oneclick-install" id="oneClickInstall">
-            <span>⚡</span>
-            <span>一键安装（AppleScript）</span>
-        </button>
+
+        <div class="action-buttons">
+            <button class="oneclick-install" id="oneClickInstall">
+                <span>⚡</span>
+                <span>一键安装主题</span>
+            </button>
+            <button class="uninstall-btn" id="uninstallTheme" style="display: none;">
+                <span>🗑️</span>
+                <span>卸载主题</span>
+            </button>
+        </div>
+
+        <div class="install-status" id="installStatus">
+            <div class="install-status-item" id="installStatusItem">
+                <span class="status-icon" id="statusIcon"></span>
+                <span id="statusText"></span>
+            </div>
+        </div>
+
         <div class="rating-container">
             <span class="rating-label">为主题评分:</span>
             <div class="rating-stars" id="ratingStars">
@@ -1595,6 +1704,9 @@
         // Rating data (stored in localStorage)
         var themeRatings = JSON.parse(localStorage.getItem('themeRatings') || '{}');
 
+        // Installation status tracking
+        var installedThemes = JSON.parse(localStorage.getItem('installedThemes') || '{}');
+
         // Initialize when DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM loaded, initializing...');
@@ -1685,56 +1797,165 @@
 
             // One-click install button
             var oneClickInstallBtn = document.getElementById('oneClickInstall');
+            var uninstallBtn = document.getElementById('uninstallTheme');
+            var installStatus = document.getElementById('installStatus');
+            var installStatusItem = document.getElementById('installStatusItem');
+            var statusIcon = document.getElementById('statusIcon');
+            var statusText = document.getElementById('statusText');
+
+            function showInstallStatus(message, type) {
+                installStatus.classList.add('visible');
+                installStatusItem.className = 'install-status-item ' + type;
+                statusIcon.className = 'status-icon ' + type;
+                statusIcon.textContent = type === 'success' ? '✓' : type === 'error' ? '✗' : '⚠';
+                statusText.textContent = message;
+
+                setTimeout(function() {
+                    installStatus.classList.remove('visible');
+                }, 5000);
+            }
+
+            function checkInstallStatus() {
+                if (selectedTheme && installedThemes[selectedTheme]) {
+                    oneClickInstallBtn.style.display = 'none';
+                    uninstallBtn.style.display = 'flex';
+                    showInstallStatus('主题已安装: ' + themeNames[selectedTheme], 'success');
+                } else {
+                    oneClickInstallBtn.style.display = 'flex';
+                    uninstallBtn.style.display = 'none';
+                }
+            }
+
             if (oneClickInstallBtn) {
                 oneClickInstallBtn.addEventListener('click', function() {
                     if (!selectedTheme || !themeUrls[selectedTheme]) {
-                        alert('请先选择一个主题');
+                        showInstallStatus('请先选择一个主题', 'warning');
                         return;
                     }
 
                     oneClickInstallBtn.classList.add('installing');
                     oneClickInstallBtn.innerHTML = '<span>⏳</span><span>正在安装...</span>';
+                    showInstallStatus('正在下载主题文件...', 'warning');
 
                     var themeUrl = themeUrls[selectedTheme];
                     var themeName = themeNames[selectedTheme];
+                    var themeFileName = selectedTheme + '.itermcolors';
+                    var themeFilePath = '$HOME/Library/Colors/' + themeFileName;
 
-                    // Generate AppleScript
-                    var applescript = 'tell application "iTerm"\\n' +
-                        'activate\\n' +
-                        'set themeURL to "' + themeUrl + '"\\n' +
-                        'set themeFile to POSIX file (POSIX path of (path to downloads folder) & "' + selectedTheme + '.itermcolors")\\n' +
-                        'tell current window\\n' +
-                        'create tab with default profile\\n' +
-                        'end tell\\n' +
-                        'do shell script "curl -s \\"" & themeURL & "\\" -o \\"" & POSIX path of themeFile & "\\"\\n' +
-                        'delay 1\\n' +
-                        'tell application "System Events"\\n' +
-                        'keystroke "," using command down\\n' +
-                        'delay 0.5\\n' +
-                        'end tell\\n' +
-                        'end tell\\n' +
-                        'return "Theme downloaded! Please import it manually in iTerm2 Preferences."';
+                    // Generate comprehensive installation AppleScript
+                    var installScript = '#!/bin/bash\\n' +
+'# iTerm2 主题一键安装脚本 - ' + themeName + '\\n' +
+'set -e\\n' +
+'\\n' +
+'echo "🎨 开始安装主题: ' + themeName + '"\\n' +
+'\\n' +
+'# 1. 创建目录\\n' +
+'THEME_DIR="$HOME/Library/Colors"\\n' +
+'mkdir -p "$THEME_DIR"\\n' +
+'\\n' +
+'# 2. 下载主题文件\\n' +
+'THEME_URL="' + themeUrl + '"\\n' +
+'THEME_FILE="$THEME_DIR/' + themeFileName + '"\\n' +
+'\\n' +
+'echo "📥 下载主题文件..."\\n' +
+'curl -fsSL "$THEME_URL" -o "$THEME_FILE"\\n' +
+'\\n' +
+'if [ -f "$THEME_FILE" ]; then\\n' +
+'    echo "✅ 主题文件已下载到: $THEME_FILE"\\n' +
+'    echo ""\\n' +
+'    echo "📝 下一步操作:"\\n' +
+'    echo "   1. 打开 iTerm2"\\n' +
+'    echo "   2. 按 ⌘+, 打开 Preferences"\\n' +
+'    echo "   3. 点击 Profiles > Colors"\\n' +
+'    echo "   4. 点击 Color Presets > Import..."\\n' +
+'    echo "   5. 选择: ' + themeFileName + '"\\n' +
+'    echo "   6. 点击 Color Presets > ' + themeName + '"\\n' +
+'    echo ""\\n' +
+'    echo "🎉 安装完成！"\\n' +
+'else\\n' +
+'    echo "❌ 下载失败，请检查网络连接"\\n' +
+'    exit 1\\n' +
+'fi';
 
-                    // Create and download AppleScript
-                    var blob = new Blob([applescript], { type: 'text/plain' });
+                    // Create and download install script
+                    var blob = new Blob([installScript], { type: 'text/plain' });
                     var url = URL.createObjectURL(blob);
                     var a = document.createElement('a');
                     a.href = url;
-                    a.download = 'install-theme.scpt';
+                    a.download = 'install-' + selectedTheme + '-theme.sh';
                     document.body.appendChild(a);
                     a.click();
                     document.body.removeChild(a);
                     URL.revokeObjectURL(url);
 
+                    // Mark as installed
+                    installedThemes[selectedTheme] = {
+                        name: themeName,
+                        installedAt: new Date().toISOString(),
+                        themeFile: themeFileName
+                    };
+                    localStorage.setItem('installedThemes', JSON.stringify(installedThemes));
+
                     setTimeout(function() {
                         oneClickInstallBtn.classList.remove('installing');
-                        oneClickInstallBtn.classList.add('success');
-                        oneClickInstallBtn.innerHTML = '<span>✅</span><span>已下载安装脚本</span>';
-                        setTimeout(function() {
-                            oneClickInstallBtn.classList.remove('success');
-                            oneClickInstallBtn.innerHTML = '<span>⚡</span><span>一键安装（AppleScript）</span>';
-                        }, 3000);
-                    }, 1000);
+                        checkInstallStatus();
+                        showInstallStatus('✅ 安装脚本已下载，请在终端中运行', 'success');
+                    }, 1500);
+                });
+            }
+
+            // Uninstall button
+            if (uninstallBtn) {
+                uninstallBtn.addEventListener('click', function() {
+                    if (!selectedTheme) return;
+
+                    if (!confirm('确定要卸载 "' + themeNames[selectedTheme] + '" 主题吗？\\n\\n这将删除已下载的主题文件。')) {
+                        return;
+                    }
+
+                    var themeFileName = selectedTheme + '.itermcolors';
+                    var themeFilePath = '$HOME/Library/Colors/' + themeFileName;
+
+                    // Generate uninstall script
+                    var uninstallScript = '#!/bin/bash\\n' +
+'# iTerm2 主题卸载脚本 - ' + themeNames[selectedTheme] + '\\n' +
+'set -e\\n' +
+'\\n' +
+'echo "🗑️ 卸载主题: ' + themeNames[selectedTheme] + '"\\n' +
+'\\n' +
+'THEME_FILE="' + themeFilePath + '"\\n' +
+'\\n' +
+'if [ -f "$THEME_FILE" ]; then\\n' +
+'    rm "$THEME_FILE"\\n' +
+'    echo "✅ 主题文件已删除"\\n' +
+'    echo ""\\n' +
+'    echo "📝 提示:"\\n' +
+'    echo "   主题文件已从系统中删除"\\n' +
+'    echo "   iTerm2 可能仍显示该主题，直到重启"\\n' +
+'    echo "   如需完全移除，请在 iTerm2 Preferences 中手动删除"\\n' +
+'else\\n' +
+'    echo "⚠️ 主题文件不存在，可能已被删除"\\n' +
+'fi\\n' +
+'\\n' +
+'echo "🎉 卸载完成！"';
+
+                    // Create and download uninstall script
+                    var blob = new Blob([uninstallScript], { type: 'text/plain' });
+                    var url = URL.createObjectURL(blob);
+                    var a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'uninstall-' + selectedTheme + '-theme.sh';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+
+                    // Remove from installed themes
+                    delete installedThemes[selectedTheme];
+                    localStorage.setItem('installedThemes', JSON.stringify(installedThemes));
+
+                    checkInstallStatus();
+                    showInstallStatus('✅ 卸载脚本已下载，请在终端中运行', 'success');
                 });
             }
 
@@ -1854,7 +2075,26 @@
                     star.classList.add('active');
                 }
             });
+
+            // Check install status and update buttons
+            checkInstallStatus();
         }
+
+        // Make checkInstallStatus available globally
+        window.checkInstallStatus = function() {
+            var oneClickInstallBtn = document.getElementById('oneClickInstall');
+            var uninstallBtn = document.getElementById('uninstallTheme');
+
+            if (!oneClickInstallBtn || !uninstallBtn) return;
+
+            if (selectedTheme && installedThemes[selectedTheme]) {
+                oneClickInstallBtn.style.display = 'none';
+                uninstallBtn.style.display = 'flex';
+            } else {
+                oneClickInstallBtn.style.display = 'flex';
+                uninstallBtn.style.display = 'none';
+            }
+        };
 
         function showConfigPanel() {
             if (configPanel) {
