@@ -1423,10 +1423,21 @@ echo "📝 在 iTerm2 中导入并应用该主题"
         // Theme Selection Functionality
         const themeCards = document.querySelectorAll('.theme-card');
 
-        themeCards.forEach(card => {
-            card.addEventListener('click', function() {
+        console.log('Found theme cards:', themeCards.length);
+        console.log('Config panel element:', configPanel);
+
+        themeCards.forEach((card, index) => {
+            console.log(\`Setting up click listener for card \${index}\`, card.getAttribute('data-theme'));
+
+            card.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                console.log('Card clicked!');
                 const theme = this.getAttribute('data-theme');
                 const themeName = this.getAttribute('data-theme-name');
+
+                console.log('Selected theme:', theme, themeName);
 
                 // Remove selection from all cards
                 themeCards.forEach(c => c.classList.remove('selected'));
@@ -1438,6 +1449,8 @@ echo "📝 在 iTerm2 中导入并应用该主题"
                 selectedTheme = theme;
                 selectedThemeName = themeName;
 
+                console.log('Calling updateConfigPanel and showConfigPanel');
+
                 // Update and show config panel
                 updateConfigPanel();
                 showConfigPanel();
@@ -1445,10 +1458,20 @@ echo "📝 在 iTerm2 中导入并应用该主题"
         });
 
         function updateConfigPanel() {
-            if (!selectedTheme || !selectedThemeName) return;
+            console.log('updateConfigPanel called', { selectedTheme, selectedThemeName });
+
+            if (!selectedTheme || !selectedThemeName) {
+                console.log('No theme selected, returning');
+                return;
+            }
 
             const themeConfig = themeConfigs[selectedTheme];
-            if (!themeConfig) return;
+            if (!themeConfig) {
+                console.log('No theme config found for', selectedTheme);
+                return;
+            }
+
+            console.log('Theme config found:', themeConfig);
 
             // Update selection display
             selectedThemeEl.textContent = themeConfig.name;
@@ -1457,10 +1480,16 @@ echo "📝 在 iTerm2 中导入并应用该主题"
             // Generate script
             const script = themeConfig.script(selectedFontName);
             configScriptEl.textContent = script;
+
+            console.log('Config panel updated');
         }
 
         function showConfigPanel() {
+            console.log('showConfigPanel called');
+            console.log('Config panel element:', configPanel);
+            console.log('Adding visible class');
             configPanel.classList.add('visible');
+            console.log('Config panel classes after adding:', configPanel.className);
         }
 
         function hideConfigPanel() {
