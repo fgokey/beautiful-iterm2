@@ -3,11 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Cache control - force refresh -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <title>iTerm2 主题对比预览 v3.1</title>
+    <title>iTerm2 主题对比预览</title>
     <!-- Google Fonts - Loading 10 popular programming fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -240,7 +236,6 @@
             z-index: 10;
             background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
-            pointer-events: none;
         }
 
         .theme-card.selected .select-indicator {
@@ -469,12 +464,6 @@
             color: #d1d5db !important;
             font-size: 0.85em;
             font-weight: 500;
-        }
-
-        /* Ensure rating labels are visible in config panel */
-        .config-panel .rating-label {
-            color: #e5e7eb !important;
-            font-weight: 600;
         }
 
         .rating-stars {
@@ -1038,47 +1027,6 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        /* Version Banner */
-        .version-banner {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9));
-            color: #fff;
-            padding: 12px 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .version-text {
-            font-size: 0.95em;
-            font-weight: 500;
-        }
-
-        .close-banner {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: #fff;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .close-banner:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.1);
-        }
-
         .footer {
             text-align: center;
             color: #8888aa;
@@ -1104,14 +1052,8 @@
     </style>
 </head>
 <body>
-    <!-- Version Banner -->
-    <div class="version-banner" id="versionBanner">
-        <span class="version-text">📦 v3.1 - 已修复评分颜色和卡片点击问题</span>
-        <button class="close-banner" onclick="document.getElementById('versionBanner').style.display='none'">✕</button>
-    </div>
-
     <div class="header">
-        <h1>iTerm2 主题对比预览 <small style="font-size: 0.4em; opacity: 0.7;">v3.1</small></h1>
+        <h1>iTerm2 主题对比预览</h1>
         <p>选择你喜欢的主题，查看配置方案</p>
     </div>
 
@@ -1766,20 +1708,16 @@
             
             themeCards.forEach(function(card, index) {
                 console.log('Setting up click handler for card ' + index + ':', card.getAttribute('data-theme'));
-
-                // Use mousedown instead of click for better reliability
                 card.addEventListener('click', function(e) {
                     console.log('=== Card clicked! ===');
-                    console.log('Event target:', e.target);
-                    console.log('Current target:', e.currentTarget);
-
-                    var theme = e.currentTarget.getAttribute('data-theme');
-                    var themeName = e.currentTarget.getAttribute('data-theme-name');
-
-                    console.log('Theme selected:', theme, themeName);
-
                     e.preventDefault();
                     e.stopPropagation();
+
+                    var theme = card.getAttribute('data-theme');
+                    var themeName = card.getAttribute('data-theme-name');
+
+                    console.log('Theme selected:', theme, themeName);
+                    console.log('Selected theme before:', selectedTheme);
 
                     // Remove selection from all cards
                     themeCards.forEach(function(c) {
@@ -1787,19 +1725,22 @@
                     });
 
                     // Add selection to clicked card
-                    e.currentTarget.classList.add('selected');
-                    console.log('Added selected class');
+                    card.classList.add('selected');
+                    console.log('Added selected class to card');
 
                     // Update selected theme
                     selectedTheme = theme;
                     selectedThemeName = themeName;
 
+                    console.log('Calling updateConfigPanel()...');
                     // Update and show config panel
                     updateConfigPanel();
+
+                    console.log('Calling showConfigPanel()...');
                     showConfigPanel();
 
-                    console.log('Config panel shown!');
-                }, false); // Use capture phase if needed
+                    console.log('Config panel classes:', configPanel ? configPanel.className : 'NO PANEL');
+                });
             });
             
             // Font selector
@@ -2105,10 +2046,12 @@ NC="\\033[0m" # No Color\\n' +
                     hideConfigPanel();
                 }
             });
-
-            // Keyboard shortcut to close panel (ESC)
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && configPanel && configPanel.classList.contains('visible')) {
+            
+            // Click outside to close
+            document.addEventListener('click', function(e) {
+                if (configPanel.classList.contains('visible') &&
+                    !configPanel.contains(e.target) &&
+                    !e.target.closest('.theme-card')) {
                     hideConfigPanel();
                 }
             });

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>点击测试页面</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #1a1a2e;
+            color: #eee;
+        }
+        .test-card {
+            width: 300px;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin: 20px 0;
+            transition: transform 0.3s ease;
+        }
+        .test-card:hover {
+            transform: scale(1.05);
+        }
+        .test-card.selected {
+            border: 4px solid #00ff00;
+            box-shadow: 0 0 20px #00ff00;
+        }
+        .log {
+            background: #0a0a15;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .log-entry {
+            margin: 5px 0;
+            padding: 5px;
+            border-left: 3px solid #667eea;
+            padding-left: 10px;
+        }
+        .log-entry.success { border-color: #00ff00; }
+        .log-entry.error { border-color: #ff0000; }
+    </style>
+</head>
+<body>
+    <h1>点击事件测试</h1>
+    <p>点击下面的卡片，测试事件是否正常工作</p>
+
+    <div class="test-card" data-test="card1">
+        <div style="text-align: center;">
+            <div style="font-size: 24px;">测试卡片 1</div>
+            <div style="font-size: 14px; margin-top: 10px;">点击我</div>
+        </div>
+    </div>
+
+    <div class="test-card" data-test="card2">
+        <div style="text-align: center;">
+            <div style="font-size: 24px;">测试卡片 2</div>
+            <div style="font-size: 14px; margin-top: 10px;">点击我</div>
+        </div>
+    </div>
+
+    <div class="log" id="log">
+        <div class="log-entry">等待点击...</div>
+    </div>
+
+    <script>
+        var log = document.getElementById('log');
+        var cardCount = 0;
+
+        function addLog(message, type) {
+            var entry = document.createElement('div');
+            entry.className = 'log-entry ' + (type || '');
+            entry.textContent = '[' + new Date().toLocaleTimeString() + '] ' + message;
+            log.appendChild(entry);
+            log.scrollTop = log.scrollHeight;
+        }
+
+        addLog('页面加载完成，等待点击...', 'success');
+
+        var cards = document.querySelectorAll('.test-card');
+        addLog('找到 ' + cards.length + ' 个测试卡片', 'success');
+
+        cards.forEach(function(card, index) {
+            addLog('设置卡片 ' + index + ' 的点击监听器', 'success');
+
+            card.addEventListener('click', function(e) {
+                cardCount++;
+                addLog('✓ 卡片被点击！ index=' + index + ' target=' + e.target.className, 'success');
+
+                // 移除所有选中状态
+                cards.forEach(function(c) {
+                    c.classList.remove('selected');
+                });
+
+                // 添加选中状态
+                card.classList.add('selected');
+                addLog('✓ 已添加选中样式到卡片 ' + index, 'success');
+            });
+
+            card.addEventListener('mousedown', function(e) {
+                addLog('  → mousedown 事件触发', '');
+            });
+
+            card.addEventListener('mouseup', function(e) {
+                addLog('  → mouseup 事件触发', '');
+            });
+        });
+
+        addLog('所有事件监听器已设置完成', 'success');
+    </script>
+</body>
+</html>
