@@ -212,21 +212,21 @@
         }
 
         .theme-card.selected {
-            transform: translateY(-12px) scale(1.03);
-            box-shadow: 0 35px 90px rgba(102, 126, 234, 0.4);
+            transform: translateY(-12px) scale(1.03) !important;
+            box-shadow: 0 35px 90px rgba(102, 126, 234, 0.4) !important;
         }
 
         .theme-card.selected::before {
-            opacity: 1;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+            opacity: 1 !important;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3)) !important;
         }
 
         .select-indicator {
             position: absolute;
             bottom: 15px;
             right: 15px;
-            width: 22px;
-            height: 22px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
             border: 2px solid rgba(255, 255, 255, 0.3);
             display: flex;
@@ -239,23 +239,24 @@
         }
 
         .theme-card.selected .select-indicator {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-color: #667eea;
-            transform: scale(1.1);
+            background: linear-gradient(135deg, #667eea, #764ba2) !important;
+            border-color: #667eea !important;
+            transform: scale(1.15) !important;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.6) !important;
         }
 
         .select-indicator::after {
             content: '✓';
             color: #fff;
-            font-size: 12px;
+            font-size: 14px;
             opacity: 0;
             transform: scale(0);
             transition: all 0.3s ease;
         }
 
         .theme-card.selected .select-indicator::after {
-            opacity: 1;
-            transform: scale(1);
+            opacity: 1 !important;
+            transform: scale(1) !important;
         }
 
         /* Script Instructions */
@@ -460,7 +461,7 @@
         }
 
         .rating-label {
-            color: #b8b8d1;
+            color: #d1d5db !important;
             font-size: 0.85em;
             font-weight: 500;
         }
@@ -479,16 +480,16 @@
 
         .rating-star:hover,
         .rating-star.active {
-            color: #fbbf24;
+            color: #fbbf24 !important;
             transform: scale(1.1);
         }
 
         .rating-star.hovered {
-            color: #fbbf24;
+            color: #fbbf24 !important;
         }
 
         .rating-count {
-            color: #b8b8d1;
+            color: #d1d5db !important;
             font-size: 0.75em;
             margin-left: 4px;
             font-weight: 500;
@@ -1667,37 +1668,53 @@
 
         // Initialize when DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded, initializing...');
-            
+            console.log('=== DOM loaded, initializing... ===');
+            console.log('configPanel element:', configPanel);
+            console.log('configPanel HTML:', configPanel ? configPanel.outerHTML.substring(0, 200) : 'NOT FOUND');
+
             // Theme Selection
             var themeCards = document.querySelectorAll('.theme-card');
             console.log('Found theme cards:', themeCards.length);
+
+            if (themeCards.length === 0) {
+                console.error('No theme cards found!');
+                return;
+            }
             
             themeCards.forEach(function(card, index) {
+                console.log('Setting up click handler for card ' + index + ':', card.getAttribute('data-theme'));
                 card.addEventListener('click', function(e) {
+                    console.log('=== Card clicked! ===');
                     e.preventDefault();
                     e.stopPropagation();
-                    
+
                     var theme = card.getAttribute('data-theme');
                     var themeName = card.getAttribute('data-theme-name');
-                    
+
                     console.log('Theme selected:', theme, themeName);
-                    
+                    console.log('Selected theme before:', selectedTheme);
+
                     // Remove selection from all cards
                     themeCards.forEach(function(c) {
                         c.classList.remove('selected');
                     });
-                    
+
                     // Add selection to clicked card
                     card.classList.add('selected');
-                    
+                    console.log('Added selected class to card');
+
                     // Update selected theme
                     selectedTheme = theme;
                     selectedThemeName = themeName;
-                    
+
+                    console.log('Calling updateConfigPanel()...');
                     // Update and show config panel
                     updateConfigPanel();
+
+                    console.log('Calling showConfigPanel()...');
                     showConfigPanel();
+
+                    console.log('Config panel classes:', configPanel ? configPanel.className : 'NO PANEL');
                 });
             });
             
@@ -2047,9 +2064,14 @@ NC="\\033[0m" # No Color\\n' +
         }
 
         function showConfigPanel() {
+            console.log('showConfigPanel() called, configPanel:', configPanel);
             if (configPanel) {
                 configPanel.classList.add('visible');
-                console.log('Config panel shown');
+                console.log('Added visible class, current classes:', configPanel.className);
+                console.log('Config panel offsetTop:', configPanel.offsetTop);
+                console.log('Config panel offsetHeight:', configPanel.offsetHeight);
+            } else {
+                console.error('configPanel is null!');
             }
         }
 
