@@ -426,6 +426,7 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
+            color: #fff !important;
         }
 
         .theme-description {
@@ -1649,6 +1650,42 @@
         var selectedTheme = null;
         var selectedThemeName = null;
         var selectedFontName = 'Fira Code';
+
+        // Initialize click handlers immediately (before DOMContentLoaded)
+        function initCardClicks() {
+            var cards = document.querySelectorAll('.theme-card');
+            console.log('initCardClicks: found', cards.length, 'cards');
+
+            cards.forEach(function(card) {
+                card.onclick = function() {
+                    console.log('Card clicked:', card.getAttribute('data-theme'));
+                    selectTheme(card.getAttribute('data-theme'), card.getAttribute('data-theme-name'));
+                };
+            });
+        }
+
+        function selectTheme(theme, themeName) {
+            console.log('selectTheme:', theme, themeName);
+
+            var cards = document.querySelectorAll('.theme-card');
+            cards.forEach(function(c) { c.classList.remove('selected'); });
+
+            var clickedCard = document.querySelector('.theme-card[data-theme="' + theme + '"]');
+            if (clickedCard) clickedCard.classList.add('selected');
+
+            selectedTheme = theme;
+            selectedThemeName = themeName;
+
+            if (typeof updateConfigPanel === 'function') updateConfigPanel();
+            if (typeof showConfigPanel === 'function') showConfigPanel();
+        }
+
+        // Try to initialize immediately
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initCardClicks);
+        } else {
+            initCardClicks();
+        }
 
         // DOM elements (will be initialized in DOMContentLoaded)
         var configPanel = null;
