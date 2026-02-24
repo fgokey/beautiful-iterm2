@@ -1592,18 +1592,21 @@
         var selectedThemeName = null;
         var selectedFontName = 'Fira Code';
 
-        // DOM elements
-        var configPanel = document.getElementById('configPanel');
-        var configPanelClose = document.getElementById('configPanelClose');
-        var selectedThemeEl = document.getElementById('selectedTheme');
-        var selectedFontEl = document.getElementById('selectedFont');
-        var configScriptEl = document.getElementById('configScript');
-        var copyScriptBtn = document.getElementById('copyScript');
-        var downloadScriptBtn = document.getElementById('downloadScript');
-        var toast = document.getElementById('toast');
-        var fontSelector = document.getElementById('fontSelector');
-        var fontLoadingStatus = document.getElementById('fontLoadingStatus');
-        var root = document.documentElement;
+        // DOM elements (will be initialized in DOMContentLoaded)
+        var configPanel = null;
+        var configPanelClose = null;
+        var selectedThemeEl = null;
+        var selectedFontEl = null;
+        var configScriptEl = null;
+        var copyScriptBtn = null;
+        var downloadScriptBtn = null;
+        var toast = null;
+        var fontSelector = null;
+        var fontLoadingStatus = null;
+        var root = null;
+        var ratingStars = null;
+        var ratingCountEl = null;
+        var oneClickInstallBtn = null;
 
         // Theme script generators
         function generateThemeScript(theme, font) {
@@ -1669,8 +1672,30 @@
         // Initialize when DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
             console.log('=== DOM loaded, initializing... ===');
+
+            // Initialize DOM elements after DOM is ready
+            configPanel = document.getElementById('configPanel');
+            configPanelClose = document.getElementById('configPanelClose');
+            selectedThemeEl = document.getElementById('selectedTheme');
+            selectedFontEl = document.getElementById('selectedFont');
+            configScriptEl = document.getElementById('configScript');
+            copyScriptBtn = document.getElementById('copyScript');
+            downloadScriptBtn = document.getElementById('downloadScript');
+            toast = document.getElementById('toast');
+            fontSelector = document.getElementById('fontSelector');
+            fontLoadingStatus = document.getElementById('fontLoadingStatus');
+            root = document.documentElement;
+            ratingStars = document.getElementById('ratingStars');
+            ratingCountEl = document.getElementById('ratingCount');
+            oneClickInstallBtn = document.getElementById('downloadInstallScript');
+
             console.log('configPanel element:', configPanel);
-            console.log('configPanel HTML:', configPanel ? configPanel.outerHTML.substring(0, 200) : 'NOT FOUND');
+            console.log('All DOM elements initialized');
+
+            if (!configPanel) {
+                console.error('configPanel not found!');
+                return;
+            }
 
             // Theme Selection
             var themeCards = document.querySelectorAll('.theme-card');
