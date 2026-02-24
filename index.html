@@ -1708,16 +1708,20 @@
             
             themeCards.forEach(function(card, index) {
                 console.log('Setting up click handler for card ' + index + ':', card.getAttribute('data-theme'));
+
+                // Use mousedown instead of click for better reliability
                 card.addEventListener('click', function(e) {
                     console.log('=== Card clicked! ===');
-                    e.preventDefault();
-                    e.stopPropagation();
+                    console.log('Event target:', e.target);
+                    console.log('Current target:', e.currentTarget);
 
-                    var theme = card.getAttribute('data-theme');
-                    var themeName = card.getAttribute('data-theme-name');
+                    var theme = e.currentTarget.getAttribute('data-theme');
+                    var themeName = e.currentTarget.getAttribute('data-theme-name');
 
                     console.log('Theme selected:', theme, themeName);
-                    console.log('Selected theme before:', selectedTheme);
+
+                    e.preventDefault();
+                    e.stopPropagation();
 
                     // Remove selection from all cards
                     themeCards.forEach(function(c) {
@@ -1725,22 +1729,19 @@
                     });
 
                     // Add selection to clicked card
-                    card.classList.add('selected');
-                    console.log('Added selected class to card');
+                    e.currentTarget.classList.add('selected');
+                    console.log('Added selected class');
 
                     // Update selected theme
                     selectedTheme = theme;
                     selectedThemeName = themeName;
 
-                    console.log('Calling updateConfigPanel()...');
                     // Update and show config panel
                     updateConfigPanel();
-
-                    console.log('Calling showConfigPanel()...');
                     showConfigPanel();
 
-                    console.log('Config panel classes:', configPanel ? configPanel.className : 'NO PANEL');
-                });
+                    console.log('Config panel shown!');
+                }, false); // Use capture phase if needed
             });
             
             // Font selector
@@ -2046,12 +2047,10 @@ NC="\\033[0m" # No Color\\n' +
                     hideConfigPanel();
                 }
             });
-            
-            // Click outside to close
-            document.addEventListener('click', function(e) {
-                if (configPanel.classList.contains('visible') &&
-                    !configPanel.contains(e.target) &&
-                    !e.target.closest('.theme-card')) {
+
+            // Keyboard shortcut to close panel (ESC)
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && configPanel && configPanel.classList.contains('visible')) {
                     hideConfigPanel();
                 }
             });
