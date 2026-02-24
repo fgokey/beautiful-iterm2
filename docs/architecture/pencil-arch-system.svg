@@ -1,0 +1,175 @@
+<svg width="1600" height="980" viewBox="0 0 1600 980" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1600" y2="980" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#080B16"/>
+      <stop offset="0.55" stop-color="#0E1330"/>
+      <stop offset="1" stop-color="#111A3A"/>
+    </linearGradient>
+
+    <linearGradient id="cardBlue" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#16386C"/>
+      <stop offset="1" stop-color="#0B1738"/>
+    </linearGradient>
+
+    <linearGradient id="cardCyan" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#0D4053"/>
+      <stop offset="1" stop-color="#0A1B2C"/>
+    </linearGradient>
+
+    <linearGradient id="cardPurple" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#3B2479"/>
+      <stop offset="1" stop-color="#1C1342"/>
+    </linearGradient>
+
+    <filter id="glowBlue" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#5BA8FF" flood-opacity="0.75"/>
+    </filter>
+
+    <filter id="glowCyan" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#5DE1FF" flood-opacity="0.7"/>
+    </filter>
+
+    <filter id="glowPurple" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#A172FF" flood-opacity="0.78"/>
+    </filter>
+
+    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#6FB7FF"/>
+    </marker>
+
+    <marker id="arrowCyan" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#6FF4FF"/>
+    </marker>
+
+    <marker id="arrowPurple" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#BA8CFF"/>
+    </marker>
+
+    <style>
+      .title { font: 700 42px 'IBM Plex Sans', 'Segoe UI', sans-serif; fill: #EAF1FF; letter-spacing: 1px; }
+      .subtitle { font: 500 20px 'IBM Plex Sans', 'Segoe UI', sans-serif; fill: #9BB7EB; }
+      .layerTitle { font: 600 18px 'IBM Plex Sans', 'Segoe UI', sans-serif; fill: #BFD5FF; letter-spacing: 0.5px; }
+      .nodeTitle { font: 600 21px 'IBM Plex Sans', 'Segoe UI', sans-serif; fill: #E8F2FF; }
+      .nodeDesc { font: 500 16px 'IBM Plex Sans', 'Segoe UI', sans-serif; fill: #B3C8F2; }
+      .legend { font: 500 15px 'IBM Plex Sans', 'Segoe UI', sans-serif; fill: #C7D7F7; }
+      .flow { stroke-width: 3.2; stroke-dasharray: 12 10; fill: none; }
+      .flowGlow { stroke-linecap: round; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1600" height="980" fill="url(#bg)"/>
+
+  <text x="70" y="74" class="title">iTerm2 Theme Preview - System Architecture</text>
+  <text x="70" y="108" class="subtitle">Next.js 15 + React 19 + TypeScript 5 + Static Export + Safe Install/Uninstall Lifecycle</text>
+
+  <rect x="56" y="145" width="1488" height="130" rx="20" fill="#0E1F46" fill-opacity="0.32" stroke="#5EA3FF" stroke-opacity="0.45"/>
+  <text x="76" y="176" class="layerTitle">Layer 1 · Client Presentation</text>
+
+  <rect x="85" y="192" width="330" height="64" rx="14" fill="url(#cardBlue)" stroke="#70B4FF" filter="url(#glowBlue)"/>
+  <text x="108" y="229" class="nodeTitle">Theme Grid / Preview UI</text>
+
+  <rect x="438" y="192" width="340" height="64" rx="14" fill="url(#cardBlue)" stroke="#70B4FF" filter="url(#glowBlue)"/>
+  <text x="462" y="229" class="nodeTitle">Option Switch Panel</text>
+
+  <rect x="803" y="192" width="335" height="64" rx="14" fill="url(#cardBlue)" stroke="#70B4FF" filter="url(#glowBlue)"/>
+  <text x="828" y="229" class="nodeTitle">Install Detail Page</text>
+
+  <rect x="1163" y="192" width="350" height="64" rx="14" fill="url(#cardBlue)" stroke="#70B4FF" filter="url(#glowBlue)"/>
+  <text x="1190" y="229" class="nodeTitle">Clipboard / Download Action</text>
+
+  <rect x="56" y="302" width="1488" height="170" rx="20" fill="#0B2A37" fill-opacity="0.32" stroke="#61E9FF" stroke-opacity="0.42"/>
+  <text x="76" y="333" class="layerTitle">Layer 2 · Frontend Application (Next.js 15 App Router)</text>
+
+  <rect x="90" y="350" width="430" height="96" rx="16" fill="url(#cardCyan)" stroke="#6CEBFF" filter="url(#glowCyan)"/>
+  <text x="114" y="385" class="nodeTitle">HomeClient / InstallPageClient</text>
+  <text x="114" y="414" class="nodeDesc">React 19 Client Components + hooks state (useState/useMemo)</text>
+
+  <rect x="550" y="350" width="465" height="96" rx="16" fill="url(#cardCyan)" stroke="#6CEBFF" filter="url(#glowCyan)"/>
+  <text x="575" y="385" class="nodeTitle">ThemeShowcase / ConfigPanel / ThemeCard</text>
+  <text x="575" y="414" class="nodeDesc">Type-safe props + CSS variables + animation-driven preview</text>
+
+  <rect x="1045" y="350" width="470" height="96" rx="16" fill="url(#cardCyan)" stroke="#6CEBFF" filter="url(#glowCyan)"/>
+  <text x="1070" y="385" class="nodeTitle">Script Generator (src/lib/script.ts)</text>
+  <text x="1070" y="414" class="nodeDesc">TypeScript templates + query-driven module flags + SSG routes</text>
+
+  <rect x="56" y="497" width="1488" height="205" rx="20" fill="#26144E" fill-opacity="0.32" stroke="#B487FF" stroke-opacity="0.45"/>
+  <text x="76" y="528" class="layerTitle">Layer 3 · Script Runtime (Shell Manager)</text>
+
+  <rect x="90" y="548" width="460" height="130" rx="16" fill="url(#cardPurple)" stroke="#BE95FF" filter="url(#glowPurple)"/>
+  <text x="114" y="584" class="nodeTitle">install / status / uninstall</text>
+  <text x="114" y="612" class="nodeDesc">set -euo pipefail + strict failure handling</text>
+  <text x="114" y="638" class="nodeDesc">idempotent state tracking</text>
+
+  <rect x="575" y="548" width="450" height="130" rx="16" fill="url(#cardPurple)" stroke="#BE95FF" filter="url(#glowPurple)"/>
+  <text x="600" y="584" class="nodeTitle">Resource Ops</text>
+  <text x="600" y="612" class="nodeDesc">curl theme file, optional brew tmux, git tpm</text>
+  <text x="600" y="638" class="nodeDesc">safe retries + connectivity timeout</text>
+
+  <rect x="1050" y="548" width="465" height="130" rx="16" fill="url(#cardPurple)" stroke="#BE95FF" filter="url(#glowPurple)"/>
+  <text x="1075" y="584" class="nodeTitle">Config Mutation + Rollback</text>
+  <text x="1075" y="612" class="nodeDesc">dynamic profile backup/restore</text>
+  <text x="1075" y="638" class="nodeDesc">tmux block managed remove only</text>
+
+  <rect x="56" y="726" width="1488" height="164" rx="20" fill="#122042" fill-opacity="0.32" stroke="#78B8FF" stroke-opacity="0.4"/>
+  <text x="76" y="757" class="layerTitle">Layer 4 · Local System &amp; External Dependencies</text>
+
+  <rect x="90" y="776" width="350" height="90" rx="14" fill="#12274C" stroke="#7DBDFF"/>
+  <text x="114" y="810" class="nodeTitle">$HOME / iTerm2 / .tmux.conf</text>
+  <text x="114" y="838" class="nodeDesc">Target files mutated with safety guards</text>
+
+  <rect x="468" y="776" width="350" height="90" rx="14" fill="#12274C" stroke="#7DBDFF"/>
+  <text x="494" y="810" class="nodeTitle">GitHub Raw Theme Source</text>
+  <text x="494" y="838" class="nodeDesc">.itermcolors download endpoint</text>
+
+  <rect x="845" y="776" width="310" height="90" rx="14" fill="#12274C" stroke="#7DBDFF"/>
+  <text x="870" y="810" class="nodeTitle">Homebrew / git</text>
+  <text x="870" y="838" class="nodeDesc">Optional tmux + TPM path</text>
+
+  <rect x="1183" y="776" width="332" height="90" rx="14" fill="#12274C" stroke="#7DBDFF"/>
+  <text x="1208" y="810" class="nodeTitle">Vercel Static Hosting</text>
+  <text x="1208" y="838" class="nodeDesc">Next export artifacts online</text>
+
+  <path class="flow flowGlow" d="M250 256 C250 304, 250 304, 250 350" stroke="#7CC5FF" marker-end="url(#arrowBlue)">
+    <animate attributeName="stroke-dashoffset" from="0" to="-44" dur="2.6s" repeatCount="indefinite"/>
+  </path>
+  <path class="flow flowGlow" d="M602 256 C602 304, 602 304, 602 350" stroke="#7CC5FF" marker-end="url(#arrowBlue)">
+    <animate attributeName="stroke-dashoffset" from="0" to="-44" dur="2.6s" repeatCount="indefinite"/>
+  </path>
+  <path class="flow flowGlow" d="M970 256 C970 304, 970 304, 970 350" stroke="#7CC5FF" marker-end="url(#arrowBlue)">
+    <animate attributeName="stroke-dashoffset" from="0" to="-44" dur="2.6s" repeatCount="indefinite"/>
+  </path>
+
+  <path class="flow" d="M1280 446 C1280 500, 1280 500, 1280 548" stroke="#B994FF" marker-end="url(#arrowPurple)">
+    <animate attributeName="stroke-dashoffset" from="0" to="-44" dur="2.2s" repeatCount="indefinite"/>
+  </path>
+  <path class="flow" d="M780 446 C780 500, 780 500, 780 548" stroke="#73F0FF" marker-end="url(#arrowCyan)">
+    <animate attributeName="stroke-dashoffset" from="0" to="-44" dur="2.2s" repeatCount="indefinite"/>
+  </path>
+  <path class="flow" d="M325 446 C325 500, 325 500, 325 548" stroke="#73F0FF" marker-end="url(#arrowCyan)">
+    <animate attributeName="stroke-dashoffset" from="0" to="-44" dur="2.2s" repeatCount="indefinite"/>
+  </path>
+
+  <path class="flow" d="M300 678 C300 726, 260 726, 260 776" stroke="#78C2FF" marker-end="url(#arrowBlue)">
+    <animate attributeName="stroke-dashoffset" from="0" to="-42" dur="2.9s" repeatCount="indefinite"/>
+  </path>
+  <path class="flow" d="M780 678 C780 726, 640 726, 640 776" stroke="#78C2FF" marker-end="url(#arrowBlue)">
+    <animate attributeName="stroke-dashoffset" from="0" to="-42" dur="2.9s" repeatCount="indefinite"/>
+  </path>
+  <path class="flow" d="M830 678 C830 726, 980 726, 980 776" stroke="#78C2FF" marker-end="url(#arrowBlue)">
+    <animate attributeName="stroke-dashoffset" from="0" to="-42" dur="2.9s" repeatCount="indefinite"/>
+  </path>
+  <path class="flow" d="M1280 678 C1280 726, 1350 726, 1350 776" stroke="#78C2FF" marker-end="url(#arrowBlue)">
+    <animate attributeName="stroke-dashoffset" from="0" to="-42" dur="2.9s" repeatCount="indefinite"/>
+  </path>
+
+  <rect x="1160" y="40" width="364" height="88" rx="14" fill="#0F1D3F" stroke="#6AAFFF" stroke-opacity="0.6"/>
+  <circle cx="1188" cy="67" r="7" fill="#6FB7FF"/>
+  <text x="1204" y="72" class="legend">Blue: UI / Delivery Layer</text>
+  <circle cx="1188" cy="92" r="7" fill="#6FF2FF"/>
+  <text x="1204" y="97" class="legend">Cyan: App Logic Layer</text>
+  <circle cx="1188" cy="117" r="7" fill="#BE95FF"/>
+  <text x="1204" y="122" class="legend">Purple: Script Runtime / Config Ops</text>
+
+  <rect x="56" y="906" width="1488" height="54" rx="12" fill="#0F1D3F" stroke="#6AAFFF" stroke-opacity="0.45"/>
+  <text x="76" y="940" class="legend">Frontend Stack: Next.js 15 (App Router, SSG/export) · React 19 · TypeScript 5 · CSS Variables/Keyframes · URLSearchParams-driven options</text>
+</svg>

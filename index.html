@@ -3,11 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iTerm2 主题对比预览</title>
+    <!-- Cache control - force refresh -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>iTerm2 主题对比预览 v3.1</title>
     <!-- Google Fonts - Loading 10 popular programming fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Source+Code+Pro:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Inconsolata:wght@400;500;600&family=Space+Mono:wght@400;700&family=Anonymous+Pro:wght@400;700&family=Ubuntu+Mono:wght@400;700&family=Roboto+Mono:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;500;600&family=Codestudio+Mono&family=Comfortaa:wght@400;700&family=DM+Mono:wght@400;500&family=Fira+Code:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Inconsolata:wght@400;500;600&family=Iosevka:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&family=Martian+Mono:wght@400;500;600&family=Overpass+Mono:wght@400;700&family=Roboto+Mono:wght@400;500;600&family=Source+Code+Pro:wght@400;500;600&family=Space+Mono:wght@400;700&family=Ubuntu+Mono:wght@400;700&family=Victor+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -212,21 +216,21 @@
         }
 
         .theme-card.selected {
-            transform: translateY(-12px) scale(1.03);
-            box-shadow: 0 35px 90px rgba(102, 126, 234, 0.4);
+            transform: translateY(-12px) scale(1.03) !important;
+            box-shadow: 0 35px 90px rgba(102, 126, 234, 0.4) !important;
         }
 
         .theme-card.selected::before {
-            opacity: 1;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+            opacity: 1 !important;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3)) !important;
         }
 
         .select-indicator {
             position: absolute;
-            top: 15px;
+            bottom: 15px;
             right: 15px;
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
             border: 2px solid rgba(255, 255, 255, 0.3);
             display: flex;
@@ -236,12 +240,14 @@
             z-index: 10;
             background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
+            pointer-events: none;
         }
 
         .theme-card.selected .select-indicator {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-color: #667eea;
-            transform: scale(1.1);
+            background: linear-gradient(135deg, #667eea, #764ba2) !important;
+            border-color: #667eea !important;
+            transform: scale(1.15) !important;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.6) !important;
         }
 
         .select-indicator::after {
@@ -254,8 +260,44 @@
         }
 
         .theme-card.selected .select-indicator::after {
-            opacity: 1;
-            transform: scale(1);
+            opacity: 1 !important;
+            transform: scale(1) !important;
+        }
+
+        /* Script Instructions */
+        .script-instructions {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 12px;
+            font-size: 0.75em;
+            line-height: 1.6;
+        }
+
+        .script-instructions h4 {
+            color: #8888aa;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .script-instructions ol {
+            margin: 0;
+            padding-left: 20px;
+            color: #b8b8d1;
+        }
+
+        .script-instructions li {
+            margin-bottom: 4px;
+        }
+
+        .script-instructions code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: var(--terminal-font);
+            font-size: 0.9em;
         }
 
         .terminal {
@@ -384,7 +426,7 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: #fff;
+            color: #fff !important;
         }
 
         .theme-description {
@@ -414,6 +456,233 @@
         .tag:hover {
             transform: translateY(-2px);
         }
+
+        /* Rating System */
+        .rating-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .rating-label {
+            color: #d1d5db !important;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+        /* Ensure rating labels are visible in config panel */
+        .config-panel .rating-label {
+            color: #e5e7eb !important;
+            font-weight: 600;
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 4px;
+        }
+
+        .rating-star {
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .rating-star:hover,
+        .rating-star.active {
+            color: #fbbf24 !important;
+            transform: scale(1.1);
+        }
+
+        .rating-star.hovered {
+            color: #fbbf24 !important;
+        }
+
+        .rating-count {
+            color: #d1d5db !important;
+            font-size: 0.75em;
+            margin-left: 4px;
+            font-weight: 500;
+        }
+
+        /* One-click Install Button */
+        .oneclick-install {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #fff;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .oneclick-install:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .oneclick-install:active {
+            transform: translateY(0);
+        }
+
+        .oneclick-install {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #fff;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .oneclick-install:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .quick-action-btn {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border-radius: 6px;
+            font-size: 0.75em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .quick-action-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Stats Badge */
+        .stats-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            font-size: 0.7em;
+            color: #8888aa;
+            margin-top: 8px;
+        }
+
+        /* More Themes Styles */
+        .nord {
+            background: linear-gradient(180deg, #2e3440 0%, #242933 100%);
+            color: #d8dee9;
+        }
+        .nord .terminal-header { border-color: rgba(216, 222, 233, 0.1); }
+        .nord .prompt-path { color: #88c0d0; }
+        .nord .prompt-git { color: #a3be8c; background: rgba(163, 190, 140, 0.15); }
+        .nord .prompt-symbol { color: #bf616a; }
+        .nord .command { color: #ebcb8b; }
+        .nord .output { color: #7b88a1; }
+        .nord .keyword { color: #81a1c1; }
+        .nord .string { color: #a3be8c; }
+        .nord .number { color: #b48ead; }
+        .nord .comment { color: #616e88; }
+        .nord .cursor { background: #d8dee9; }
+        .nord .theme-info { background: rgba(46, 52, 64, 0.98); }
+        .nord .theme-name { color: #88c0d0; }
+        .nord .theme-description { color: #e0e0e5; }
+        .nord .theme-badge { background: rgba(136, 192, 208, 0.2); color: #88c0d0; }
+        .nord .tag { background: #3b4252; color: #d8dee9; }
+        .nord .tag:hover { background: #434c5e; }
+
+        .monokai {
+            background: linear-gradient(180deg, #272822 0%, #1e1f1a 100%);
+            color: #f8f8f2;
+        }
+        .monokai .terminal-header { border-color: rgba(248, 248, 242, 0.1); }
+        .monokai .prompt-path { color: #66d9ef; }
+        .monokai .prompt-git { color: #a6e22e; background: rgba(166, 226, 46, 0.15); }
+        .monokai .prompt-symbol { color: #f92672; }
+        .monokai .command { color: #e6db74; }
+        .monokai .output { color: #75715e; }
+        .monokai .keyword { color: #f92672; }
+        .monokai .string { color: #e6db74; }
+        .monokai .number { color: #ae81ff; }
+        .monokai .comment { color: #75715e; }
+        .monokai .cursor { background: #f8f8f2; }
+        .monokai .theme-info { background: rgba(30, 31, 26, 0.98); }
+        .monokai .theme-name { color: #a6e22e; }
+        .monokai .theme-description { color: #e0e0e5; }
+        .monokai .theme-badge { background: rgba(166, 226, 46, 0.2); color: #a6e22e; }
+        .monokai .tag { background: #3e3d32; color: #f8f8f2; }
+        .monokai .tag:hover { background: #49483e; }
+
+        .nightowl {
+            background: linear-gradient(180deg, #011627 0%, #02111d 100%);
+            color: #d6deeb;
+        }
+        .nightowl .terminal-header { border-color: rgba(214, 222, 235, 0.1); }
+        .nightowl .prompt-path { color: #82aaff; }
+        .nightowl .prompt-git { color: #c3e88d; background: rgba(195, 232, 141, 0.15); }
+        .nightowl .prompt-symbol { color: #f78c6c; }
+        .nightowl .command { color: #ffcb6b; }
+        .nightowl .output { color: #637777; }
+        .nightowl .keyword { color: #c792ea; }
+        .nightowl .string { color: #c3e88d; }
+        .nightowl .number { color: #f78c6c; }
+        .nightowl .comment { color: #637777; }
+        .nightowl .cursor { background: #d6deeb; }
+        .nightowl .theme-info { background: rgba(2, 17, 29, 0.98); }
+        .nightowl .theme-name { color: #82aaff; }
+        .nightowl .theme-description { color: #e0e0e5; }
+        .nightowl .theme-badge { background: rgba(130, 170, 255, 0.2); color: #82aaff; }
+        .nightowl .tag { background: #072840; color: #d6deeb; }
+        .nightowl .tag:hover { background: #0a344e; }
+
+        .material {
+            background: linear-gradient(180deg, #263238 0%, #1e272c 100%);
+            color: #eeffff;
+        }
+        .material .terminal-header { border-color: rgba(238, 255, 255, 0.1); }
+        .material .prompt-path { color: #82aaff; }
+        .material .prompt-git { color: #c3e88d; background: rgba(195, 232, 141, 0.15); }
+        .material .prompt-symbol { color: #f07178; }
+        .material .command { color: #ffcb6b; }
+        .material .output { color: #546e7a; }
+        .material .keyword { color: #c792ea; }
+        .material .string { color: #c3e88d; }
+        .material .number { color: #f78c6c; }
+        .material .comment { color: #546e7a; }
+        .material .cursor { background: #eeffff; }
+        .material .theme-info { background: rgba(30, 39, 44, 0.98); }
+        .material .theme-name { color: #82aaff; }
+        .material .theme-description { color: #e0e0e5; }
+        .material .theme-badge { background: rgba(130, 170, 255, 0.2); color: #82aaff; }
+        .material .tag { background: #37474f; color: #eeffff; }
+        .material .tag:hover { background: #455a64; }
 
         /* Catppuccin Mocha */
         .mocha {
@@ -770,6 +1039,47 @@
             transform: translateX(-50%) translateY(0);
         }
 
+        /* Version Banner */
+        .version-banner {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9));
+            color: #fff;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .version-text {
+            font-size: 0.95em;
+            font-weight: 500;
+        }
+
+        .close-banner {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .close-banner:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
         .footer {
             text-align: center;
             color: #8888aa;
@@ -795,17 +1105,23 @@
     </style>
 </head>
 <body>
+    <!-- Version Banner -->
+    <div class="version-banner" id="versionBanner">
+        <span class="version-text">📦 v3.1 - 已修复评分颜色和卡片点击问题</span>
+        <button class="close-banner" onclick="document.getElementById('versionBanner').style.display='none'">✕</button>
+    </div>
+
     <div class="header">
-        <h1>iTerm2 主题对比预览</h1>
+        <h1>iTerm2 主题对比预览 <small style="font-size: 0.4em; opacity: 0.7;">v3.1</small></h1>
         <p>选择你喜欢的主题，查看配置方案</p>
     </div>
 
-    <p class="subtitle">👆 鼠标悬停查看交互效果 · 点击主题卡片生成配置脚本 👆</p>
+    <p class="subtitle">👆 10+ 主题 · 20+ 字体 · 点击卡片生成配置 · 评分系统 · 一键安装 👆</p>
 
     <!-- Font Selector -->
     <div class="font-selector-container">
         <div class="font-selector-wrapper">
-            <label class="font-selector-label">🔤 选择终端字体</label>
+            <label class="font-selector-label">🔤 选择终端字体（20+ 热门字体）</label>
             <select class="font-selector" id="fontSelector">
                 <option value="'Fira Code', monospace" data-font="Fira Code">Fira Code - 支持连字，程序员最爱</option>
                 <option value="'JetBrains Mono', monospace" data-font="JetBrains Mono">JetBrains Mono - JetBrains 出品，开箱即用</option>
@@ -817,6 +1133,17 @@
                 <option value="'Ubuntu Mono', monospace" data-font="Ubuntu Mono">Ubuntu Mono - Ubuntu 风格</option>
                 <option value="'Roboto Mono', monospace" data-font="Roboto Mono">Roboto Mono - Google 出品</option>
                 <option value="'DM Mono', monospace" data-font="DM Mono">DM Mono - 现代设计，几何风格</option>
+                <option value="'Cascadia Code', monospace" data-font="Cascadia Code">Cascadia Code - Microsoft 新字体</option>
+                <option value="'Victor Mono', monospace" data-font="Victor Mono">Victor Mono - 支持连字，现代感</option>
+                <option value="'Iosevka', monospace" data-font="Iosevka">Iosevka - 开源编程字体</option>
+                <option value="'Martian Mono', monospace" data-font="Martian Mono">Martian Mono - 独特设计</option>
+                <option value="'Geist Mono', monospace" data-font="Geist Mono">Geist Mono - Vercel 出品</option>
+                <option value="'CodeNew Roman', monospace" data-font="CodeNew Roman">CodeNew Roman - 复古现代结合</option>
+                <option value="'Lilex', monospace" data-font="Lilex">Lilex - 开源，多语言支持</option>
+                <option value="'Agave', monospace" data-font="Agave">Agave - 高可见度</option>
+                <option value="'Aptos', monospace" data-font="Aptos">Aptos - 现代，易读</option>
+                <option value="'Comfortaa', monospace" data-font="Comfortaa">Comfortaa - 圆润友好</option>
+                <option value="'Overpass Mono', monospace" data-font="Overpass Mono">Overpass Mono - 开源项目</option>
             </select>
             <div class="font-loading-status" id="fontLoadingStatus"></div>
             <div class="font-info">💡 字体通过 Google Fonts CDN 加载，选择后所有终端预览实时切换</div>
@@ -855,7 +1182,7 @@
             <div class="theme-info">
                 <div class="theme-header">
                     <div class="theme-name">Catppuccin Mocha</div>
-                    <div class="theme-badge">HOT</div>
+                    <div class="theme-badge">HOT 🔥</div>
                 </div>
                 <div class="theme-description">极致暗调 · 纯黑背景高对比度 · 夜间工作首选</div>
                 <div class="theme-tags">
@@ -897,7 +1224,7 @@
             <div class="theme-info">
                 <div class="theme-header">
                     <div class="theme-name">Catppuccin Frappe</div>
-                    <div class="theme-badge">推荐</div>
+                    <div class="theme-badge">推荐 ⭐</div>
                 </div>
                 <div class="theme-description">平衡中性 · 深灰背景 · 通用开发环境</div>
                 <div class="theme-tags">
@@ -939,7 +1266,7 @@
             <div class="theme-info">
                 <div class="theme-header">
                     <div class="theme-name">Catppuccin Macchiato</div>
-                    <div class="theme-badge">优雅</div>
+                    <div class="theme-badge">优雅 ✨</div>
                 </div>
                 <div class="theme-description">柔和紫调 · 低饱和度护眼 · 长时间工作舒适</div>
                 <div class="theme-tags">
@@ -981,7 +1308,7 @@
             <div class="theme-info">
                 <div class="theme-header">
                     <div class="theme-name">Dracula</div>
-                    <div class="theme-badge">经典</div>
+                    <div class="theme-badge">经典 💎</div>
                 </div>
                 <div class="theme-description">经典紫暗 · 优雅配色 · 程序员最爱</div>
                 <div class="theme-tags">
@@ -1023,7 +1350,7 @@
             <div class="theme-info">
                 <div class="theme-header">
                     <div class="theme-name">Tokyo Night</div>
-                    <div class="theme-badge">现代</div>
+                    <div class="theme-badge">现代 🚀</div>
                 </div>
                 <div class="theme-description">现代深蓝 · 极简设计 · Vim/Neovim 风格</div>
                 <div class="theme-tags">
@@ -1065,7 +1392,7 @@
             <div class="theme-info">
                 <div class="theme-header">
                     <div class="theme-name">One Dark</div>
-                    <div class="theme-badge">VSCode</div>
+                    <div class="theme-badge">VSCode 💻</div>
                 </div>
                 <div class="theme-description">Atom 风格 · 程序员亲切 · VSCode 同款</div>
                 <div class="theme-tags">
@@ -1075,12 +1402,181 @@
                 </div>
             </div>
         </div>
+
+        <!-- Nord -->
+        <div class="theme-card" data-theme="nord" data-theme-name="Nord">
+            <div class="select-indicator"></div>
+            <div class="terminal nord">
+                <div class="terminal-header">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                    <span class="terminal-title">iTerm2</span>
+                </div>
+                <div class="terminal-content">
+                    <div class="prompt">
+                        <span class="prompt-icon">❯</span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                    </div>
+                    <div class="command">git status</div>
+                    <div class="output">
+                        <span class="keyword">On branch</span> main
+                    </div>
+                    <div class="prompt">
+                        <span class="prompt-icon">❯</span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                    </div>
+                    <span class="command">vim<span class="cursor"></span></span>
+                </div>
+            </div>
+            <div class="theme-info">
+                <div class="theme-header">
+                    <div class="theme-name">Nord</div>
+                    <div class="theme-badge">清新 ❄️</div>
+                </div>
+                <div class="theme-description">北极风光 · 冷色调 · 长时间使用舒适</div>
+                <div class="theme-tags">
+                    <span class="tag">蓝色</span>
+                    <span class="tag">清新</span>
+                    <span class="tag">护眼</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Monokai -->
+        <div class="theme-card" data-theme="monokai" data-theme-name="Monokai">
+            <div class="select-indicator"></div>
+            <div class="terminal monokai">
+                <div class="terminal-header">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                    <span class="terminal-title">iTerm2</span>
+                </div>
+                <div class="terminal-content">
+                    <div class="prompt">
+                        <span class="prompt-icon">❯</span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                    </div>
+                    <div class="command">ruby app.rb</div>
+                    <div class="output">
+                        <span class="keyword">Server</span> started on <span class="string">port 3000</span>
+                    </div>
+                    <div class="prompt">
+                        <span class="prompt-icon">❯</span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                    </div>
+                    <span class="command">irb<span class="cursor"></span></span>
+                </div>
+            </div>
+            <div class="theme-info">
+                <div class="theme-header">
+                    <div class="theme-name">Monokai</div>
+                    <div class="theme-badge">经典 💎</div>
+                </div>
+                <div class="theme-description">经典暗色 · 高对比度 · Sublime 同款</div>
+                <div class="theme-tags">
+                    <span class="tag">深色</span>
+                    <span class="tag">经典</span>
+                    <span class="tag">高对比</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Night Owl -->
+        <div class="theme-card" data-theme="nightowl" data-theme-name="Night Owl">
+            <div class="select-indicator"></div>
+            <div class="terminal nightowl">
+                <div class="terminal-header">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                    <span class="terminal-title">iTerm2</span>
+                </div>
+                <div class="terminal-content">
+                    <div class="prompt">
+                        <span class="prompt-icon">❯</span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                    </div>
+                    <div class="command">npm test</div>
+                    <div class="output">
+                        <span class="keyword">Tests:</span> <span class="number">42</span> passed, <span class="number">0</span> failed
+                    </div>
+                    <div class="prompt">
+                        <span class="prompt-icon">❯</span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                    </div>
+                    <span class="command">yarn<span class="cursor"></span></span>
+                </div>
+            </div>
+            <div class="theme-info">
+                <div class="theme-header">
+                    <div class="theme-name">Night Owl</div>
+                    <div class="theme-badge">现代 🚀</div>
+                </div>
+                <div class="theme-description">深蓝夜色 · VSCode 热门 · 精心调配</div>
+                <div class="theme-tags">
+                    <span class="tag">蓝色</span>
+                    <span class="tag">现代</span>
+                    <span class="tag">VSCode</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Material -->
+        <div class="theme-card" data-theme="material" data-theme-name="Material Design">
+            <div class="select-indicator"></div>
+            <div class="terminal material">
+                <div class="terminal-header">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                    <span class="terminal-title">iTerm2</span>
+                </div>
+                <div class="terminal-content">
+                    <div class="prompt">
+                        <span class="prompt-icon">❯</span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                    </div>
+                    <div class="command">flutter run</div>
+                    <div class="output">
+                        <span class="keyword">Launching</span> <span class="string">lib/main.dart</span>...
+                    </div>
+                    <div class="prompt">
+                        <span class="prompt-icon">❯</span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                    </div>
+                    <span class="command">dart<span class="cursor"></span></span>
+                </div>
+            </div>
+            <div class="theme-info">
+                <div class="theme-header">
+                    <div class="theme-name">Material Design</div>
+                    <div class="theme-badge">Google 🌐</div>
+                </div>
+                <div class="theme-description">Material Design · Google 风格 · 优雅简洁</div>
+                <div class="theme-tags">
+                    <span class="tag">蓝色</span>
+                    <span class="tag">Material</span>
+                    <span class="tag">Google</span>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="footer">
-        <p>💡 点击主题卡片选择你喜欢的主题</p>
-        <p>💡 选择主题后自动生成 iTerm2 配置脚本</p>
-        <p>💡 切换字体预览不同编程字体的实际渲染效果</p>
+        <p>💡 点击主题卡片选择主题，自动生成配置脚本</p>
+        <p>💡 支持 10+ 热门主题 · 20+ 编程字体 · 主题评分系统</p>
+        <p>💡 一键下载 AppleScript 安装脚本 · 复制/下载 Bash 脚本</p>
+        <p>💡 切换字体实时预览效果 · 评分保存在本地</p>
     </div>
 
     <!-- Config Panel -->
@@ -1115,6 +1611,35 @@
                 <span>下载脚本</span>
             </button>
         </div>
+
+        <div class="action-buttons">
+            <button class="oneclick-install" id="downloadInstallScript">
+                <span>⬇️</span>
+                <span>下载安装/卸载脚本</span>
+            </button>
+        </div>
+
+        <div class="script-instructions">
+            <h4>📝 使用说明</h4>
+            <ol>
+                <li>下载脚本后，在终端运行：<code>bash install-theme.sh install</code></li>
+                <li>卸载主题：<code>bash install-theme.sh uninstall</code></li>
+                <li>脚本会自动检测主题是否已安装</li>
+                <li>支持多次运行，安全可靠</li>
+            </ol>
+        </div>
+
+        <div class="rating-container">
+            <span class="rating-label">为主题评分:</span>
+            <div class="rating-stars" id="ratingStars">
+                <span class="rating-star" data-rating="1">★</span>
+                <span class="rating-star" data-rating="2">★</span>
+                <span class="rating-star" data-rating="3">★</span>
+                <span class="rating-star" data-rating="4">★</span>
+                <span class="rating-star" data-rating="5">★</span>
+            </div>
+            <span class="rating-count" id="ratingCount"></span>
+        </div>
     </div>
 
     <!-- Toast Notification -->
@@ -1122,408 +1647,568 @@
 
     <script>
         // Global state
-        let selectedTheme = null;
-        let selectedThemeName = null;
-        let selectedFontName = 'Fira Code';
+        var selectedTheme = null;
+        var selectedThemeName = null;
+        var selectedFontName = 'Fira Code';
 
-        // Theme configurations with installation scripts
-        const themeConfigs = {
-            'mocha': {
-                name: 'Catppuccin Mocha',
-                installUrl: 'https://raw.githubusercontent.com/catppuccin/iTerm/main/catppuccin-mocha.itermcolors',
-                script: (font) => `#!/bin/bash
-# iTerm2 配置脚本 - Catppuccin Mocha + ${font}
-set -e
+        // Initialize click handlers immediately (before DOMContentLoaded)
+        function initCardClicks() {
+            var cards = document.querySelectorAll('.theme-card');
+            console.log('initCardClicks: found', cards.length, 'cards');
 
-echo "🎨 配置 iTerm2 主题: Catppuccin Mocha"
-echo "🔤 配置字体: ${font}"
+            cards.forEach(function(card) {
+                card.onclick = function() {
+                    console.log('Card clicked:', card.getAttribute('data-theme'));
+                    selectTheme(card.getAttribute('data-theme'), card.getAttribute('data-theme-name'));
+                };
+            });
+        }
 
-# 1. 下载主题文件
-THEME_URL="https://raw.githubusercontent.com/catppuccin/iTerm/main/catppuccin-mocha.itermcolors"
-THEME_DIR="$HOME/Library/Colors"
-THEME_FILE="$THEME_DIR/catppuccin-mocha.itermcolors"
+        function selectTheme(theme, themeName) {
+            console.log('selectTheme:', theme, themeName);
 
-# 创建目录
-mkdir -p "$THEME_DIR"
+            var cards = document.querySelectorAll('.theme-card');
+            cards.forEach(function(c) { c.classList.remove('selected'); });
 
-echo "📥 下载主题文件..."
-curl -fsSL "$THEME_URL" -o "$THEME_FILE"
+            var clickedCard = document.querySelector('.theme-card[data-theme="' + theme + '"]');
+            if (clickedCard) clickedCard.classList.add('selected');
 
-echo "✅ 主题文件已下载到: $THEME_FILE"
-echo ""
-echo "📝 下一步："
-echo "   1. 打开 iTerm2"
-echo "   2. 打开 Preferences (⌘+,)"
-echo "   3. 点击 Profiles > Colors"
-echo "   4. 点击 Color Presets > Import..."
-echo "   5. 选择刚下载的主题文件"
-echo "   6. 点击 Color Presets > Catppuccin Mocha"
-echo ""
-echo "🔤 字体安装："
-echo "   如果需要安装 ${font}，请运行："
-echo "   brew install --cask font-${font.toLowerCase().replace(/ /g, '-')}"
-`
-            },
-            'frappe': {
-                name: 'Catppuccin Frappe',
-                installUrl: 'https://raw.githubusercontent.com/catppuccin/iTerm/main/catppuccin-frappe.itermcolors',
-                script: (font) => `#!/bin/bash
-# iTerm2 配置脚本 - Catppuccin Frappé + ${font}
-set -e
+            selectedTheme = theme;
+            selectedThemeName = themeName;
 
-echo "🎨 配置 iTerm2 主题: Catppuccin Frappé"
-echo "🔤 配置字体: ${font}"
+            if (typeof updateConfigPanel === 'function') updateConfigPanel();
+            if (typeof showConfigPanel === 'function') showConfigPanel();
+        }
 
-THEME_URL="https://raw.githubusercontent.com/catppuccin/iTerm/main/catppuccin-frappe.itermcolors"
-THEME_DIR="$HOME/Library/Colors"
-THEME_FILE="$THEME_DIR/catppuccin-frappe.itermcolors"
+        // Try to initialize immediately
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initCardClicks);
+        } else {
+            initCardClicks();
+        }
 
-mkdir -p "$THEME_DIR"
+        // DOM elements (will be initialized in DOMContentLoaded)
+        var configPanel = null;
+        var configPanelClose = null;
+        var selectedThemeEl = null;
+        var selectedFontEl = null;
+        var configScriptEl = null;
+        var copyScriptBtn = null;
+        var downloadScriptBtn = null;
+        var toast = null;
+        var fontSelector = null;
+        var fontLoadingStatus = null;
+        var root = null;
+        var ratingStars = null;
+        var ratingCountEl = null;
+        var oneClickInstallBtn = null;
 
-echo "📥 下载主题文件..."
-curl -fsSL "$THEME_URL" -o "$THEME_FILE"
+        // Theme script generators
+        function generateThemeScript(theme, font) {
+            var scripts = {
+                'mocha': '#!/bin/bash\\n# iTerm2 配置脚本 - Catppuccin Mocha\\nset -e\\necho "🎨 配置 iTerm2 主题: Catppuccin Mocha"\\necho "🔤 配置字体: ' + font + '"\\n\\nTHEME_URL="https://raw.githubusercontent.com/catppuccin/iTerm/main/catppuccin-mocha.itermcolors"\\nTHEME_DIR="$HOME/Library/Colors"\\nTHEME_FILE="$THEME_DIR/catppuccin-mocha.itermcolors"\\n\\nmkdir -p "$THEME_DIR"\\necho "📥 下载主题文件..."\\ncurl -fsSL "$THEME_URL" -o "$THEME_FILE"\\n\\necho "✅ 已下载: $THEME_FILE"\\necho "📝 在 iTerm2 中导入并应用该主题"',
 
-echo "✅ 主题文件已下载到: $THEME_FILE"
-echo ""
-echo "📝 下一步："
-echo "   1. 打开 iTerm2 > Preferences (⌘+,)"
-echo "   2. Profiles > Colors > Import..."
-echo "   3. 选择主题文件后应用"
-echo ""
-echo "🔤 字体安装: brew install --cask font-${font.toLowerCase().replace(/ /g, '-')}"
-`
-            },
-            'macchiato': {
-                name: 'Catppuccin Macchiato',
-                installUrl: 'https://raw.githubusercontent.com/catppuccin/iTerm/main/catppuccin-macchiato.itermcolors',
-                script: (font) => `#!/bin/bash
-# iTerm2 配置脚本 - Catppuccin Macchiato + ${font}
-set -e
+                'frappe': '#!/bin/bash\\n# iTerm2 配置脚本 - Catppuccin Frappe\\nset -e\\necho "🎨 配置 iTerm2 主题: Catppuccin Frappe"\\necho "🔤 配置字体: ' + font + '"\\n\\nTHEME_URL="https://raw.githubusercontent.com/catppuccin/iTerm/main/catppuccin-frappe.itermcolors"\\nTHEME_DIR="$HOME/Library/Colors"\\nTHEME_FILE="$THEME_DIR/catppuccin-frappe.itermcolors"\\n\\nmkdir -p "$THEME_DIR"\\ncurl -fsSL "$THEME_URL" -o "$THEME_FILE"\\n\\necho "✅ 已下载: $THEME_FILE"\\necho "📝 在 iTerm2 中导入并应用该主题"',
 
-echo "🎨 配置 iTerm2 主题: Catppuccin Macchiato"
+                'macchiato': '#!/bin/bash\\n# iTerm2 配置脚本 - Catppuccin Macchiato\\nset -e\\necho "🎨 配置 iTerm2 主题: Catppuccin Macchiato"\\necho "🔤 配置字体: ' + font + '"\\n\\nTHEME_URL="https://raw.githubusercontent.com/catppuccin/iTerm/main/catppuccin-macchiato.itermcolors"\\nTHEME_DIR="$HOME/Library/Colors"\\nTHEME_FILE="$THEME_DIR/catppuccin-macchiato.itermcolors"\\n\\nmkdir -p "$THEME_DIR"\\ncurl -fsSL "$THEME_URL" -o "$THEME_FILE"\\n\\necho "✅ 已下载: $THEME_FILE"\\necho "📝 在 iTerm2 中导入并应用该主题"',
 
-THEME_URL="https://raw.githubusercontent.com/catppuccin/iTerm/main/catppuccin-macchiato.itermcolors"
-THEME_DIR="$HOME/Library/Colors"
-THEME_FILE="$THEME_DIR/catppuccin-macchiato.itermcolors"
+                'dracula': '#!/bin/bash\\n# iTerm2 配置脚本 - Dracula\\nset -e\\necho "🎨 配置 iTerm2 主题: Dracula"\\necho "🔤 配置字体: ' + font + '"\\n\\nTHEME_URL="https://raw.githubusercontent.com/dracula/iterm/master/dracula.itermcolors"\\nTHEME_DIR="$HOME/Library/Colors"\\nTHEME_FILE="$THEME_DIR/dracula.itermcolors"\\n\\nmkdir -p "$THEME_DIR"\\ncurl -fsSL "$THEME_URL" -o "$THEME_FILE"\\n\\necho "✅ 已下载: $THEME_FILE"\\necho "📝 在 iTerm2 中导入并应用该主题"',
 
-mkdir -p "$THEME_DIR"
-curl -fsSL "$THEME_URL" -o "$THEME_FILE"
+                'tokyo': '#!/bin/bash\\n# iTerm2 配置脚本 - Tokyo Night\\nset -e\\necho "🎨 配置 iTerm2 主题: Tokyo Night"\\necho "🔤 配置字体: ' + font + '"\\n\\nTHEME_URL="https://raw.githubusercontent.com/fabioaq/iterm2-tokyo-night/master/tokyo-night.itermcolors"\\nTHEME_DIR="$HOME/Library/Colors"\\nTHEME_FILE="$THEME_DIR/tokyo-night.itermcolors"\\n\\nmkdir -p "$THEME_DIR"\\ncurl -fsSL "$THEME_URL" -o "$THEME_FILE"\\n\\necho "✅ 已下载: $THEME_FILE"\\necho "📝 在 iTerm2 中导入并应用该主题"',
 
-echo "✅ 已下载: $THEME_FILE"
-echo "📝 在 iTerm2 中导入并应用该主题"
-`
-            },
-            'dracula': {
-                name: 'Dracula',
-                installUrl: 'https://raw.githubusercontent.com/dracula/iterm/master/dracula.itermcolors',
-                script: (font) => `#!/bin/bash
-# iTerm2 配置脚本 - Dracula + ${font}
-set -e
+                'onedark': '#!/bin/bash\\n# iTerm2 配置脚本 - One Dark\\nset -e\\necho "🎨 配置 iTerm2 主题: One Dark"\\necho "🔤 配置字体: ' + font + '"\\n\\nTHEME_URL="https://raw.githubusercontent.com/one-dark/iterm-one-dark/master/OneDark.itermcolors"\\nTHEME_DIR="$HOME/Library/Colors"\\nTHEME_FILE="$THEME_DIR/OneDark.itermcolors"\\n\\nmkdir -p "$THEME_DIR"\\ncurl -fsSL "$THEME_URL" -o "$THEME_FILE"\\n\\necho "✅ 已下载: $THEME_FILE"\\necho "📝 在 iTerm2 中导入并应用该主题"',
 
-echo "🎨 配置 iTerm2 主题: Dracula"
+                'nord': '#!/bin/bash\\n# iTerm2 配置脚本 - Nord\\nset -e\\necho "🎨 配置 iTerm2 主题: Nord"\\necho "🔤 配置字体: ' + font + '"\\n\\nTHEME_URL="https://raw.githubusercontent.com/arcticicestudio/nord-iterm2/master/src/xml/Nord.itermcolors"\\nTHEME_DIR="$HOME/Library/Colors"\\nTHEME_FILE="$THEME_DIR/Nord.itermcolors"\\n\\nmkdir -p "$THEME_DIR"\\ncurl -fsSL "$THEME_URL" -o "$THEME_FILE"\\n\\necho "✅ 已下载: $THEME_FILE"\\necho "📝 在 iTerm2 中导入并应用该主题"',
 
-THEME_URL="https://raw.githubusercontent.com/dracula/iterm/master/dracula.itermcolors"
-THEME_DIR="$HOME/Library/Colors"
-THEME_FILE="$THEME_DIR/dracula.itermcolors"
+                'monokai': '#!/bin/bash\\n# iTerm2 配置脚本 - Monokai\\nset -e\\necho "🎨 配置 iTerm2 主题: Monokai"\\necho "🔤 配置字体: ' + font + '"\\n\\nTHEME_URL="https://raw.githubusercontent.com/steven8k/Monokai-iTerm/master/Monokai.itermcolors"\\nTHEME_DIR="$HOME/Library/Colors"\\nTHEME_FILE="$THEME_DIR/Monokai.itermcolors"\\n\\nmkdir -p "$THEME_DIR"\\ncurl -fsSL "$THEME_URL" -o "$THEME_FILE"\\n\\necho "✅ 已下载: $THEME_FILE"\\necho "📝 在 iTerm2 中导入并应用该主题"',
 
-mkdir -p "$THEME_DIR"
-curl -fsSL "$THEME_URL" -o "$THEME_FILE"
+                'nightowl': '#!/bin/bash\\n# iTerm2 配置脚本 - Night Owl\\nset -e\\necho "🎨 配置 iTerm2 主题: Night Owl"\\necho "🔤 配置字体: ' + font + '"\\n\\nTHEME_URL="https://raw.githubusercontent.com/sdras/night-owl-vscode-theme/master/iterm/Night%20Owl.itermcolors"\\nTHEME_DIR="$HOME/Library/Colors"\\nTHEME_FILE="$THEME_DIR/NightOwl.itermcolors"\\n\\nmkdir -p "$THEME_DIR"\\ncurl -fsSL "$THEME_URL" -o "$THEME_FILE"\\n\\necho "✅ 已下载: $THEME_FILE"\\necho "📝 在 iTerm2 中导入并应用该主题"',
 
-echo "✅ 已下载: $THEME_FILE"
-echo "📝 在 iTerm2 中导入并应用该主题"
-echo "🔤 字体: brew install --cask font-${font.toLowerCase().replace(/ /g, '-')}"
-`
-            },
-            'tokyo': {
-                name: 'Tokyo Night',
-                installUrl: 'https://raw.githubusercontent.com/fabioaq/iterm2-tokyo-night/master/tokyo-night.itermcolors',
-                script: (font) => `#!/bin/bash
-# iTerm2 配置脚本 - Tokyo Night + ${font}
-set -e
+                'material': '#!/bin/bash\\n# iTerm2 配置脚本 - Material Design\\nset -e\\necho "🎨 配置 iTerm2 主题: Material Design"\\necho "🔤 配置字体: ' + font + '"\\n\\nTHEME_URL="https://raw.githubusercontent.com/Microsoft/vscode/main/extensions/theme-material/product/icons/iterm/material-design-colors.itermcolors"\\nTHEME_DIR="$HOME/Library/Colors"\\nTHEME_FILE="$THEME_DIR/material.itermcolors"\\n\\nmkdir -p "$THEME_DIR"\\ncurl -fsSL "$THEME_URL" -o "$THEME_FILE" 2>/dev/null || echo "请手动下载 Material 主题"\\n\\necho "📝 在 iTerm2 中导入并应用该主题"'
+            };
 
-echo "🎨 配置 iTerm2 主题: Tokyo Night"
+            return scripts[theme] || '# Theme script not found';
+        }
 
-THEME_URL="https://raw.githubusercontent.com/fabioaq/iterm2-tokyo-night/master/tokyo-night.itermcolors"
-THEME_DIR="$HOME/Library/Colors"
-THEME_FILE="$THEME_DIR/tokyo-night.itermcolors"
-
-mkdir -p "$THEME_DIR"
-curl -fsSL "$THEME_URL" -o "$THEME_FILE"
-
-echo "✅ 已下载: $THEME_FILE"
-echo "📝 在 iTerm2 中导入并应用该主题"
-`
-            },
-            'onedark': {
-                name: 'One Dark',
-                installUrl: 'https://raw.githubusercontent.com/one-dark/iterm-one-dark/master/OneDark.itermcolors',
-                script: (font) => `#!/bin/bash
-# iTerm2 配置脚本 - One Dark + ${font}
-set -e
-
-echo "🎨 配置 iTerm2 主题: One Dark"
-
-THEME_URL="https://raw.githubusercontent.com/one-dark/iterm-one-dark/master/OneDark.itermcolors"
-THEME_DIR="$HOME/Library/Colors"
-THEME_FILE="$THEME_DIR/OneDark.itermcolors"
-
-mkdir -p "$THEME_DIR"
-curl -fsSL "$THEME_URL" -o "$THEME_FILE"
-
-echo "✅ 已下载: $THEME_FILE"
-echo "📝 在 iTerm2 中导入并应用该主题"
-`
-            }
+        // Theme names
+        var themeNames = {
+            'mocha': 'Catppuccin Mocha',
+            'frappe': 'Catppuccin Frappe',
+            'macchiato': 'Catppuccin Macchiato',
+            'dracula': 'Dracula',
+            'tokyo': 'Tokyo Night',
+            'onedark': 'One Dark',
+            'nord': 'Nord',
+            'monokai': 'Monokai',
+            'nightowl': 'Night Owl',
+            'material': 'Material Design'
         };
 
-        // DOM elements
-        const configPanel = document.getElementById('configPanel');
-        const configPanelClose = document.getElementById('configPanelClose');
-        const selectedThemeEl = document.getElementById('selectedTheme');
-        const selectedFontEl = document.getElementById('selectedFont');
-        const configScriptEl = document.getElementById('configScript');
-        const copyScriptBtn = document.getElementById('copyScript');
-        const downloadScriptBtn = document.getElementById('downloadScript');
-        const toast = document.getElementById('toast');
+        // Theme URLs for AppleScript
+        var themeUrls = {
+            'mocha': 'https://raw.githubusercontent.com/catppuccin/iTerm/main/catppuccin-mocha.itermcolors',
+            'frappe': 'https://raw.githubusercontent.com/catppuccin/iTerm/main/catppuccin-frappe.itermcolors',
+            'macchiato': 'https://raw.githubusercontent.com/catppuccin/iTerm/main/catppuccin-macchiato.itermcolors',
+            'dracula': 'https://raw.githubusercontent.com/dracula/iterm/master/dracula.itermcolors',
+            'tokyo': 'https://raw.githubusercontent.com/fabioaq/iterm2-tokyo-night/master/tokyo-night.itermcolors',
+            'onedark': 'https://raw.githubusercontent.com/one-dark/iterm-one-dark/master/OneDark.itermcolors',
+            'nord': 'https://raw.githubusercontent.com/arcticicestudio/nord-iterm2/master/src/xml/Nord.itermcolors',
+            'monokai': 'https://raw.githubusercontent.com/steven8k/Monokai-iTerm/master/Monokai.itermcolors',
+            'nightowl': 'https://raw.githubusercontent.com/sdras/night-owl-vscode-theme/master/iterm/Night%20Owl.itermcolors',
+            'material': 'https://raw.githubusercontent.com/Microsoft/vscode/main/extensions/theme-material/product/icons/iterm/material-design-colors.itermcolors'
+        };
 
-        // Font Selector Functionality
-        const fontSelector = document.getElementById('fontSelector');
-        const fontLoadingStatus = document.getElementById('fontLoadingStatus');
-        const root = document.documentElement;
+        // Rating data (stored in localStorage)
+        var themeRatings = JSON.parse(localStorage.getItem('themeRatings') || '{}');
 
-        // Font loading detection
-        const fonts = [
-            'Fira Code',
-            'JetBrains Mono',
-            'Source Code Pro',
-            'IBM Plex Mono',
-            'Inconsolata',
-            'Space Mono',
-            'Anonymous Pro',
-            'Ubuntu Mono',
-            'Roboto Mono',
-            'DM Mono'
-        ];
+        // Installation status tracking (optional, for quick reference)
+        var installedThemes = JSON.parse(localStorage.getItem('installedThemes') || '{}');
 
-        // Check if fonts are loaded using FontFaceSet
-        function checkFontsLoaded() {
-            const fontFaceSet = document.fonts;
-            let loadedCount = 0;
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('=== DOM loaded, initializing... ===');
 
-            fonts.forEach(font => {
-                if (fontFaceSet.check(\`16px "\${font}"\`)) {
-                    loadedCount++;
+            // Initialize DOM elements after DOM is ready
+            configPanel = document.getElementById('configPanel');
+            configPanelClose = document.getElementById('configPanelClose');
+            selectedThemeEl = document.getElementById('selectedTheme');
+            selectedFontEl = document.getElementById('selectedFont');
+            configScriptEl = document.getElementById('configScript');
+            copyScriptBtn = document.getElementById('copyScript');
+            downloadScriptBtn = document.getElementById('downloadScript');
+            toast = document.getElementById('toast');
+            fontSelector = document.getElementById('fontSelector');
+            fontLoadingStatus = document.getElementById('fontLoadingStatus');
+            root = document.documentElement;
+            ratingStars = document.getElementById('ratingStars');
+            ratingCountEl = document.getElementById('ratingCount');
+            oneClickInstallBtn = document.getElementById('downloadInstallScript');
+
+            console.log('configPanel element:', configPanel);
+            console.log('All DOM elements initialized');
+
+            if (!configPanel) {
+                console.error('configPanel not found!');
+                return;
+            }
+
+            // Theme Selection
+            var themeCards = document.querySelectorAll('.theme-card');
+            console.log('Found theme cards:', themeCards.length);
+
+            if (themeCards.length === 0) {
+                console.error('No theme cards found!');
+                return;
+            }
+            
+            themeCards.forEach(function(card, index) {
+                console.log('Setting up click handler for card ' + index + ':', card.getAttribute('data-theme'));
+
+                // Use onclick instead of addEventListener for better reliability
+                card.onclick = function(e) {
+                    console.log('=== Card clicked! ===');
+                    console.log('Event target:', e.target);
+                    console.log('Current target:', e.currentTarget);
+
+                    var theme = card.getAttribute('data-theme');
+                    var themeName = card.getAttribute('data-theme-name');
+
+                    console.log('Theme selected:', theme, themeName);
+
+                    if (e.preventDefault) e.preventDefault();
+                    if (e.stopPropagation) e.stopPropagation();
+
+                    // Remove selection from all cards
+                    themeCards.forEach(function(c) {
+                        c.classList.remove('selected');
+                    });
+
+                    // Add selection to clicked card
+                    card.classList.add('selected');
+                    console.log('Added selected class');
+
+                    // Update selected theme
+                    selectedTheme = theme;
+                    selectedThemeName = themeName;
+
+                    // Update and show config panel
+                    updateConfigPanel();
+                    showConfigPanel();
+
+                    console.log('Config panel shown!');
+                    return false;
+                };
+            });
+            
+            // Font selector
+            if (fontSelector) {
+                fontSelector.addEventListener('change', function() {
+                    var fontName = fontSelector.options[fontSelector.selectedIndex].getAttribute('data-font');
+                    selectedFontName = fontName;
+                    root.style.setProperty('--terminal-font', fontSelector.value);
+                    
+                    if (selectedTheme) {
+                        updateConfigPanel();
+                    }
+                });
+            }
+            
+            // Close button
+            if (configPanelClose) {
+                configPanelClose.addEventListener('click', hideConfigPanel);
+            }
+            
+            // Copy button
+            if (copyScriptBtn) {
+                copyScriptBtn.addEventListener('click', function() {
+                    var script = configScriptEl.textContent;
+                    if (script && !script.includes('选择一个主题')) {
+                        navigator.clipboard.writeText(script).then(function() {
+                            showToast();
+                            copyScriptBtn.classList.add('copied');
+                            setTimeout(function() {
+                                copyScriptBtn.classList.remove('copied');
+                            }, 2000);
+                        });
+                    }
+                });
+            }
+            
+            // Download button
+            if (downloadScriptBtn) {
+                downloadScriptBtn.addEventListener('click', function() {
+                    var script = configScriptEl.textContent;
+                    if (script && !script.includes('选择一个主题')) {
+                        var blob = new Blob([script], { type: 'text/plain' });
+                        var url = URL.createObjectURL(blob);
+                        var a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'iterm2-config.sh';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    }
+                });
+            }
+
+            // Download install/uninstall script button
+            var downloadScriptBtn = document.getElementById('downloadInstallScript');
+            if (downloadScriptBtn) {
+                downloadScriptBtn.addEventListener('click', function() {
+                    if (!selectedTheme || !themeUrls[selectedTheme]) {
+                        alert('请先选择一个主题');
+                        return;
+                    }
+
+                    var themeUrl = themeUrls[selectedTheme];
+                    var themeName = themeNames[selectedTheme];
+                    var themeFileName = selectedTheme + '.itermcolors';
+                    var themeDir = '$HOME/Library/Colors';
+                    var themeFilePath = themeDir + '/' + themeFileName;
+
+                    // Generate smart install/uninstall script with parameter support
+                    var script = '#!/bin/bash\\n' +
+'# iTerm2 主题管理脚本 - ' + themeName + '\\n' +
+'#\\n' +
+'# 用法：\\n' +
+'#   bash ' + selectedTheme + '-theme.sh install   # 安装主题\\n' +
+'#   bash ' + selectedTheme + '-theme.sh uninstall # 卸载主题\\n' +
+'#\\n' +
+'# 脚本会自动检测主题是否已安装，支持多次运行\\n' +
+'\\n' +
+set -e\\n' +
+'\\n' +
+'# 颜色定义\\n' +
+RED="\\033[0;31m"\\n' +
+GREEN="\\033[0;32m"\\n' +
+YELLOW="\\033[1;33m"\\n' +
+BLUE="\\033[0;34m"\\n' +
+NC="\\033[0m" # No Color\\n' +
+'\\n' +
+'# 主题信息\\n' +
+'THEME_NAME="' + themeName + '"\\n' +
+'THEME_URL="' + themeUrl + '"\\n' +
+'THEME_DIR="' + themeDir + '"\\n' +
+'THEME_FILE="' + themeFilePath + '"\\n' +
+'\\n' +
+'# 检测主题是否已安装\\n' +
+'check_installed() {\\n' +
+'    if [ -f "$THEME_FILE" ]; then\\n' +
+'        return 0\\n' +
+'    else\\n' +
+'        return 1\\n' +
+'    fi\\n' +
+'}\\n' +
+'\\n' +
+'# 显示帮助信息\\n' +
+'show_help() {\\n' +
+'    echo "🎨 $THEME_NAME - 主题管理脚本"\\n' +
+'    echo ""\\n' +
+'    echo "用法：\\n"\\n' +
+'    echo "  $0 install   - 安装主题"\\n' +
+'    echo "  $0 uninstall - 卸载主题"\\n' +
+'    echo "  $0 status    - 检查安装状态"\\n' +
+'    echo ""\\n' +
+'}\\n' +
+'\\n' +
+'# 安装主题\\n' +
+'install_theme() {\\n' +
+'    echo -e "${BLUE}🎨 开始安装主题: ${THEME_NAME}${NC}"\\n' +
+'    echo ""\\n' +
+'\\n' +
+'    # 检查是否已安装\\n' +
+'    if check_installed; then\\n' +
+'        echo -e "${YELLOW}⚠️  主题已安装！${NC}"\\n' +
+'        echo "文件位置: $THEME_FILE"\\n' +
+'        echo ""\\n' +
+'        echo "如需重新安装，请先运行: $0 uninstall"\\n' +
+'        exit 0\\n' +
+'    fi\\n' +
+'\\n' +
+'    # 创建目录\\n' +
+'    echo -e "${BLUE}📁 创建目录...${NC}"\\n' +
+'    mkdir -p "$THEME_DIR"\\n' +
+'\\n' +
+'    # 下载主题文件\\n' +
+'    echo -e "${BLUE}📥 下载主题文件...${NC}"\\n' +
+'    if curl -fsSL "$THEME_URL" -o "$THEME_FILE"; then\\n' +
+'        echo -e "${GREEN}✅ 下载成功！${NC}"\\n' +
+'    else\\n' +
+'        echo -e "${RED}❌ 下载失败，请检查网络连接${NC}"\\n' +
+'        exit 1\\n' +
+'    fi\\n' +
+'\\n' +
+'    echo ""\\n' +
+'    echo -e "${GREEN}🎉 安装完成！${NC}"\\n' +
+'    echo ""\\n' +
+'    echo "📝 下一步操作：\\n" +
+'    echo "   1. 打开 iTerm2"\\n' +
+'    echo "   2. 按 ⌘+, 打开 Preferences"\\n' +
+'    echo "   3. 点击 Profiles > Colors"\\n' +
+'    echo "   4. 点击 Color Presets > Import..."\\n' +
+'    echo "   5. 选择: ' + themeFileName + '"\\n' +
+'    echo "   6. 点击 Color Presets > ${THEME_NAME}"\\n' +
+'}\\n' +
+'\\n' +
+'# 卸载主题\\n' +
+'uninstall_theme() {\\n' +
+'    echo -e "${BLUE}🗑️  卸载主题: ${THEME_NAME}${NC}"\\n' +
+'    echo ""\\n' +
+'\\n' +
+'    if ! check_installed; then\\n' +
+'        echo -e "${YELLOW}⚠️  主题未安装${NC}"\\n' +
+'        exit 0\\n' +
+'    fi\\n' +
+'\\n' +
+'    # 删除主题文件\\n' +
+'    echo -e "${BLUE}🗑️  删除主题文件...${NC}"\\n' +
+'    if rm "$THEME_FILE"; then\\n' +
+'        echo -e "${GREEN}✅ 主题文件已删除${NC}"\\n' +
+'    else\\n' +
+'        echo -e "${RED}❌ 删除失败${NC}"\\n' +
+'        exit 1\\n' +
+'    fi\\n' +
+'\\n' +
+'    echo ""\\n' +
+'    echo -e "${GREEN}🎉 卸载完成！${NC}"\\n' +
+'    echo ""\\n' +
+'    echo "📝 提示：\\n"\\n' +
+'    echo "   主题文件已从系统中删除"\\n' +
+'    echo "   iTerm2 可能仍显示该主题，直到重启"\\n' +
+'    echo "   如需完全移除，请在 iTerm2 Preferences 中手动删除"\\n' +
+'}\\n' +
+'\\n' +
+'# 检查状态\\n' +
+'show_status() {\\n' +
+'    echo "📊 主题状态: ${THEME_NAME}"\\n' +
+'    echo ""\\n' +
+'\\n' +
+'    if check_installed; then\\n' +
+'        echo -e "${GREEN}✓ 已安装${NC}"\\n' +
+'        echo "文件位置: $THEME_FILE"\\n' +
+'    else\\n' +
+'        echo -e "${YELLOW}✗ 未安装${NC}"\\n' +
+'    fi\\n' +
+'}\\n' +
+'\\n' +
+'# 主程序\\n' +
+'case "${1:-}" in\\n' +
+'    install)\\n' +
+'        install_theme\\n' +
+'        ;;\\n' +
+'    uninstall)\\n' +
+'        uninstall_theme\\n' +
+'        ;;\\n' +
+'    status)\\n' +
+'        show_status\\n' +
+'        ;;\\n' +
+'    help|--help|-h)\\n' +
+'        show_help\\n' +
+'        ;;\\n' +
+'    *)\\n' +
+'        echo -e "${RED}❌ 未知参数: $1${NC}"\\n' +
+'        echo ""\\n' +
+'        show_help\\n' +
+'        exit 1\\n' +
+'        ;;\\n' +
+'esac';
+
+                    // Create and download script
+                    var blob = new Blob([script], { type: 'text/plain' });
+                    var url = URL.createObjectURL(blob);
+                    var a = document.createElement('a');
+                    a.href = url;
+                    a.download = selectedTheme + '-theme.sh';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                });
+            }
+
+            // Rating system
+            var ratingStars = document.querySelectorAll('.rating-star');
+            var ratingCountEl = document.getElementById('ratingCount');
+
+            function updateRatingDisplay(theme) {
+                var ratings = themeRatings[theme] || [];
+                var avg = ratings.length > 0 ? (ratings.reduce(function(a, b) { return a + b; }, 0) / ratings.length).toFixed(1) : '0.0';
+                var count = ratings.length;
+                if (ratingCountEl) {
+                    ratingCountEl.textContent = count > 0 ? avg + ' (' + count + ' 人评分)' : '暂无评分';
+                }
+
+                // Update stars display
+                var userRating = localStorage.getItem('userRating_' + theme);
+                ratingStars.forEach(function(star) {
+                    var starRating = parseInt(star.getAttribute('data-rating'));
+                    star.classList.remove('active');
+                    if (userRating && starRating <= parseInt(userRating)) {
+                        star.classList.add('active');
+                    }
+                });
+            }
+
+            ratingStars.forEach(function(star) {
+                star.addEventListener('click', function() {
+                    if (!selectedTheme) return;
+
+                    var rating = parseInt(this.getAttribute('data-rating'));
+
+                    // Save rating
+                    if (!themeRatings[selectedTheme]) {
+                        themeRatings[selectedTheme] = [];
+                    }
+
+                    // Check if user already rated
+                    var oldRating = localStorage.getItem('userRating_' + selectedTheme);
+                    if (oldRating) {
+                        // Remove old rating
+                        var oldRatingIndex = themeRatings[selectedTheme].indexOf(parseInt(oldRating));
+                        if (oldRatingIndex > -1) {
+                            themeRatings[selectedTheme].splice(oldRatingIndex, 1);
+                        }
+                    }
+
+                    // Add new rating
+                    themeRatings[selectedTheme].push(rating);
+                    localStorage.setItem('themeRatings', JSON.stringify(themeRatings));
+                    localStorage.setItem('userRating_' + selectedTheme, rating);
+
+                    updateRatingDisplay(selectedTheme);
+                });
+
+                star.addEventListener('mouseenter', function() {
+                    var rating = parseInt(this.getAttribute('data-rating'));
+                    ratingStars.forEach(function(s, index) {
+                        if (index < rating) {
+                            s.classList.add('hovered');
+                        } else {
+                            s.classList.remove('hovered');
+                        }
+                    });
+                });
+
+                star.addEventListener('mouseleave', function() {
+                    ratingStars.forEach(function(s) {
+                        s.classList.remove('hovered');
+                    });
+                });
+            });
+            
+            // Keyboard shortcut
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    hideConfigPanel();
                 }
             });
 
-            return loadedCount;
-        }
-
-        // Initial font load check
-        function updateFontStatus() {
-            const loadedCount = checkFontsLoaded();
-            const totalFonts = fonts.length;
-
-            if (loadedCount < totalFonts) {
-                fontLoadingStatus.textContent = \`🔄 字体加载中... (\${loadedCount}/\${totalFonts})\`;
-                fontLoadingStatus.className = 'font-loading-status loading';
-            } else {
-                fontLoadingStatus.textContent = '✅ 所有字体已加载完成';
-                fontLoadingStatus.className = 'font-loading-status loaded';
-                setTimeout(() => {
-                    fontLoadingStatus.textContent = '';
-                }, 3000);
-            }
-        }
-
-        // Check font status periodically
-        let checkInterval = setInterval(updateFontStatus, 500);
-
-        // Stop checking after 10 seconds
-        setTimeout(() => {
-            clearInterval(checkInterval);
-            updateFontStatus();
-        }, 10000);
-
-        // Listen for font load events
-        document.fonts.ready.then(() => {
-            clearInterval(checkInterval);
-            updateFontStatus();
-        });
-
-        // Font change handler
-        fontSelector.addEventListener('change', function() {
-            const selectedFont = this.value;
-            const fontName = this.options[this.selectedIndex].getAttribute('data-font');
-
-            // Update CSS variable
-            root.style.setProperty('--terminal-font', selectedFont);
-
-            // Show loading status for the specific font
-            fontLoadingStatus.textContent = \`🔄 切换到 \${fontName}...\`;
-            fontLoadingStatus.className = 'font-loading-status loading';
-
-            // Wait a brief moment for the font to apply
-            setTimeout(() => {
-                fontLoadingStatus.textContent = \`✅ 已切换到 \${fontName}\`;
-                fontLoadingStatus.className = 'font-loading-status loaded';
-
-                // Clear the message after 2 seconds
-                setTimeout(() => {
-                    fontLoadingStatus.textContent = '';
-                }, 2000);
-            }, 300);
-
-            // Save preference to localStorage
-            try {
-                localStorage.setItem('preferredTerminalFont', selectedFont);
-                localStorage.setItem('preferredFontName', fontName);
-            } catch (e) {
-                // localStorage not available, that's fine
-            }
-
-            // Update selected font name
-            selectedFontName = fontName;
-            if (selectedTheme) {
-                updateConfigPanel();
-            }
-        });
-
-        // Load saved font preference
-        window.addEventListener('DOMContentLoaded', function() {
-            try {
-                const savedFont = localStorage.getItem('preferredTerminalFont');
-                const savedFontName = localStorage.getItem('preferredFontName');
-                if (savedFont) {
-                    // Find the option with this value
-                    for (let i = 0; i < fontSelector.options.length; i++) {
-                        if (fontSelector.options[i].value === savedFont) {
-                            fontSelector.selectedIndex = i;
-                            root.style.setProperty('--terminal-font', savedFont);
-                            if (savedFontName) {
-                                selectedFontName = savedFontName;
-                            }
-                            break;
-                        }
-                    }
+            // Keyboard shortcut to close panel (ESC)
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && configPanel && configPanel.classList.contains('visible')) {
+                    hideConfigPanel();
                 }
-            } catch (e) {
-                // localStorage not available, use default
-            }
-        });
-
-        // Add smooth font transition to all terminal content
-        const style = document.createElement('style');
-        style.textContent = \`
-            .terminal-content {
-                transition: font-family 0.3s ease;
-            }
-        \`;
-        document.head.appendChild(style);
-
-        // Theme Selection Functionality
-        const themeCards = document.querySelectorAll('.theme-card');
-
-        themeCards.forEach(card => {
-            card.addEventListener('click', function() {
-                const theme = this.getAttribute('data-theme');
-                const themeName = this.getAttribute('data-theme-name');
-
-                // Remove selection from all cards
-                themeCards.forEach(c => c.classList.remove('selected'));
-
-                // Add selection to clicked card
-                this.classList.add('selected');
-
-                // Update selected theme
-                selectedTheme = theme;
-                selectedThemeName = themeName;
-
-                // Update and show config panel
-                updateConfigPanel();
-                showConfigPanel();
             });
         });
 
         function updateConfigPanel() {
-            if (!selectedTheme || !selectedThemeName) return;
+            if (!selectedTheme) return;
 
-            const themeConfig = themeConfigs[selectedTheme];
-            if (!themeConfig) return;
+            var themeName = themeNames[selectedTheme] || selectedTheme;
+            var script = generateThemeScript(selectedTheme, selectedFontName);
 
-            // Update selection display
-            selectedThemeEl.textContent = themeConfig.name;
-            selectedFontEl.textContent = selectedFontName;
+            if (selectedThemeEl) selectedThemeEl.textContent = themeName;
+            if (selectedFontEl) selectedFontEl.textContent = selectedFontName;
+            if (configScriptEl) configScriptEl.textContent = script;
 
-            // Generate script
-            const script = themeConfig.script(selectedFontName);
-            configScriptEl.textContent = script;
+            // Update rating display
+            var ratingCountEl = document.getElementById('ratingCount');
+            var ratingStars = document.querySelectorAll('.rating-star');
+            var ratings = themeRatings[selectedTheme] || [];
+            var avg = ratings.length > 0 ? (ratings.reduce(function(a, b) { return a + b; }, 0) / ratings.length).toFixed(1) : '0.0';
+            var count = ratings.length;
+            if (ratingCountEl) {
+                ratingCountEl.textContent = count > 0 ? avg + ' (' + count + ' 人评分)' : '暂无评分';
+            }
+
+            // Update stars display
+            var userRating = localStorage.getItem('userRating_' + selectedTheme);
+            ratingStars.forEach(function(star) {
+                var starRating = parseInt(star.getAttribute('data-rating'));
+                star.classList.remove('active');
+                if (userRating && starRating <= parseInt(userRating)) {
+                    star.classList.add('active');
+                }
+            });
         }
 
         function showConfigPanel() {
-            configPanel.classList.add('visible');
+            console.log('showConfigPanel() called, configPanel:', configPanel);
+            if (configPanel) {
+                configPanel.classList.add('visible');
+                console.log('Added visible class, current classes:', configPanel.className);
+                console.log('Config panel offsetTop:', configPanel.offsetTop);
+                console.log('Config panel offsetHeight:', configPanel.offsetHeight);
+            } else {
+                console.error('configPanel is null!');
+            }
         }
 
         function hideConfigPanel() {
-            configPanel.classList.remove('visible');
+            if (configPanel) {
+                configPanel.classList.remove('visible');
+            }
         }
-
-        // Close panel
-        configPanelClose.addEventListener('click', hideConfigPanel);
-
-        // Copy script
-        copyScriptBtn.addEventListener('click', function() {
-            const script = configScriptEl.textContent;
-            if (script.includes('选择一个主题')) return;
-
-            navigator.clipboard.writeText(script).then(() => {
-                showToast();
-                this.classList.add('copied');
-                setTimeout(() => {
-                    this.classList.remove('copied');
-                }, 2000);
-            });
-        });
-
-        // Download script
-        downloadScriptBtn.addEventListener('click', function() {
-            const script = configScriptEl.textContent;
-            if (script.includes('选择一个主题')) return;
-
-            const blob = new Blob([script], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'iterm2-config.sh';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        });
 
         function showToast() {
-            toast.classList.add('visible');
-            setTimeout(() => {
-                toast.classList.remove('visible');
-            }, 2000);
+            if (toast) {
+                toast.classList.add('visible');
+                setTimeout(function() {
+                    toast.classList.remove('visible');
+                }, 2000);
+            }
         }
-
-        // Keyboard shortcut to close panel (Escape)
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                hideConfigPanel();
-            }
-        });
-
-        // Click outside panel to close
-        document.addEventListener('click', function(e) {
-            if (configPanel.classList.contains('visible') &&
-                !configPanel.contains(e.target) &&
-                !e.target.closest('.theme-card')) {
-                // Don't close if clicking on a theme card
-                hideConfigPanel();
-            }
-        });
     </script>
 </body>
 </html>
