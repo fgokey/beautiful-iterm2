@@ -181,6 +181,7 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
+            cursor: pointer;
         }
 
         .theme-card::before {
@@ -208,6 +209,53 @@
         .theme-card:hover {
             transform: translateY(-8px) scale(1.02);
             box-shadow: 0 30px 80px rgba(102, 126, 234, 0.25);
+        }
+
+        .theme-card.selected {
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: 0 35px 90px rgba(102, 126, 234, 0.4);
+        }
+
+        .theme-card.selected::before {
+            opacity: 1;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+        }
+
+        .select-indicator {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .theme-card.selected .select-indicator {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-color: #667eea;
+            transform: scale(1.1);
+        }
+
+        .select-indicator::after {
+            content: '✓';
+            color: #fff;
+            font-size: 14px;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s ease;
+        }
+
+        .theme-card.selected .select-indicator::after {
+            opacity: 1;
+            transform: scale(1);
         }
 
         .terminal {
@@ -456,7 +504,7 @@
         .latte .theme-description { color: #1e1e2e; }
         .latte .theme-badge { background: rgba(136, 57, 239, 0.2); color: #8839ef; }
         .latte .tag { background: #ccd0da; color: #1e1e2e; }
-        .latte .tag:hover { background: #ccd0da; }
+        .latte .tag:hover { background: #dce0e8; }
 
         /* Dracula */
         .dracula {
@@ -550,6 +598,177 @@
         .onedark .tag { background: #4b5263; color: #d0d0d0; }
         .onedark .tag:hover { background: #5c6370; }
 
+        /* Config Panel Styles */
+        .config-panel {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(15, 12, 41, 0.95);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            transform: translateY(150%);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+        }
+
+        .config-panel.visible {
+            transform: translateY(0);
+        }
+
+        .config-panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .config-panel-title {
+            color: #fff;
+            font-size: 1.2em;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .config-panel-close {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.2s ease;
+        }
+
+        .config-panel-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .config-selection {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .config-selection-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            color: #e0e0e5;
+        }
+
+        .config-selection-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .config-selection-label {
+            color: #8888aa;
+            font-size: 0.85em;
+            min-width: 60px;
+        }
+
+        .config-selection-value {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .config-code {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            overflow-x: auto;
+        }
+
+        .config-code pre {
+            color: #a6e3a1;
+            font-size: 0.85em;
+            line-height: 1.6;
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .config-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .config-btn {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .config-btn.primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+        }
+
+        .config-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .config-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .config-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .config-btn.copied {
+            background: linear-gradient(135deg, #a6e3a1, #89b4fa) !important;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-150%);
+            background: rgba(166, 227, 161, 0.95);
+            color: #1e1e2e;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+        }
+
+        .toast.visible {
+            transform: translateX(-50%) translateY(0);
+        }
+
         .footer {
             text-align: center;
             color: #8888aa;
@@ -562,20 +781,15 @@
             margin-bottom: 8px;
         }
 
-        .footer a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s ease;
-        }
-
-        .footer a:hover {
-            color: #764ba2;
-        }
-
         @media (max-width: 768px) {
             .header h1 { font-size: 2em; }
             .themes-grid { grid-template-columns: 1fr; }
+            .config-panel {
+                left: 20px;
+                right: 20px;
+                bottom: 20px;
+                max-width: none;
+            }
         }
     </style>
 </head>
@@ -585,7 +799,7 @@
         <p>选择你喜欢的主题，查看配置方案</p>
     </div>
 
-    <p class="subtitle">👆 鼠标悬停查看交互效果 👆</p>
+    <p class="subtitle">👆 鼠标悬停查看交互效果 · 点击主题卡片生成配置脚本 👆</p>
 
     <!-- Font Selector -->
     <div class="font-selector-container">
@@ -610,7 +824,8 @@
 
     <div class="themes-grid">
         <!-- Catppuccin Mocha -->
-        <div class="theme-card">
+        <div class="theme-card" data-theme="mocha" data-theme-name="Catppuccin Mocha">
+            <div class="select-indicator"></div>
             <div class="terminal mocha">
                 <div class="terminal-header">
                     <div class="dot red"></div>
@@ -620,22 +835,20 @@
                 </div>
                 <div class="terminal-content">
                     <div class="prompt">
-                        <span class="prompt-icon"></span>
+                        <span class="prompt-icon">❯</span>
                         <span class="prompt-path">~/projects</span>
                         <span class="prompt-git">main</span>
-                        <span class="prompt-symbol">❯</span>
                     </div>
                     <div class="command">npm install</div>
                     <div class="output">
                         <span class="keyword">added</span> <span class="number">1423</span> packages in <span class="number">32s</span>
                     </div>
                     <div class="prompt">
-                        <span class="prompt-icon"></span>
+                        <span class="prompt-icon">❯</span>
                         <span class="prompt-path">~/projects</span>
                         <span class="prompt-git">main</span>
-                        <span class="prompt-symbol">❯</span>
                     </div>
-                    <span class="command">git<cursor></cursor></span>
+                    <span class="command">git<span class="cursor"></span></span>
                 </div>
             </div>
             <div class="theme-info">
@@ -653,7 +866,8 @@
         </div>
 
         <!-- Catppuccin Frappe -->
-        <div class="theme-card">
+        <div class="theme-card" data-theme="frappe" data-theme-name="Catppuccin Frappe">
+            <div class="select-indicator"></div>
             <div class="terminal frappe">
                 <div class="terminal-header">
                     <div class="dot red"></div>
@@ -663,22 +877,20 @@
                 </div>
                 <div class="terminal-content">
                     <div class="prompt">
-                        <span class="prompt-icon"></span>
+                        <span class="prompt-icon">❯</span>
                         <span class="prompt-path">~/projects</span>
                         <span class="prompt-git">main</span>
-                        <span class="prompt-symbol">❯</span>
                     </div>
                     <div class="command">npm run dev</div>
                     <div class="output">
                         <span class="keyword">➜</span> Server running at <span class="string">http://localhost:3000</span>
                     </div>
                     <div class="prompt">
-                        <span class="prompt-icon"></span>
+                        <span class="prompt-icon">❯</span>
                         <span class="prompt-path">~/projects</span>
                         <span class="prompt-git">main</span>
-                        <span class="prompt-symbol">❯</span>
                     </div>
-                    <span class="command">git<cursor></cursor></span>
+                    <span class="command">git<span class="cursor"></span></span>
                 </div>
             </div>
             <div class="theme-info">
@@ -696,7 +908,8 @@
         </div>
 
         <!-- Catppuccin Macchiato -->
-        <div class="theme-card">
+        <div class="theme-card" data-theme="macchiato" data-theme-name="Catppuccin Macchiato">
+            <div class="select-indicator"></div>
             <div class="terminal macchiato">
                 <div class="terminal-header">
                     <div class="dot red"></div>
@@ -706,22 +919,20 @@
                 </div>
                 <div class="terminal-content">
                     <div class="prompt">
-                        <span class="prompt-icon"></span>
+                        <span class="prompt-icon">❯</span>
                         <span class="prompt-path">~/projects</span>
                         <span class="prompt-git">main</span>
-                        <span class="prompt-symbol">❯</span>
                     </div>
                     <div class="command">docker-compose up -d</div>
                     <div class="output">
                         <span class="keyword">Creating</span> network <span class="string">app_default</span>
                     </div>
                     <div class="prompt">
-                        <span class="prompt-icon"></span>
+                        <span class="prompt-icon">❯</span>
                         <span class="prompt-path">~/projects</span>
                         <span class="prompt-git">main</span>
-                        <span class="prompt-symbol">❯</span>
                     </div>
-                    <span class="command">kubect<cursor></cursor></span>
+                    <span class="command">kubect<span class="cursor"></span></span>
                 </div>
             </div>
             <div class="theme-info">
@@ -738,51 +949,9 @@
             </div>
         </div>
 
-        <!-- Catppuccin Latte -->
-        <div class="theme-card">
-            <div class="terminal latte">
-                <div class="terminal-header">
-                    <div class="dot red"></div>
-                    <div class="dot yellow"></div>
-                    <div class="dot green"></div>
-                    <span class="terminal-title">iTerm2</span>
-                </div>
-                <div class="terminal-content">
-                    <div class="prompt">
-                        <span class="prompt-icon"></span>
-                        <span class="prompt-path">~/projects</span>
-                        <span class="prompt-git">main</span>
-                        <span class="prompt-symbol">❯</span>
-                    </div>
-                    <div class="command">cargo build --release</div>
-                    <div class="output">
-                        <span class="keyword">Compiling</span> project v<span class="number">1.0.0</span>
-                    </div>
-                    <div class="prompt">
-                        <span class="prompt-icon"></span>
-                        <span class="prompt-path">~/projects</span>
-                        <span class="prompt-git">main</span>
-                        <span class="prompt-symbol">❯</span>
-                    </div>
-                    <span class="command">vim<cursor></cursor></span>
-                </div>
-            </div>
-            <div class="theme-info">
-                <div class="theme-header">
-                    <div class="theme-name">Catppuccin Latte</div>
-                    <div class="theme-badge">浅色</div>
-                </div>
-                <div class="theme-description">明亮清新 · 浅色背景 · 白天长时间编码</div>
-                <div class="theme-tags">
-                    <span class="tag">浅色</span>
-                    <span class="tag">清新</span>
-                    <span class="tag">白天</span>
-                </div>
-            </div>
-        </div>
-
         <!-- Dracula -->
-        <div class="theme-card">
+        <div class="theme-card" data-theme="dracula" data-theme-name="Dracula">
+            <div class="select-indicator"></div>
             <div class="terminal dracula">
                 <div class="terminal-header">
                     <div class="dot red"></div>
@@ -792,22 +961,20 @@
                 </div>
                 <div class="terminal-content">
                     <div class="prompt">
-                        <span class="prompt-icon"></span>
+                        <span class="prompt-icon">❯</span>
                         <span class="prompt-path">~/projects</span>
                         <span class="prompt-git">main</span>
-                        <span class="prompt-symbol">❯</span>
                     </div>
                     <div class="command">pytest tests/</div>
                     <div class="output">
                         <span class="keyword">PASSED</span> <span class="number">23</span> tests in <span class="number">4.2s</span>
                     </div>
                     <div class="prompt">
-                        <span class="prompt-icon"></span>
+                        <span class="prompt-icon">❯</span>
                         <span class="prompt-path">~/projects</span>
                         <span class="prompt-git">main</span>
-                        <span class="prompt-symbol">❯</span>
                     </div>
-                    <span class="command">python<cursor></cursor></span>
+                    <span class="command">python<span class="cursor"></span></span>
                 </div>
             </div>
             <div class="theme-info">
@@ -825,7 +992,8 @@
         </div>
 
         <!-- Tokyo Night -->
-        <div class="theme-card">
+        <div class="theme-card" data-theme="tokyo" data-theme-name="Tokyo Night">
+            <div class="select-indicator"></div>
             <div class="terminal tokyo">
                 <div class="terminal-header">
                     <div class="dot red"></div>
@@ -835,22 +1003,20 @@
                 </div>
                 <div class="terminal-content">
                     <div class="prompt">
-                        <span class="prompt-icon"></span>
+                        <span class="prompt-icon">❯</span>
                         <span class="prompt-path">~/projects</span>
                         <span class="prompt-git">main</span>
-                        <span class="prompt-symbol">❯</span>
                     </div>
                     <div class="command">go run main.go</div>
                     <div class="output">
                         <span class="keyword">Starting</span> server on <span class="string">:8080</span>
                     </div>
                     <div class="prompt">
-                        <span class="prompt-icon"></span>
+                        <span class="prompt-icon">❯</span>
                         <span class="prompt-path">~/projects</span>
                         <span class="prompt-git">main</span>
-                        <span class="prompt-symbol">❯</span>
                     </div>
-                    <span class="command">go<cursor></cursor></span>
+                    <span class="command">go<span class="cursor"></span></span>
                 </div>
             </div>
             <div class="theme-info">
@@ -867,51 +1033,9 @@
             </div>
         </div>
 
-        <!-- Solarized Dark -->
-        <div class="theme-card">
-            <div class="terminal solarized">
-                <div class="terminal-header">
-                    <div class="dot red"></div>
-                    <div class="dot yellow"></div>
-                    <div class="dot green"></div>
-                    <span class="terminal-title">iTerm2</span>
-                </div>
-                <div class="terminal-content">
-                    <div class="prompt">
-                        <span class="prompt-icon"></span>
-                        <span class="prompt-path">~/projects</span>
-                        <span class="prompt-git">main</span>
-                        <span class="prompt-symbol">❯</span>
-                    </div>
-                    <div class="command">mvn clean install</div>
-                    <div class="output">
-                        <span class="keyword">BUILD</span> SUCCESS
-                    </div>
-                    <div class="prompt">
-                        <span class="prompt-icon"></span>
-                        <span class="prompt-path">~/projects</span>
-                        <span class="prompt-git">main</span>
-                        <span class="prompt-symbol">❯</span>
-                    </div>
-                    <span class="command">java<cursor></cursor></span>
-                </div>
-            </div>
-            <div class="theme-info">
-                <div class="theme-header">
-                    <div class="theme-name">Solarized Dark</div>
-                    <div class="theme-badge">护眼</div>
-                </div>
-                <div class="theme-description">经典护眼 · 科学配色 · 长时间工作不累眼</div>
-                <div class="theme-tags">
-                    <span class="tag">护眼</span>
-                    <span class="tag">经典</span>
-                    <span class="tag">科学</span>
-                </div>
-            </div>
-        </div>
-
         <!-- One Dark -->
-        <div class="theme-card">
+        <div class="theme-card" data-theme="onedark" data-theme-name="One Dark">
+            <div class="select-indicator"></div>
             <div class="terminal onedark">
                 <div class="terminal-header">
                     <div class="dot red"></div>
@@ -921,22 +1045,20 @@
                 </div>
                 <div class="terminal-content">
                     <div class="prompt">
-                        <span class="prompt-icon"></span>
+                        <span class="prompt-icon">❯</span>
                         <span class="prompt-path">~/projects</span>
                         <span class="prompt-git">main</span>
-                        <span class="prompt-symbol">❯</span>
                     </div>
                     <div class="command">ng serve</div>
                     <div class="output">
                         <span class="keyword">Compiled</span> successfully in <span class="number">2.4s</span>
                     </div>
                     <div class="prompt">
-                        <span class="prompt-icon"></span>
+                        <span class="prompt-icon">❯</span>
                         <span class="prompt-path">~/projects</span>
                         <span class="prompt-git">main</span>
-                        <span class="prompt-symbol">❯</span>
                     </div>
-                    <span class="command">npm<cursor></cursor></span>
+                    <span class="command">npm<span class="cursor"></span></span>
                 </div>
             </div>
             <div class="theme-info">
@@ -955,12 +1077,214 @@
     </div>
 
     <div class="footer">
-        <p>💡 选择一个主题后，我可以帮你生成具体的配置命令</p>
+        <p>💡 点击主题卡片选择你喜欢的主题</p>
+        <p>💡 选择主题后自动生成 iTerm2 配置脚本</p>
         <p>💡 切换字体预览不同编程字体的实际渲染效果</p>
-        <p>刷新页面查看更多交互效果</p>
     </div>
 
+    <!-- Config Panel -->
+    <div class="config-panel" id="configPanel">
+        <div class="config-panel-header">
+            <div class="config-panel-title">
+                <span>⚙️</span>
+                <span>iTerm2 配置脚本</span>
+            </div>
+            <button class="config-panel-close" id="configPanelClose">✕</button>
+        </div>
+        <div class="config-selection">
+            <div class="config-selection-item">
+                <span class="config-selection-label">主题:</span>
+                <span class="config-selection-value" id="selectedTheme">-</span>
+            </div>
+            <div class="config-selection-item">
+                <span class="config-selection-label">字体:</span>
+                <span class="config-selection-value" id="selectedFont">-</span>
+            </div>
+        </div>
+        <div class="config-code">
+            <pre id="configScript">选择一个主题查看配置脚本...</pre>
+        </div>
+        <div class="config-actions">
+            <button class="config-btn primary" id="copyScript">
+                <span>📋</span>
+                <span>复制脚本</span>
+            </button>
+            <button class="config-btn secondary" id="downloadScript">
+                <span>⬇️</span>
+                <span>下载脚本</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">✅ 已复制到剪贴板！</div>
+
     <script>
+        // Global state
+        let selectedTheme = null;
+        let selectedThemeName = null;
+        let selectedFontName = 'Fira Code';
+
+        // Theme configurations with installation scripts
+        const themeConfigs = {
+            'mocha': {
+                name: 'Catppuccin Mocha',
+                installUrl: 'https://raw.githubusercontent.com/catppuccin/iTerm/main/catppuccin-mocha.itermcolors',
+                script: (font) => `#!/bin/bash
+# iTerm2 配置脚本 - Catppuccin Mocha + ${font}
+set -e
+
+echo "🎨 配置 iTerm2 主题: Catppuccin Mocha"
+echo "🔤 配置字体: ${font}"
+
+# 1. 下载主题文件
+THEME_URL="https://raw.githubusercontent.com/catppuccin/iTerm/main/catppuccin-mocha.itermcolors"
+THEME_DIR="$HOME/Library/Colors"
+THEME_FILE="$THEME_DIR/catppuccin-mocha.itermcolors"
+
+# 创建目录
+mkdir -p "$THEME_DIR"
+
+echo "📥 下载主题文件..."
+curl -fsSL "$THEME_URL" -o "$THEME_FILE"
+
+echo "✅ 主题文件已下载到: $THEME_FILE"
+echo ""
+echo "📝 下一步："
+echo "   1. 打开 iTerm2"
+echo "   2. 打开 Preferences (⌘+,)"
+echo "   3. 点击 Profiles > Colors"
+echo "   4. 点击 Color Presets > Import..."
+echo "   5. 选择刚下载的主题文件"
+echo "   6. 点击 Color Presets > Catppuccin Mocha"
+echo ""
+echo "🔤 字体安装："
+echo "   如果需要安装 ${font}，请运行："
+echo "   brew install --cask font-${font.toLowerCase().replace(/ /g, '-')}"
+`
+            },
+            'frappe': {
+                name: 'Catppuccin Frappe',
+                installUrl: 'https://raw.githubusercontent.com/catppuccin/iTerm/main/catppuccin-frappe.itermcolors',
+                script: (font) => `#!/bin/bash
+# iTerm2 配置脚本 - Catppuccin Frappé + ${font}
+set -e
+
+echo "🎨 配置 iTerm2 主题: Catppuccin Frappé"
+echo "🔤 配置字体: ${font}"
+
+THEME_URL="https://raw.githubusercontent.com/catppuccin/iTerm/main/catppuccin-frappe.itermcolors"
+THEME_DIR="$HOME/Library/Colors"
+THEME_FILE="$THEME_DIR/catppuccin-frappe.itermcolors"
+
+mkdir -p "$THEME_DIR"
+
+echo "📥 下载主题文件..."
+curl -fsSL "$THEME_URL" -o "$THEME_FILE"
+
+echo "✅ 主题文件已下载到: $THEME_FILE"
+echo ""
+echo "📝 下一步："
+echo "   1. 打开 iTerm2 > Preferences (⌘+,)"
+echo "   2. Profiles > Colors > Import..."
+echo "   3. 选择主题文件后应用"
+echo ""
+echo "🔤 字体安装: brew install --cask font-${font.toLowerCase().replace(/ /g, '-')}"
+`
+            },
+            'macchiato': {
+                name: 'Catppuccin Macchiato',
+                installUrl: 'https://raw.githubusercontent.com/catppuccin/iTerm/main/catppuccin-macchiato.itermcolors',
+                script: (font) => `#!/bin/bash
+# iTerm2 配置脚本 - Catppuccin Macchiato + ${font}
+set -e
+
+echo "🎨 配置 iTerm2 主题: Catppuccin Macchiato"
+
+THEME_URL="https://raw.githubusercontent.com/catppuccin/iTerm/main/catppuccin-macchiato.itermcolors"
+THEME_DIR="$HOME/Library/Colors"
+THEME_FILE="$THEME_DIR/catppuccin-macchiato.itermcolors"
+
+mkdir -p "$THEME_DIR"
+curl -fsSL "$THEME_URL" -o "$THEME_FILE"
+
+echo "✅ 已下载: $THEME_FILE"
+echo "📝 在 iTerm2 中导入并应用该主题"
+`
+            },
+            'dracula': {
+                name: 'Dracula',
+                installUrl: 'https://raw.githubusercontent.com/dracula/iterm/master/dracula.itermcolors',
+                script: (font) => `#!/bin/bash
+# iTerm2 配置脚本 - Dracula + ${font}
+set -e
+
+echo "🎨 配置 iTerm2 主题: Dracula"
+
+THEME_URL="https://raw.githubusercontent.com/dracula/iterm/master/dracula.itermcolors"
+THEME_DIR="$HOME/Library/Colors"
+THEME_FILE="$THEME_DIR/dracula.itermcolors"
+
+mkdir -p "$THEME_DIR"
+curl -fsSL "$THEME_URL" -o "$THEME_FILE"
+
+echo "✅ 已下载: $THEME_FILE"
+echo "📝 在 iTerm2 中导入并应用该主题"
+echo "🔤 字体: brew install --cask font-${font.toLowerCase().replace(/ /g, '-')}"
+`
+            },
+            'tokyo': {
+                name: 'Tokyo Night',
+                installUrl: 'https://raw.githubusercontent.com/fabioaq/iterm2-tokyo-night/master/tokyo-night.itermcolors',
+                script: (font) => `#!/bin/bash
+# iTerm2 配置脚本 - Tokyo Night + ${font}
+set -e
+
+echo "🎨 配置 iTerm2 主题: Tokyo Night"
+
+THEME_URL="https://raw.githubusercontent.com/fabioaq/iterm2-tokyo-night/master/tokyo-night.itermcolors"
+THEME_DIR="$HOME/Library/Colors"
+THEME_FILE="$THEME_DIR/tokyo-night.itermcolors"
+
+mkdir -p "$THEME_DIR"
+curl -fsSL "$THEME_URL" -o "$THEME_FILE"
+
+echo "✅ 已下载: $THEME_FILE"
+echo "📝 在 iTerm2 中导入并应用该主题"
+`
+            },
+            'onedark': {
+                name: 'One Dark',
+                installUrl: 'https://raw.githubusercontent.com/one-dark/iterm-one-dark/master/OneDark.itermcolors',
+                script: (font) => `#!/bin/bash
+# iTerm2 配置脚本 - One Dark + ${font}
+set -e
+
+echo "🎨 配置 iTerm2 主题: One Dark"
+
+THEME_URL="https://raw.githubusercontent.com/one-dark/iterm-one-dark/master/OneDark.itermcolors"
+THEME_DIR="$HOME/Library/Colors"
+THEME_FILE="$THEME_DIR/OneDark.itermcolors"
+
+mkdir -p "$THEME_DIR"
+curl -fsSL "$THEME_URL" -o "$THEME_FILE"
+
+echo "✅ 已下载: $THEME_FILE"
+echo "📝 在 iTerm2 中导入并应用该主题"
+`
+            }
+        };
+
+        // DOM elements
+        const configPanel = document.getElementById('configPanel');
+        const configPanelClose = document.getElementById('configPanelClose');
+        const selectedThemeEl = document.getElementById('selectedTheme');
+        const selectedFontEl = document.getElementById('selectedFont');
+        const configScriptEl = document.getElementById('configScript');
+        const copyScriptBtn = document.getElementById('copyScript');
+        const downloadScriptBtn = document.getElementById('downloadScript');
+        const toast = document.getElementById('toast');
+
         // Font Selector Functionality
         const fontSelector = document.getElementById('fontSelector');
         const fontLoadingStatus = document.getElementById('fontLoadingStatus');
@@ -986,7 +1310,7 @@
             let loadedCount = 0;
 
             fonts.forEach(font => {
-                if (fontFaceSet.check(`16px "${font}"`)) {
+                if (fontFaceSet.check(\`16px "\${font}"\`)) {
                     loadedCount++;
                 }
             });
@@ -1000,7 +1324,7 @@
             const totalFonts = fonts.length;
 
             if (loadedCount < totalFonts) {
-                fontLoadingStatus.textContent = `🔄 字体加载中... (${loadedCount}/${totalFonts})`;
+                fontLoadingStatus.textContent = \`🔄 字体加载中... (\${loadedCount}/\${totalFonts})\`;
                 fontLoadingStatus.className = 'font-loading-status loading';
             } else {
                 fontLoadingStatus.textContent = '✅ 所有字体已加载完成';
@@ -1035,12 +1359,12 @@
             root.style.setProperty('--terminal-font', selectedFont);
 
             // Show loading status for the specific font
-            fontLoadingStatus.textContent = `🔄 切换到 ${fontName}...`;
+            fontLoadingStatus.textContent = \`🔄 切换到 \${fontName}...\`;
             fontLoadingStatus.className = 'font-loading-status loading';
 
             // Wait a brief moment for the font to apply
             setTimeout(() => {
-                fontLoadingStatus.textContent = `✅ 已切换到 ${fontName}`;
+                fontLoadingStatus.textContent = \`✅ 已切换到 \${fontName}\`;
                 fontLoadingStatus.className = 'font-loading-status loaded';
 
                 // Clear the message after 2 seconds
@@ -1056,18 +1380,28 @@
             } catch (e) {
                 // localStorage not available, that's fine
             }
+
+            // Update selected font name
+            selectedFontName = fontName;
+            if (selectedTheme) {
+                updateConfigPanel();
+            }
         });
 
         // Load saved font preference
         window.addEventListener('DOMContentLoaded', function() {
             try {
                 const savedFont = localStorage.getItem('preferredTerminalFont');
+                const savedFontName = localStorage.getItem('preferredFontName');
                 if (savedFont) {
                     // Find the option with this value
                     for (let i = 0; i < fontSelector.options.length; i++) {
                         if (fontSelector.options[i].value === savedFont) {
                             fontSelector.selectedIndex = i;
                             root.style.setProperty('--terminal-font', savedFont);
+                            if (savedFontName) {
+                                selectedFontName = savedFontName;
+                            }
                             break;
                         }
                     }
@@ -1079,12 +1413,116 @@
 
         // Add smooth font transition to all terminal content
         const style = document.createElement('style');
-        style.textContent = `
+        style.textContent = \`
             .terminal-content {
                 transition: font-family 0.3s ease;
             }
-        `;
+        \`;
         document.head.appendChild(style);
+
+        // Theme Selection Functionality
+        const themeCards = document.querySelectorAll('.theme-card');
+
+        themeCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const theme = this.getAttribute('data-theme');
+                const themeName = this.getAttribute('data-theme-name');
+
+                // Remove selection from all cards
+                themeCards.forEach(c => c.classList.remove('selected'));
+
+                // Add selection to clicked card
+                this.classList.add('selected');
+
+                // Update selected theme
+                selectedTheme = theme;
+                selectedThemeName = themeName;
+
+                // Update and show config panel
+                updateConfigPanel();
+                showConfigPanel();
+            });
+        });
+
+        function updateConfigPanel() {
+            if (!selectedTheme || !selectedThemeName) return;
+
+            const themeConfig = themeConfigs[selectedTheme];
+            if (!themeConfig) return;
+
+            // Update selection display
+            selectedThemeEl.textContent = themeConfig.name;
+            selectedFontEl.textContent = selectedFontName;
+
+            // Generate script
+            const script = themeConfig.script(selectedFontName);
+            configScriptEl.textContent = script;
+        }
+
+        function showConfigPanel() {
+            configPanel.classList.add('visible');
+        }
+
+        function hideConfigPanel() {
+            configPanel.classList.remove('visible');
+        }
+
+        // Close panel
+        configPanelClose.addEventListener('click', hideConfigPanel);
+
+        // Copy script
+        copyScriptBtn.addEventListener('click', function() {
+            const script = configScriptEl.textContent;
+            if (script.includes('选择一个主题')) return;
+
+            navigator.clipboard.writeText(script).then(() => {
+                showToast();
+                this.classList.add('copied');
+                setTimeout(() => {
+                    this.classList.remove('copied');
+                }, 2000);
+            });
+        });
+
+        // Download script
+        downloadScriptBtn.addEventListener('click', function() {
+            const script = configScriptEl.textContent;
+            if (script.includes('选择一个主题')) return;
+
+            const blob = new Blob([script], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'iterm2-config.sh';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        function showToast() {
+            toast.classList.add('visible');
+            setTimeout(() => {
+                toast.classList.remove('visible');
+            }, 2000);
+        }
+
+        // Keyboard shortcut to close panel (Escape)
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                hideConfigPanel();
+            }
+        });
+
+        // Click outside panel to close
+        document.addEventListener('click', function(e) {
+            if (configPanel.classList.contains('visible') &&
+                !configPanel.contains(e.target) &&
+                !e.target.closest('.theme-card')) {
+                // Don't close if clicking on a theme card
+                hideConfigPanel();
+            }
+        });
     </script>
 </body>
 </html>
