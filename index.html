@@ -1767,19 +1767,19 @@
             themeCards.forEach(function(card, index) {
                 console.log('Setting up click handler for card ' + index + ':', card.getAttribute('data-theme'));
 
-                // Use mousedown instead of click for better reliability
-                card.addEventListener('click', function(e) {
+                // Use onclick instead of addEventListener for better reliability
+                card.onclick = function(e) {
                     console.log('=== Card clicked! ===');
                     console.log('Event target:', e.target);
                     console.log('Current target:', e.currentTarget);
 
-                    var theme = e.currentTarget.getAttribute('data-theme');
-                    var themeName = e.currentTarget.getAttribute('data-theme-name');
+                    var theme = card.getAttribute('data-theme');
+                    var themeName = card.getAttribute('data-theme-name');
 
                     console.log('Theme selected:', theme, themeName);
 
-                    e.preventDefault();
-                    e.stopPropagation();
+                    if (e.preventDefault) e.preventDefault();
+                    if (e.stopPropagation) e.stopPropagation();
 
                     // Remove selection from all cards
                     themeCards.forEach(function(c) {
@@ -1787,7 +1787,7 @@
                     });
 
                     // Add selection to clicked card
-                    e.currentTarget.classList.add('selected');
+                    card.classList.add('selected');
                     console.log('Added selected class');
 
                     // Update selected theme
@@ -1799,7 +1799,8 @@
                     showConfigPanel();
 
                     console.log('Config panel shown!');
-                }, false); // Use capture phase if needed
+                    return false;
+                };
             });
             
             // Font selector
