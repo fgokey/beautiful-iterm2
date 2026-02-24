@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iTerm2 主题对比预览</title>
+    <!-- Google Fonts - Loading 10 popular programming fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Source+Code+Pro:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Inconsolata:wght@400;500;600&family=Space+Mono:wght@400;700&family=Anonymous+Pro:wght@400;700&family=Ubuntu+Mono:wght@400;700&family=Roboto+Mono:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --terminal-font: 'Fira Code', 'SF Mono', 'Monaco', 'Inconsolata', 'Droid Sans Mono', 'Source Code Pro', 'Menlo', monospace;
+        }
+
+        body {
+            font-family: var(--terminal-font);
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            padding: 30px 20px;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 50px;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #667eea, transparent);
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .header p {
+            color: #b8b8d1;
+            font-size: 1.15em;
+            font-weight: 400;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #8888aa;
+            margin-bottom: 35px;
+            font-size: 0.95em;
+        }
+
+        /* Font Selector Styles */
+        .font-selector-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 40px;
+            padding: 0 20px;
+        }
+
+        .font-selector-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .font-selector-label {
+            display: block;
+            color: #b8b8d1;
+            font-size: 0.9em;
+            margin-bottom: 12px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .font-selector {
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 15px;
+            font-family: var(--terminal-font);
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            border-radius: 12px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            backdrop-filter: blur(10px);
+        }
+
+        .font-selector:hover {
+            border-color: rgba(102, 126, 234, 0.6);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .font-selector:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
+        }
+
+        .font-selector-wrapper::after {
+            content: '▼';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+            pointer-events: none;
+            font-size: 12px;
+            margin-top: 14px;
+        }
+
+        .font-loading-status {
+            text-align: center;
+            color: #8888aa;
+            font-size: 0.8em;
+            margin-top: 10px;
+            min-height: 20px;
+        }
+
+        .font-loading-status.loading {
+            color: #667eea;
+        }
+
+        .font-loading-status.loaded {
+            color: #a6e3a1;
+        }
+
+        .font-info {
+            text-align: center;
+            color: #8888aa;
+            font-size: 0.85em;
+            margin-top: 8px;
+            padding: 0 20px;
+        }
+
+        @media (max-width: 768px) {
+            .font-selector-container {
+                padding: 0 15px;
+            }
+            .font-selector {
+                padding: 12px 16px;
+                font-size: 14px;
+            }
+        }
+
+        .themes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+            gap: 30px;
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+
+        .theme-card {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .theme-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 16px;
+            padding: 2px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .theme-card:hover::before {
+            opacity: 1;
+        }
+
+        .theme-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 30px 80px rgba(102, 126, 234, 0.25);
+        }
+
+        .terminal {
+            padding: 24px;
+            position: relative;
+            min-height: 180px;
+        }
+
+        .terminal-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .terminal-header .dot {
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            transition: transform 0.2s ease;
+        }
+
+        .terminal-header .dot:hover {
+            transform: scale(1.2);
+        }
+
+        .terminal-header .dot.red { background: linear-gradient(135deg, #ff5f56, #ff3b30); }
+        .terminal-header .dot.yellow { background: linear-gradient(135deg, #ffbd2e, #ff9500); }
+        .terminal-header .dot.green { background: linear-gradient(135deg, #27c93f, #22c55e); }
+
+        .terminal-title {
+            margin-left: auto;
+            font-size: 11px;
+            opacity: 0.5;
+            letter-spacing: 1px;
+        }
+
+        .terminal-content {
+            font-size: 14px;
+            line-height: 1.8;
+            font-family: var(--terminal-font);
+            transition: font-family 0.3s ease;
+        }
+
+        .prompt {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .prompt-icon {
+            margin-right: 8px;
+            font-size: 1.1em;
+        }
+
+        .prompt-path {
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .prompt-git {
+            margin-left: 8px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+        .prompt-symbol {
+            margin-left: 8px;
+            font-weight: bold;
+        }
+
+        .command {
+            color: inherit;
+            margin-left: 4px;
+        }
+
+        .output {
+            margin-bottom: 12px;
+            margin-left: 20px;
+            opacity: 0.9;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 18px;
+            animation: blink 1s infinite;
+            margin-left: 3px;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .theme-info {
+            padding: 20px 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(15, 12, 41, 0.95);
+        }
+
+        .theme-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .theme-name {
+            font-size: 1.4em;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #fff;
+        }
+
+        .theme-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .theme-description {
+            font-size: 0.95em;
+            margin-bottom: 14px;
+            line-height: 1.6;
+            font-weight: 400;
+            color: #e0e0e5;
+        }
+
+        .theme-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.8em;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            transition: all 0.2s ease;
+            color: #fff;
+        }
+
+        .tag:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Catppuccin Mocha */
+        .mocha {
+            background: linear-gradient(180deg, #1e1e2e 0%, #181825 100%);
+            color: #cdd6f4;
+        }
+        .mocha .terminal-header { border-color: rgba(205, 214, 244, 0.1); }
+        .mocha .prompt-path { color: #89b4fa; }
+        .mocha .prompt-git { color: #a6e3a1; background: rgba(166, 227, 161, 0.15); }
+        .mocha .prompt-symbol { color: #f38ba8; }
+        .mocha .command { color: #f9e2af; }
+        .mocha .output { color: #bac2de; }
+        .mocha .keyword { color: #cba6f7; }
+        .mocha .string { color: #a6e3a1; }
+        .mocha .number { color: #fab387; }
+        .mocha .comment { color: #6c7086; }
+        .mocha .cursor { background: #f5e0dc; }
+        .mocha .theme-info { background: rgba(24, 24, 37, 0.98); }
+        .mocha .theme-name { color: #f5c2e7; }
+        .mocha .theme-description { color: #e0e0e5; }
+        .mocha .theme-badge { background: rgba(203, 166, 247, 0.2); color: #cba6f7; }
+        .mocha .tag { background: #45475a; color: #f5e0dc; }
+        .mocha .tag:hover { background: #585b70; }
+
+        /* Catppuccin Frappe */
+        .frappe {
+            background: linear-gradient(180deg, #303446 0%, #292c3c 100%);
+            color: #c6d0f5;
+        }
+        .frappe .terminal-header { border-color: rgba(198, 208, 245, 0.1); }
+        .frappe .prompt-path { color: #8caaee; }
+        .frappe .prompt-git { color: #a6d189; background: rgba(166, 209, 137, 0.15); }
+        .frappe .prompt-symbol { color: #e78284; }
+        .frappe .command { color: #e5c890; }
+        .frappe .output { color: #a5adce; }
+        .frappe .keyword { color: #ca9ee6; }
+        .frappe .string { color: #a6d189; }
+        .frappe .number { color: #ef9f76; }
+        .frappe .comment { color: #737994; }
+        .frappe .cursor { background: #f2d5cf; }
+        .frappe .theme-info { background: rgba(35, 38, 52, 0.98); }
+        .frappe .theme-name { color: #e0c6f4; }
+        .frappe .theme-description { color: #e0e0e5; }
+        .frappe .theme-badge { background: rgba(202, 158, 230, 0.2); color: #ca9ee6; }
+        .frappe .tag { background: #51576d; color: #f2d5cf; }
+        .frappe .tag:hover { background: #626880; }
+
+        /* Catppuccin Macchiato */
+        .macchiato {
+            background: linear-gradient(180deg, #24273a 0%, #1e2030 100%);
+            color: #cad3f5;
+        }
+        .macchiato .terminal-header { border-color: rgba(202, 211, 245, 0.1); }
+        .macchiato .prompt-path { color: #8aadf4; }
+        .macchiato .prompt-git { color: #a6da95; background: rgba(166, 218, 149, 0.15); }
+        .macchiato .prompt-symbol { color: #ed8796; }
+        .macchiato .command { color: #eed49f; }
+        .macchiato .output { color: #a5adcb; }
+        .macchiato .keyword { color: #c6a0f6; }
+        .macchiato .string { color: #a6da95; }
+        .macchiato .number { color: #f5a97f; }
+        .macchiato .comment { color: #6e738d; }
+        .macchiato .cursor { background: #f4dbd6; }
+        .macchiato .theme-info { background: rgba(30, 32, 48, 0.98); }
+        .macchiato .theme-name { color: #d6b8f7; }
+        .macchiato .theme-description { color: #e0e0e5; }
+        .macchiato .theme-badge { background: rgba(198, 160, 246, 0.2); color: #c6a0f6; }
+        .macchiato .tag { background: #494d64; color: #f4dbd6; }
+        .macchiato .tag:hover { background: #5a5e7a; }
+
+        /* Catppuccin Latte */
+        .latte {
+            background: linear-gradient(180deg, #eff1f5 0%, #e6e9ef 100%);
+            color: #4c4f69;
+        }
+        .latte .terminal-header { border-color: rgba(76, 79, 105, 0.15); }
+        .latte .prompt-path { color: #1e66f5; }
+        .latte .prompt-git { color: #40a02b; background: rgba(64, 160, 43, 0.15); }
+        .latte .prompt-symbol { color: #d20f39; }
+        .latte .command { color: #df8e1d; }
+        .latte .output { color: #5c5f77; }
+        .latte .keyword { color: #8839ef; }
+        .latte .string { color: #40a02b; }
+        .latte .number { color: #fe640b; }
+        .latte .comment { color: #9ca0b0; }
+        .latte .cursor { background: #dc8a78; }
+        .latte .theme-info { background: rgba(230, 233, 239, 0.98); }
+        .latte .theme-name { color: #7c3aed; }
+        .latte .theme-description { color: #1e1e2e; }
+        .latte .theme-badge { background: rgba(136, 57, 239, 0.2); color: #8839ef; }
+        .latte .tag { background: #ccd0da; color: #1e1e2e; }
+        .latte .tag:hover { background: #ccd0da; }
+
+        /* Dracula */
+        .dracula {
+            background: linear-gradient(180deg, #282a36 0%, #1d1e26 100%);
+            color: #f8f8f2;
+        }
+        .dracula .terminal-header { border-color: rgba(248, 248, 242, 0.1); }
+        .dracula .prompt-path { color: #8be9fd; }
+        .dracula .prompt-git { color: #50fa7b; background: rgba(80, 250, 123, 0.15); }
+        .dracula .prompt-symbol { color: #ff79c6; }
+        .dracula .command { color: #f1fa8c; }
+        .dracula .output { color: #6272a4; }
+        .dracula .keyword { color: #bd93f9; }
+        .dracula .string { color: #50fa7b; }
+        .dracula .number { color: #ffb86c; }
+        .dracula .comment { color: #6272a4; }
+        .dracula .cursor { background: #f8f8f2; }
+        .dracula .theme-info { background: rgba(29, 30, 38, 0.98); }
+        .dracula .theme-name { color: #f0f0f5; }
+        .dracula .theme-description { color: #e0e0e5; }
+        .dracula .theme-badge { background: rgba(189, 147, 249, 0.2); color: #bd93f9; }
+        .dracula .tag { background: #555870; color: #f8f8f2; }
+        .dracula .tag:hover { background: #676b8a; }
+
+        /* Tokyo Night */
+        .tokyo {
+            background: linear-gradient(180deg, #1a1b26 0%, #16161e 100%);
+            color: #a9b1d6;
+        }
+        .tokyo .terminal-header { border-color: rgba(169, 177, 214, 0.1); }
+        .tokyo .prompt-path { color: #7aa2f7; }
+        .tokyo .prompt-git { color: #9ece6a; background: rgba(158, 206, 106, 0.15); }
+        .tokyo .prompt-symbol { color: #f7768e; }
+        .tokyo .command { color: #e0af68; }
+        .tokyo .output { color: #565f89; }
+        .tokyo .keyword { color: #bb9af7; }
+        .tokyo .string { color: #9ece6a; }
+        .tokyo .number { color: #ff9e64; }
+        .tokyo .comment { color: #565f89; }
+        .tokyo .cursor { background: #c0caf5; }
+        .tokyo .theme-info { background: rgba(22, 22, 30, 0.98); }
+        .tokyo .theme-name { color: #d0d7f7; }
+        .tokyo .theme-description { color: #e0e0e5; }
+        .tokyo .theme-badge { background: rgba(187, 154, 247, 0.2); color: #bb9af7; }
+        .tokyo .tag { background: #565f89; color: #c0caf5; }
+        .tokyo .tag:hover { background: #6770a0; }
+
+        /* Solarized Dark */
+        .solarized {
+            background: linear-gradient(180deg, #002b36 0%, #001e26 100%);
+            color: #839496;
+        }
+        .solarized .terminal-header { border-color: rgba(131, 148, 150, 0.1); }
+        .solarized .prompt-path { color: #268bd2; }
+        .solarized .prompt-git { color: #859900; background: rgba(133, 153, 0, 0.15); }
+        .solarized .prompt-symbol { color: #dc322f; }
+        .solarized .command { color: #b58900; }
+        .solarized .output { color: #586e75; }
+        .solarized .keyword { color: #6c71c4; }
+        .solarized .string { color: #859900; }
+        .solarized .number { color: #cb4b16; }
+        .solarized .comment { color: #586e75; }
+        .solarized .cursor { background: #93a1a1; }
+        .solarized .theme-info { background: rgba(0, 30, 38, 0.98); }
+        .solarized .theme-name { color: #5fafdb; }
+        .solarized .theme-description { color: #b0b8c0; }
+        .solarized .theme-badge { background: rgba(38, 139, 210, 0.2); color: #268bd2; }
+        .solarized .tag { background: #094957; color: #d3d7cf; }
+        .solarized .tag:hover { background: #0c5d6e; }
+
+        /* One Dark */
+        .onedark {
+            background: linear-gradient(180deg, #282c34 0%, #21252b 100%);
+            color: #abb2bf;
+        }
+        .onedark .terminal-header { border-color: rgba(171, 178, 191, 0.1); }
+        .onedark .prompt-path { color: #61afef; }
+        .onedark .prompt-git { color: #98c379; background: rgba(152, 195, 121, 0.15); }
+        .onedark .prompt-symbol { color: #e06c75; }
+        .onedark .command { color: #e5c07b; }
+        .onedark .output { color: #5c6370; }
+        .onedark .keyword { color: #c678dd; }
+        .onedark .string { color: #98c379; }
+        .onedark .number { color: #d19a66; }
+        .onedark .comment { color: #5c6370; }
+        .onedark .cursor { background: #abb2bf; }
+        .onedark .theme-info { background: rgba(33, 37, 43, 0.98); }
+        .onedark .theme-name { color: #e0c0f0; }
+        .onedark .theme-description { color: #e0e0e5; }
+        .onedark .theme-badge { background: rgba(198, 120, 221, 0.2); color: #c678dd; }
+        .onedark .tag { background: #4b5263; color: #d0d0d0; }
+        .onedark .tag:hover { background: #5c6370; }
+
+        .footer {
+            text-align: center;
+            color: #8888aa;
+            margin-top: 50px;
+            padding: 30px;
+            font-size: 0.95em;
+        }
+
+        .footer p {
+            margin-bottom: 8px;
+        }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .footer a:hover {
+            color: #764ba2;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2em; }
+            .themes-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>iTerm2 主题对比预览</h1>
+        <p>选择你喜欢的主题，查看配置方案</p>
+    </div>
+
+    <p class="subtitle">👆 鼠标悬停查看交互效果 👆</p>
+
+    <!-- Font Selector -->
+    <div class="font-selector-container">
+        <div class="font-selector-wrapper">
+            <label class="font-selector-label">🔤 选择终端字体</label>
+            <select class="font-selector" id="fontSelector">
+                <option value="'Fira Code', monospace" data-font="Fira Code">Fira Code - 支持连字，程序员最爱</option>
+                <option value="'JetBrains Mono', monospace" data-font="JetBrains Mono">JetBrains Mono - JetBrains 出品，开箱即用</option>
+                <option value="'Source Code Pro', monospace" data-font="Source Code Pro">Source Code Pro - Adobe 出品，优雅大气</option>
+                <option value="'IBM Plex Mono', monospace" data-font="IBM Plex Mono">IBM Plex Mono - IBM 设计，清晰易读</option>
+                <option value="'Inconsolata', monospace" data-font="Inconsolata">Inconsolata - 经典编程字体</option>
+                <option value="'Space Mono', monospace" data-font="Space Mono">Space Mono - 现代感强</option>
+                <option value="'Anonymous Pro', monospace" data-font="Anonymous Pro">Anonymous Pro - 适合编程</option>
+                <option value="'Ubuntu Mono', monospace" data-font="Ubuntu Mono">Ubuntu Mono - Ubuntu 风格</option>
+                <option value="'Roboto Mono', monospace" data-font="Roboto Mono">Roboto Mono - Google 出品</option>
+                <option value="'DM Mono', monospace" data-font="DM Mono">DM Mono - 现代设计，几何风格</option>
+            </select>
+            <div class="font-loading-status" id="fontLoadingStatus"></div>
+            <div class="font-info">💡 字体通过 Google Fonts CDN 加载，选择后所有终端预览实时切换</div>
+        </div>
+    </div>
+
+    <div class="themes-grid">
+        <!-- Catppuccin Mocha -->
+        <div class="theme-card">
+            <div class="terminal mocha">
+                <div class="terminal-header">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                    <span class="terminal-title">iTerm2</span>
+                </div>
+                <div class="terminal-content">
+                    <div class="prompt">
+                        <span class="prompt-icon"></span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                        <span class="prompt-symbol">❯</span>
+                    </div>
+                    <div class="command">npm install</div>
+                    <div class="output">
+                        <span class="keyword">added</span> <span class="number">1423</span> packages in <span class="number">32s</span>
+                    </div>
+                    <div class="prompt">
+                        <span class="prompt-icon"></span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                        <span class="prompt-symbol">❯</span>
+                    </div>
+                    <span class="command">git<cursor></cursor></span>
+                </div>
+            </div>
+            <div class="theme-info">
+                <div class="theme-header">
+                    <div class="theme-name">Catppuccin Mocha</div>
+                    <div class="theme-badge">HOT</div>
+                </div>
+                <div class="theme-description">极致暗调 · 纯黑背景高对比度 · 夜间工作首选</div>
+                <div class="theme-tags">
+                    <span class="tag">深色</span>
+                    <span class="tag">高对比</span>
+                    <span class="tag">夜间</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Catppuccin Frappe -->
+        <div class="theme-card">
+            <div class="terminal frappe">
+                <div class="terminal-header">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                    <span class="terminal-title">iTerm2</span>
+                </div>
+                <div class="terminal-content">
+                    <div class="prompt">
+                        <span class="prompt-icon"></span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                        <span class="prompt-symbol">❯</span>
+                    </div>
+                    <div class="command">npm run dev</div>
+                    <div class="output">
+                        <span class="keyword">➜</span> Server running at <span class="string">http://localhost:3000</span>
+                    </div>
+                    <div class="prompt">
+                        <span class="prompt-icon"></span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                        <span class="prompt-symbol">❯</span>
+                    </div>
+                    <span class="command">git<cursor></cursor></span>
+                </div>
+            </div>
+            <div class="theme-info">
+                <div class="theme-header">
+                    <div class="theme-name">Catppuccin Frappe</div>
+                    <div class="theme-badge">推荐</div>
+                </div>
+                <div class="theme-description">平衡中性 · 深灰背景 · 通用开发环境</div>
+                <div class="theme-tags">
+                    <span class="tag">中性</span>
+                    <span class="tag">通用</span>
+                    <span class="tag">推荐</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Catppuccin Macchiato -->
+        <div class="theme-card">
+            <div class="terminal macchiato">
+                <div class="terminal-header">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                    <span class="terminal-title">iTerm2</span>
+                </div>
+                <div class="terminal-content">
+                    <div class="prompt">
+                        <span class="prompt-icon"></span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                        <span class="prompt-symbol">❯</span>
+                    </div>
+                    <div class="command">docker-compose up -d</div>
+                    <div class="output">
+                        <span class="keyword">Creating</span> network <span class="string">app_default</span>
+                    </div>
+                    <div class="prompt">
+                        <span class="prompt-icon"></span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                        <span class="prompt-symbol">❯</span>
+                    </div>
+                    <span class="command">kubect<cursor></cursor></span>
+                </div>
+            </div>
+            <div class="theme-info">
+                <div class="theme-header">
+                    <div class="theme-name">Catppuccin Macchiato</div>
+                    <div class="theme-badge">优雅</div>
+                </div>
+                <div class="theme-description">柔和紫调 · 低饱和度护眼 · 长时间工作舒适</div>
+                <div class="theme-tags">
+                    <span class="tag">紫色</span>
+                    <span class="tag">护眼</span>
+                    <span class="tag">优雅</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Catppuccin Latte -->
+        <div class="theme-card">
+            <div class="terminal latte">
+                <div class="terminal-header">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                    <span class="terminal-title">iTerm2</span>
+                </div>
+                <div class="terminal-content">
+                    <div class="prompt">
+                        <span class="prompt-icon"></span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                        <span class="prompt-symbol">❯</span>
+                    </div>
+                    <div class="command">cargo build --release</div>
+                    <div class="output">
+                        <span class="keyword">Compiling</span> project v<span class="number">1.0.0</span>
+                    </div>
+                    <div class="prompt">
+                        <span class="prompt-icon"></span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                        <span class="prompt-symbol">❯</span>
+                    </div>
+                    <span class="command">vim<cursor></cursor></span>
+                </div>
+            </div>
+            <div class="theme-info">
+                <div class="theme-header">
+                    <div class="theme-name">Catppuccin Latte</div>
+                    <div class="theme-badge">浅色</div>
+                </div>
+                <div class="theme-description">明亮清新 · 浅色背景 · 白天长时间编码</div>
+                <div class="theme-tags">
+                    <span class="tag">浅色</span>
+                    <span class="tag">清新</span>
+                    <span class="tag">白天</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dracula -->
+        <div class="theme-card">
+            <div class="terminal dracula">
+                <div class="terminal-header">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                    <span class="terminal-title">iTerm2</span>
+                </div>
+                <div class="terminal-content">
+                    <div class="prompt">
+                        <span class="prompt-icon"></span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                        <span class="prompt-symbol">❯</span>
+                    </div>
+                    <div class="command">pytest tests/</div>
+                    <div class="output">
+                        <span class="keyword">PASSED</span> <span class="number">23</span> tests in <span class="number">4.2s</span>
+                    </div>
+                    <div class="prompt">
+                        <span class="prompt-icon"></span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                        <span class="prompt-symbol">❯</span>
+                    </div>
+                    <span class="command">python<cursor></cursor></span>
+                </div>
+            </div>
+            <div class="theme-info">
+                <div class="theme-header">
+                    <div class="theme-name">Dracula</div>
+                    <div class="theme-badge">经典</div>
+                </div>
+                <div class="theme-description">经典紫暗 · 优雅配色 · 程序员最爱</div>
+                <div class="theme-tags">
+                    <span class="tag">紫色</span>
+                    <span class="tag">经典</span>
+                    <span class="tag">流行</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tokyo Night -->
+        <div class="theme-card">
+            <div class="terminal tokyo">
+                <div class="terminal-header">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                    <span class="terminal-title">iTerm2</span>
+                </div>
+                <div class="terminal-content">
+                    <div class="prompt">
+                        <span class="prompt-icon"></span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                        <span class="prompt-symbol">❯</span>
+                    </div>
+                    <div class="command">go run main.go</div>
+                    <div class="output">
+                        <span class="keyword">Starting</span> server on <span class="string">:8080</span>
+                    </div>
+                    <div class="prompt">
+                        <span class="prompt-icon"></span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                        <span class="prompt-symbol">❯</span>
+                    </div>
+                    <span class="command">go<cursor></cursor></span>
+                </div>
+            </div>
+            <div class="theme-info">
+                <div class="theme-header">
+                    <div class="theme-name">Tokyo Night</div>
+                    <div class="theme-badge">现代</div>
+                </div>
+                <div class="theme-description">现代深蓝 · 极简设计 · Vim/Neovim 风格</div>
+                <div class="theme-tags">
+                    <span class="tag">蓝色</span>
+                    <span class="tag">现代</span>
+                    <span class="tag">极简</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Solarized Dark -->
+        <div class="theme-card">
+            <div class="terminal solarized">
+                <div class="terminal-header">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                    <span class="terminal-title">iTerm2</span>
+                </div>
+                <div class="terminal-content">
+                    <div class="prompt">
+                        <span class="prompt-icon"></span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                        <span class="prompt-symbol">❯</span>
+                    </div>
+                    <div class="command">mvn clean install</div>
+                    <div class="output">
+                        <span class="keyword">BUILD</span> SUCCESS
+                    </div>
+                    <div class="prompt">
+                        <span class="prompt-icon"></span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                        <span class="prompt-symbol">❯</span>
+                    </div>
+                    <span class="command">java<cursor></cursor></span>
+                </div>
+            </div>
+            <div class="theme-info">
+                <div class="theme-header">
+                    <div class="theme-name">Solarized Dark</div>
+                    <div class="theme-badge">护眼</div>
+                </div>
+                <div class="theme-description">经典护眼 · 科学配色 · 长时间工作不累眼</div>
+                <div class="theme-tags">
+                    <span class="tag">护眼</span>
+                    <span class="tag">经典</span>
+                    <span class="tag">科学</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- One Dark -->
+        <div class="theme-card">
+            <div class="terminal onedark">
+                <div class="terminal-header">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                    <span class="terminal-title">iTerm2</span>
+                </div>
+                <div class="terminal-content">
+                    <div class="prompt">
+                        <span class="prompt-icon"></span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                        <span class="prompt-symbol">❯</span>
+                    </div>
+                    <div class="command">ng serve</div>
+                    <div class="output">
+                        <span class="keyword">Compiled</span> successfully in <span class="number">2.4s</span>
+                    </div>
+                    <div class="prompt">
+                        <span class="prompt-icon"></span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                        <span class="prompt-symbol">❯</span>
+                    </div>
+                    <span class="command">npm<cursor></cursor></span>
+                </div>
+            </div>
+            <div class="theme-info">
+                <div class="theme-header">
+                    <div class="theme-name">One Dark</div>
+                    <div class="theme-badge">VSCode</div>
+                </div>
+                <div class="theme-description">Atom 风格 · 程序员亲切 · VSCode 同款</div>
+                <div class="theme-tags">
+                    <span class="tag">经典</span>
+                    <span class="tag">VSCode</span>
+                    <span class="tag">流行</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>💡 选择一个主题后，我可以帮你生成具体的配置命令</p>
+        <p>💡 切换字体预览不同编程字体的实际渲染效果</p>
+        <p>刷新页面查看更多交互效果</p>
+    </div>
+
+    <script>
+        // Font Selector Functionality
+        const fontSelector = document.getElementById('fontSelector');
+        const fontLoadingStatus = document.getElementById('fontLoadingStatus');
+        const root = document.documentElement;
+
+        // Font loading detection
+        const fonts = [
+            'Fira Code',
+            'JetBrains Mono',
+            'Source Code Pro',
+            'IBM Plex Mono',
+            'Inconsolata',
+            'Space Mono',
+            'Anonymous Pro',
+            'Ubuntu Mono',
+            'Roboto Mono',
+            'DM Mono'
+        ];
+
+        // Check if fonts are loaded using FontFaceSet
+        function checkFontsLoaded() {
+            const fontFaceSet = document.fonts;
+            let loadedCount = 0;
+
+            fonts.forEach(font => {
+                if (fontFaceSet.check(`16px "${font}"`)) {
+                    loadedCount++;
+                }
+            });
+
+            return loadedCount;
+        }
+
+        // Initial font load check
+        function updateFontStatus() {
+            const loadedCount = checkFontsLoaded();
+            const totalFonts = fonts.length;
+
+            if (loadedCount < totalFonts) {
+                fontLoadingStatus.textContent = `🔄 字体加载中... (${loadedCount}/${totalFonts})`;
+                fontLoadingStatus.className = 'font-loading-status loading';
+            } else {
+                fontLoadingStatus.textContent = '✅ 所有字体已加载完成';
+                fontLoadingStatus.className = 'font-loading-status loaded';
+                setTimeout(() => {
+                    fontLoadingStatus.textContent = '';
+                }, 3000);
+            }
+        }
+
+        // Check font status periodically
+        let checkInterval = setInterval(updateFontStatus, 500);
+
+        // Stop checking after 10 seconds
+        setTimeout(() => {
+            clearInterval(checkInterval);
+            updateFontStatus();
+        }, 10000);
+
+        // Listen for font load events
+        document.fonts.ready.then(() => {
+            clearInterval(checkInterval);
+            updateFontStatus();
+        });
+
+        // Font change handler
+        fontSelector.addEventListener('change', function() {
+            const selectedFont = this.value;
+            const fontName = this.options[this.selectedIndex].getAttribute('data-font');
+
+            // Update CSS variable
+            root.style.setProperty('--terminal-font', selectedFont);
+
+            // Show loading status for the specific font
+            fontLoadingStatus.textContent = `🔄 切换到 ${fontName}...`;
+            fontLoadingStatus.className = 'font-loading-status loading';
+
+            // Wait a brief moment for the font to apply
+            setTimeout(() => {
+                fontLoadingStatus.textContent = `✅ 已切换到 ${fontName}`;
+                fontLoadingStatus.className = 'font-loading-status loaded';
+
+                // Clear the message after 2 seconds
+                setTimeout(() => {
+                    fontLoadingStatus.textContent = '';
+                }, 2000);
+            }, 300);
+
+            // Save preference to localStorage
+            try {
+                localStorage.setItem('preferredTerminalFont', selectedFont);
+                localStorage.setItem('preferredFontName', fontName);
+            } catch (e) {
+                // localStorage not available, that's fine
+            }
+        });
+
+        // Load saved font preference
+        window.addEventListener('DOMContentLoaded', function() {
+            try {
+                const savedFont = localStorage.getItem('preferredTerminalFont');
+                if (savedFont) {
+                    // Find the option with this value
+                    for (let i = 0; i < fontSelector.options.length; i++) {
+                        if (fontSelector.options[i].value === savedFont) {
+                            fontSelector.selectedIndex = i;
+                            root.style.setProperty('--terminal-font', savedFont);
+                            break;
+                        }
+                    }
+                }
+            } catch (e) {
+                // localStorage not available, use default
+            }
+        });
+
+        // Add smooth font transition to all terminal content
+        const style = document.createElement('style');
+        style.textContent = `
+            .terminal-content {
+                transition: font-family 0.3s ease;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
