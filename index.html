@@ -7,7 +7,7 @@
     <!-- Google Fonts - Loading 10 popular programming fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Source+Code+Pro:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Inconsolata:wght@400;500;600&family=Space+Mono:wght@400;700&family=Anonymous+Pro:wght@400;700&family=Ubuntu+Mono:wght@400;700&family=Roboto+Mono:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;500;600&family=Codestudio+Mono&family=Comfortaa:wght@400;700&family=DM+Mono:wght@400;500&family=Fira+Code:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Inconsolata:wght@400;500;600&family=Iosevka:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&family=Martian+Mono:wght@400;500;600&family=Overpass+Mono:wght@400;700&family=Roboto+Mono:wght@400;500;600&family=Source+Code+Pro:wght@400;500;600&family=Space+Mono:wght@400;700&family=Ubuntu+Mono:wght@400;700&family=Victor+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -414,6 +414,210 @@
             transform: translateY(-2px);
         }
 
+        /* Rating System */
+        .rating-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .rating-label {
+            color: #8888aa;
+            font-size: 0.85em;
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 4px;
+        }
+
+        .rating-star {
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .rating-star:hover,
+        .rating-star.active {
+            color: #fbbf24;
+            transform: scale(1.1);
+        }
+
+        .rating-star.hovered {
+            color: #fbbf24;
+        }
+
+        .rating-count {
+            color: #8888aa;
+            font-size: 0.75em;
+            margin-left: 4px;
+        }
+
+        /* One-click Install Button */
+        .oneclick-install {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #fff;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .oneclick-install:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .oneclick-install:active {
+            transform: translateY(0);
+        }
+
+        .oneclick-install.installing {
+            background: linear-gradient(135deg, #6b7280, #4b5563);
+            cursor: not-allowed;
+        }
+
+        .oneclick-install.success {
+            background: linear-gradient(135deg, #a6e3a1, #89b4fa);
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .quick-action-btn {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border-radius: 6px;
+            font-size: 0.75em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .quick-action-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Stats Badge */
+        .stats-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            font-size: 0.7em;
+            color: #8888aa;
+            margin-top: 8px;
+        }
+
+        /* More Themes Styles */
+        .nord {
+            background: linear-gradient(180deg, #2e3440 0%, #242933 100%);
+            color: #d8dee9;
+        }
+        .nord .terminal-header { border-color: rgba(216, 222, 233, 0.1); }
+        .nord .prompt-path { color: #88c0d0; }
+        .nord .prompt-git { color: #a3be8c; background: rgba(163, 190, 140, 0.15); }
+        .nord .prompt-symbol { color: #bf616a; }
+        .nord .command { color: #ebcb8b; }
+        .nord .output { color: #7b88a1; }
+        .nord .keyword { color: #81a1c1; }
+        .nord .string { color: #a3be8c; }
+        .nord .number { color: #b48ead; }
+        .nord .comment { color: #616e88; }
+        .nord .cursor { background: #d8dee9; }
+        .nord .theme-info { background: rgba(46, 52, 64, 0.98); }
+        .nord .theme-name { color: #88c0d0; }
+        .nord .theme-description { color: #e0e0e5; }
+        .nord .theme-badge { background: rgba(136, 192, 208, 0.2); color: #88c0d0; }
+        .nord .tag { background: #3b4252; color: #d8dee9; }
+        .nord .tag:hover { background: #434c5e; }
+
+        .monokai {
+            background: linear-gradient(180deg, #272822 0%, #1e1f1a 100%);
+            color: #f8f8f2;
+        }
+        .monokai .terminal-header { border-color: rgba(248, 248, 242, 0.1); }
+        .monokai .prompt-path { color: #66d9ef; }
+        .monokai .prompt-git { color: #a6e22e; background: rgba(166, 226, 46, 0.15); }
+        .monokai .prompt-symbol { color: #f92672; }
+        .monokai .command { color: #e6db74; }
+        .monokai .output { color: #75715e; }
+        .monokai .keyword { color: #f92672; }
+        .monokai .string { color: #e6db74; }
+        .monokai .number { color: #ae81ff; }
+        .monokai .comment { color: #75715e; }
+        .monokai .cursor { background: #f8f8f2; }
+        .monokai .theme-info { background: rgba(30, 31, 26, 0.98); }
+        .monokai .theme-name { color: #a6e22e; }
+        .monokai .theme-description { color: #e0e0e5; }
+        .monokai .theme-badge { background: rgba(166, 226, 46, 0.2); color: #a6e22e; }
+        .monokai .tag { background: #3e3d32; color: #f8f8f2; }
+        .monokai .tag:hover { background: #49483e; }
+
+        .nightowl {
+            background: linear-gradient(180deg, #011627 0%, #02111d 100%);
+            color: #d6deeb;
+        }
+        .nightowl .terminal-header { border-color: rgba(214, 222, 235, 0.1); }
+        .nightowl .prompt-path { color: #82aaff; }
+        .nightowl .prompt-git { color: #c3e88d; background: rgba(195, 232, 141, 0.15); }
+        .nightowl .prompt-symbol { color: #f78c6c; }
+        .nightowl .command { color: #ffcb6b; }
+        .nightowl .output { color: #637777; }
+        .nightowl .keyword { color: #c792ea; }
+        .nightowl .string { color: #c3e88d; }
+        .nightowl .number { color: #f78c6c; }
+        .nightowl .comment { color: #637777; }
+        .nightowl .cursor { background: #d6deeb; }
+        .nightowl .theme-info { background: rgba(2, 17, 29, 0.98); }
+        .nightowl .theme-name { color: #82aaff; }
+        .nightowl .theme-description { color: #e0e0e5; }
+        .nightowl .theme-badge { background: rgba(130, 170, 255, 0.2); color: #82aaff; }
+        .nightowl .tag { background: #072840; color: #d6deeb; }
+        .nightowl .tag:hover { background: #0a344e; }
+
+        .material {
+            background: linear-gradient(180deg, #263238 0%, #1e272c 100%);
+            color: #eeffff;
+        }
+        .material .terminal-header { border-color: rgba(238, 255, 255, 0.1); }
+        .material .prompt-path { color: #82aaff; }
+        .material .prompt-git { color: #c3e88d; background: rgba(195, 232, 141, 0.15); }
+        .material .prompt-symbol { color: #f07178; }
+        .material .command { color: #ffcb6b; }
+        .material .output { color: #546e7a; }
+        .material .keyword { color: #c792ea; }
+        .material .string { color: #c3e88d; }
+        .material .number { color: #f78c6c; }
+        .material .comment { color: #546e7a; }
+        .material .cursor { background: #eeffff; }
+        .material .theme-info { background: rgba(30, 39, 44, 0.98); }
+        .material .theme-name { color: #82aaff; }
+        .material .theme-description { color: #e0e0e5; }
+        .material .theme-badge { background: rgba(130, 170, 255, 0.2); color: #82aaff; }
+        .material .tag { background: #37474f; color: #eeffff; }
+        .material .tag:hover { background: #455a64; }
+
         /* Catppuccin Mocha */
         .mocha {
             background: linear-gradient(180deg, #1e1e2e 0%, #181825 100%);
@@ -799,12 +1003,12 @@
         <p>选择你喜欢的主题，查看配置方案</p>
     </div>
 
-    <p class="subtitle">👆 鼠标悬停查看交互效果 · 点击主题卡片生成配置脚本 👆</p>
+    <p class="subtitle">👆 10+ 主题 · 20+ 字体 · 点击卡片生成配置 · 评分系统 · 一键安装 👆</p>
 
     <!-- Font Selector -->
     <div class="font-selector-container">
         <div class="font-selector-wrapper">
-            <label class="font-selector-label">🔤 选择终端字体</label>
+            <label class="font-selector-label">🔤 选择终端字体（20+ 热门字体）</label>
             <select class="font-selector" id="fontSelector">
                 <option value="'Fira Code', monospace" data-font="Fira Code">Fira Code - 支持连字，程序员最爱</option>
                 <option value="'JetBrains Mono', monospace" data-font="JetBrains Mono">JetBrains Mono - JetBrains 出品，开箱即用</option>
@@ -816,6 +1020,17 @@
                 <option value="'Ubuntu Mono', monospace" data-font="Ubuntu Mono">Ubuntu Mono - Ubuntu 风格</option>
                 <option value="'Roboto Mono', monospace" data-font="Roboto Mono">Roboto Mono - Google 出品</option>
                 <option value="'DM Mono', monospace" data-font="DM Mono">DM Mono - 现代设计，几何风格</option>
+                <option value="'Cascadia Code', monospace" data-font="Cascadia Code">Cascadia Code - Microsoft 新字体</option>
+                <option value="'Victor Mono', monospace" data-font="Victor Mono">Victor Mono - 支持连字，现代感</option>
+                <option value="'Iosevka', monospace" data-font="Iosevka">Iosevka - 开源编程字体</option>
+                <option value="'Martian Mono', monospace" data-font="Martian Mono">Martian Mono - 独特设计</option>
+                <option value="'Geist Mono', monospace" data-font="Geist Mono">Geist Mono - Vercel 出品</option>
+                <option value="'CodeNew Roman', monospace" data-font="CodeNew Roman">CodeNew Roman - 复古现代结合</option>
+                <option value="'Lilex', monospace" data-font="Lilex">Lilex - 开源，多语言支持</option>
+                <option value="'Agave', monospace" data-font="Agave">Agave - 高可见度</option>
+                <option value="'Aptos', monospace" data-font="Aptos">Aptos - 现代，易读</option>
+                <option value="'Comfortaa', monospace" data-font="Comfortaa">Comfortaa - 圆润友好</option>
+                <option value="'Overpass Mono', monospace" data-font="Overpass Mono">Overpass Mono - 开源项目</option>
             </select>
             <div class="font-loading-status" id="fontLoadingStatus"></div>
             <div class="font-info">💡 字体通过 Google Fonts CDN 加载，选择后所有终端预览实时切换</div>
@@ -1074,12 +1289,181 @@
                 </div>
             </div>
         </div>
+
+        <!-- Nord -->
+        <div class="theme-card" data-theme="nord" data-theme-name="Nord">
+            <div class="select-indicator"></div>
+            <div class="terminal nord">
+                <div class="terminal-header">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                    <span class="terminal-title">iTerm2</span>
+                </div>
+                <div class="terminal-content">
+                    <div class="prompt">
+                        <span class="prompt-icon">❯</span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                    </div>
+                    <div class="command">git status</div>
+                    <div class="output">
+                        <span class="keyword">On branch</span> main
+                    </div>
+                    <div class="prompt">
+                        <span class="prompt-icon">❯</span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                    </div>
+                    <span class="command">vim<span class="cursor"></span></span>
+                </div>
+            </div>
+            <div class="theme-info">
+                <div class="theme-header">
+                    <div class="theme-name">Nord</div>
+                    <div class="theme-badge">清新</div>
+                </div>
+                <div class="theme-description">北极风光 · 冷色调 · 长时间使用舒适</div>
+                <div class="theme-tags">
+                    <span class="tag">蓝色</span>
+                    <span class="tag">清新</span>
+                    <span class="tag">护眼</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Monokai -->
+        <div class="theme-card" data-theme="monokai" data-theme-name="Monokai">
+            <div class="select-indicator"></div>
+            <div class="terminal monokai">
+                <div class="terminal-header">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                    <span class="terminal-title">iTerm2</span>
+                </div>
+                <div class="terminal-content">
+                    <div class="prompt">
+                        <span class="prompt-icon">❯</span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                    </div>
+                    <div class="command">ruby app.rb</div>
+                    <div class="output">
+                        <span class="keyword">Server</span> started on <span class="string">port 3000</span>
+                    </div>
+                    <div class="prompt">
+                        <span class="prompt-icon">❯</span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                    </div>
+                    <span class="command">irb<span class="cursor"></span></span>
+                </div>
+            </div>
+            <div class="theme-info">
+                <div class="theme-header">
+                    <div class="theme-name">Monokai</div>
+                    <div class="theme-badge">经典</div>
+                </div>
+                <div class="theme-description">经典暗色 · 高对比度 · Sublime 同款</div>
+                <div class="theme-tags">
+                    <span class="tag">深色</span>
+                    <span class="tag">经典</span>
+                    <span class="tag">高对比</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Night Owl -->
+        <div class="theme-card" data-theme="nightowl" data-theme-name="Night Owl">
+            <div class="select-indicator"></div>
+            <div class="terminal nightowl">
+                <div class="terminal-header">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                    <span class="terminal-title">iTerm2</span>
+                </div>
+                <div class="terminal-content">
+                    <div class="prompt">
+                        <span class="prompt-icon">❯</span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                    </div>
+                    <div class="command">npm test</div>
+                    <div class="output">
+                        <span class="keyword">Tests:</span> <span class="number">42</span> passed, <span class="number">0</span> failed
+                    </div>
+                    <div class="prompt">
+                        <span class="prompt-icon">❯</span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                    </div>
+                    <span class="command">yarn<span class="cursor"></span></span>
+                </div>
+            </div>
+            <div class="theme-info">
+                <div class="theme-header">
+                    <div class="theme-name">Night Owl</div>
+                    <div class="theme-badge">现代</div>
+                </div>
+                <div class="theme-description">深蓝夜色 · VSCode 热门 · 精心调配</div>
+                <div class="theme-tags">
+                    <span class="tag">蓝色</span>
+                    <span class="tag">现代</span>
+                    <span class="tag">VSCode</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Material -->
+        <div class="theme-card" data-theme="material" data-theme-name="Material Design">
+            <div class="select-indicator"></div>
+            <div class="terminal material">
+                <div class="terminal-header">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                    <span class="terminal-title">iTerm2</span>
+                </div>
+                <div class="terminal-content">
+                    <div class="prompt">
+                        <span class="prompt-icon">❯</span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                    </div>
+                    <div class="command">flutter run</div>
+                    <div class="output">
+                        <span class="keyword">Launching</span> <span class="string">lib/main.dart</span>...
+                    </div>
+                    <div class="prompt">
+                        <span class="prompt-icon">❯</span>
+                        <span class="prompt-path">~/projects</span>
+                        <span class="prompt-git">main</span>
+                    </div>
+                    <span class="command">dart<span class="cursor"></span></span>
+                </div>
+            </div>
+            <div class="theme-info">
+                <div class="theme-header">
+                    <div class="theme-name">Material Design</div>
+                    <div class="theme-badge">Google</div>
+                </div>
+                <div class="theme-description">Material Design · Google 风格 · 优雅简洁</div>
+                <div class="theme-tags">
+                    <span class="tag">蓝色</span>
+                    <span class="tag">Material</span>
+                    <span class="tag">Google</span>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="footer">
-        <p>💡 点击主题卡片选择你喜欢的主题</p>
-        <p>💡 选择主题后自动生成 iTerm2 配置脚本</p>
-        <p>💡 切换字体预览不同编程字体的实际渲染效果</p>
+        <p>💡 点击主题卡片选择主题，自动生成配置脚本</p>
+        <p>💡 支持 10+ 热门主题 · 20+ 编程字体 · 主题评分系统</p>
+        <p>💡 一键下载 AppleScript 安装脚本 · 复制/下载 Bash 脚本</p>
+        <p>💡 切换字体实时预览效果 · 评分保存在本地</p>
     </div>
 
     <!-- Config Panel -->
@@ -1114,6 +1498,21 @@
                 <span>下载脚本</span>
             </button>
         </div>
+        <button class="oneclick-install" id="oneClickInstall">
+            <span>⚡</span>
+            <span>一键安装（AppleScript）</span>
+        </button>
+        <div class="rating-container">
+            <span class="rating-label">为主题评分:</span>
+            <div class="rating-stars" id="ratingStars">
+                <span class="rating-star" data-rating="1">★</span>
+                <span class="rating-star" data-rating="2">★</span>
+                <span class="rating-star" data-rating="3">★</span>
+                <span class="rating-star" data-rating="4">★</span>
+                <span class="rating-star" data-rating="5">★</span>
+            </div>
+            <span class="rating-count" id="ratingCount"></span>
+        </div>
     </div>
 
     <!-- Toast Notification -->
@@ -1142,18 +1541,26 @@
         function generateThemeScript(theme, font) {
             var scripts = {
                 'mocha': '#!/bin/bash\\n# iTerm2 配置脚本 - Catppuccin Mocha\\nset -e\\necho "🎨 配置 iTerm2 主题: Catppuccin Mocha"\\necho "🔤 配置字体: ' + font + '"\\n\\nTHEME_URL="https://raw.githubusercontent.com/catppuccin/iTerm/main/catppuccin-mocha.itermcolors"\\nTHEME_DIR="$HOME/Library/Colors"\\nTHEME_FILE="$THEME_DIR/catppuccin-mocha.itermcolors"\\n\\nmkdir -p "$THEME_DIR"\\necho "📥 下载主题文件..."\\ncurl -fsSL "$THEME_URL" -o "$THEME_FILE"\\n\\necho "✅ 已下载: $THEME_FILE"\\necho "📝 在 iTerm2 中导入并应用该主题"',
-                
+
                 'frappe': '#!/bin/bash\\n# iTerm2 配置脚本 - Catppuccin Frappe\\nset -e\\necho "🎨 配置 iTerm2 主题: Catppuccin Frappe"\\necho "🔤 配置字体: ' + font + '"\\n\\nTHEME_URL="https://raw.githubusercontent.com/catppuccin/iTerm/main/catppuccin-frappe.itermcolors"\\nTHEME_DIR="$HOME/Library/Colors"\\nTHEME_FILE="$THEME_DIR/catppuccin-frappe.itermcolors"\\n\\nmkdir -p "$THEME_DIR"\\ncurl -fsSL "$THEME_URL" -o "$THEME_FILE"\\n\\necho "✅ 已下载: $THEME_FILE"\\necho "📝 在 iTerm2 中导入并应用该主题"',
-                
+
                 'macchiato': '#!/bin/bash\\n# iTerm2 配置脚本 - Catppuccin Macchiato\\nset -e\\necho "🎨 配置 iTerm2 主题: Catppuccin Macchiato"\\necho "🔤 配置字体: ' + font + '"\\n\\nTHEME_URL="https://raw.githubusercontent.com/catppuccin/iTerm/main/catppuccin-macchiato.itermcolors"\\nTHEME_DIR="$HOME/Library/Colors"\\nTHEME_FILE="$THEME_DIR/catppuccin-macchiato.itermcolors"\\n\\nmkdir -p "$THEME_DIR"\\ncurl -fsSL "$THEME_URL" -o "$THEME_FILE"\\n\\necho "✅ 已下载: $THEME_FILE"\\necho "📝 在 iTerm2 中导入并应用该主题"',
-                
+
                 'dracula': '#!/bin/bash\\n# iTerm2 配置脚本 - Dracula\\nset -e\\necho "🎨 配置 iTerm2 主题: Dracula"\\necho "🔤 配置字体: ' + font + '"\\n\\nTHEME_URL="https://raw.githubusercontent.com/dracula/iterm/master/dracula.itermcolors"\\nTHEME_DIR="$HOME/Library/Colors"\\nTHEME_FILE="$THEME_DIR/dracula.itermcolors"\\n\\nmkdir -p "$THEME_DIR"\\ncurl -fsSL "$THEME_URL" -o "$THEME_FILE"\\n\\necho "✅ 已下载: $THEME_FILE"\\necho "📝 在 iTerm2 中导入并应用该主题"',
-                
+
                 'tokyo': '#!/bin/bash\\n# iTerm2 配置脚本 - Tokyo Night\\nset -e\\necho "🎨 配置 iTerm2 主题: Tokyo Night"\\necho "🔤 配置字体: ' + font + '"\\n\\nTHEME_URL="https://raw.githubusercontent.com/fabioaq/iterm2-tokyo-night/master/tokyo-night.itermcolors"\\nTHEME_DIR="$HOME/Library/Colors"\\nTHEME_FILE="$THEME_DIR/tokyo-night.itermcolors"\\n\\nmkdir -p "$THEME_DIR"\\ncurl -fsSL "$THEME_URL" -o "$THEME_FILE"\\n\\necho "✅ 已下载: $THEME_FILE"\\necho "📝 在 iTerm2 中导入并应用该主题"',
-                
-                'onedark': '#!/bin/bash\\n# iTerm2 配置脚本 - One Dark\\nset -e\\necho "🎨 配置 iTerm2 主题: One Dark"\\necho "🔤 配置字体: ' + font + '"\\n\\nTHEME_URL="https://raw.githubusercontent.com/one-dark/iterm-one-dark/master/OneDark.itermcolors"\\nTHEME_DIR="$HOME/Library/Colors"\\nTHEME_FILE="$THEME_DIR/OneDark.itermcolors"\\n\\nmkdir -p "$THEME_DIR"\\ncurl -fsSL "$THEME_URL" -o "$THEME_FILE"\\n\\necho "✅ 已下载: $THEME_FILE"\\necho "📝 在 iTerm2 中导入并应用该主题"'
+
+                'onedark': '#!/bin/bash\\n# iTerm2 配置脚本 - One Dark\\nset -e\\necho "🎨 配置 iTerm2 主题: One Dark"\\necho "🔤 配置字体: ' + font + '"\\n\\nTHEME_URL="https://raw.githubusercontent.com/one-dark/iterm-one-dark/master/OneDark.itermcolors"\\nTHEME_DIR="$HOME/Library/Colors"\\nTHEME_FILE="$THEME_DIR/OneDark.itermcolors"\\n\\nmkdir -p "$THEME_DIR"\\ncurl -fsSL "$THEME_URL" -o "$THEME_FILE"\\n\\necho "✅ 已下载: $THEME_FILE"\\necho "📝 在 iTerm2 中导入并应用该主题"',
+
+                'nord': '#!/bin/bash\\n# iTerm2 配置脚本 - Nord\\nset -e\\necho "🎨 配置 iTerm2 主题: Nord"\\necho "🔤 配置字体: ' + font + '"\\n\\nTHEME_URL="https://raw.githubusercontent.com/arcticicestudio/nord-iterm2/master/src/xml/Nord.itermcolors"\\nTHEME_DIR="$HOME/Library/Colors"\\nTHEME_FILE="$THEME_DIR/Nord.itermcolors"\\n\\nmkdir -p "$THEME_DIR"\\ncurl -fsSL "$THEME_URL" -o "$THEME_FILE"\\n\\necho "✅ 已下载: $THEME_FILE"\\necho "📝 在 iTerm2 中导入并应用该主题"',
+
+                'monokai': '#!/bin/bash\\n# iTerm2 配置脚本 - Monokai\\nset -e\\necho "🎨 配置 iTerm2 主题: Monokai"\\necho "🔤 配置字体: ' + font + '"\\n\\nTHEME_URL="https://raw.githubusercontent.com/steven8k/Monokai-iTerm/master/Monokai.itermcolors"\\nTHEME_DIR="$HOME/Library/Colors"\\nTHEME_FILE="$THEME_DIR/Monokai.itermcolors"\\n\\nmkdir -p "$THEME_DIR"\\ncurl -fsSL "$THEME_URL" -o "$THEME_FILE"\\n\\necho "✅ 已下载: $THEME_FILE"\\necho "📝 在 iTerm2 中导入并应用该主题"',
+
+                'nightowl': '#!/bin/bash\\n# iTerm2 配置脚本 - Night Owl\\nset -e\\necho "🎨 配置 iTerm2 主题: Night Owl"\\necho "🔤 配置字体: ' + font + '"\\n\\nTHEME_URL="https://raw.githubusercontent.com/sdras/night-owl-vscode-theme/master/iterm/Night%20Owl.itermcolors"\\nTHEME_DIR="$HOME/Library/Colors"\\nTHEME_FILE="$THEME_DIR/NightOwl.itermcolors"\\n\\nmkdir -p "$THEME_DIR"\\ncurl -fsSL "$THEME_URL" -o "$THEME_FILE"\\n\\necho "✅ 已下载: $THEME_FILE"\\necho "📝 在 iTerm2 中导入并应用该主题"',
+
+                'material': '#!/bin/bash\\n# iTerm2 配置脚本 - Material Design\\nset -e\\necho "🎨 配置 iTerm2 主题: Material Design"\\necho "🔤 配置字体: ' + font + '"\\n\\nTHEME_URL="https://raw.githubusercontent.com/Microsoft/vscode/main/extensions/theme-material/product/icons/iterm/material-design-colors.itermcolors"\\nTHEME_DIR="$HOME/Library/Colors"\\nTHEME_FILE="$THEME_DIR/material.itermcolors"\\n\\nmkdir -p "$THEME_DIR"\\ncurl -fsSL "$THEME_URL" -o "$THEME_FILE" 2>/dev/null || echo "请手动下载 Material 主题"\\n\\necho "📝 在 iTerm2 中导入并应用该主题"'
             };
-            
+
             return scripts[theme] || '# Theme script not found';
         }
 
@@ -1164,8 +1571,29 @@
             'macchiato': 'Catppuccin Macchiato',
             'dracula': 'Dracula',
             'tokyo': 'Tokyo Night',
-            'onedark': 'One Dark'
+            'onedark': 'One Dark',
+            'nord': 'Nord',
+            'monokai': 'Monokai',
+            'nightowl': 'Night Owl',
+            'material': 'Material Design'
         };
+
+        // Theme URLs for AppleScript
+        var themeUrls = {
+            'mocha': 'https://raw.githubusercontent.com/catppuccin/iTerm/main/catppuccin-mocha.itermcolors',
+            'frappe': 'https://raw.githubusercontent.com/catppuccin/iTerm/main/catppuccin-frappe.itermcolors',
+            'macchiato': 'https://raw.githubusercontent.com/catppuccin/iTerm/main/catppuccin-macchiato.itermcolors',
+            'dracula': 'https://raw.githubusercontent.com/dracula/iterm/master/dracula.itermcolors',
+            'tokyo': 'https://raw.githubusercontent.com/fabioaq/iterm2-tokyo-night/master/tokyo-night.itermcolors',
+            'onedark': 'https://raw.githubusercontent.com/one-dark/iterm-one-dark/master/OneDark.itermcolors',
+            'nord': 'https://raw.githubusercontent.com/arcticicestudio/nord-iterm2/master/src/xml/Nord.itermcolors',
+            'monokai': 'https://raw.githubusercontent.com/steven8k/Monokai-iTerm/master/Monokai.itermcolors',
+            'nightowl': 'https://raw.githubusercontent.com/sdras/night-owl-vscode-theme/master/iterm/Night%20Owl.itermcolors',
+            'material': 'https://raw.githubusercontent.com/Microsoft/vscode/main/extensions/theme-material/product/icons/iterm/material-design-colors.itermcolors'
+        };
+
+        // Rating data (stored in localStorage)
+        var themeRatings = JSON.parse(localStorage.getItem('themeRatings') || '{}');
 
         // Initialize when DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
@@ -1254,6 +1682,131 @@
                     }
                 });
             }
+
+            // One-click install button
+            var oneClickInstallBtn = document.getElementById('oneClickInstall');
+            if (oneClickInstallBtn) {
+                oneClickInstallBtn.addEventListener('click', function() {
+                    if (!selectedTheme || !themeUrls[selectedTheme]) {
+                        alert('请先选择一个主题');
+                        return;
+                    }
+
+                    oneClickInstallBtn.classList.add('installing');
+                    oneClickInstallBtn.innerHTML = '<span>⏳</span><span>正在安装...</span>';
+
+                    var themeUrl = themeUrls[selectedTheme];
+                    var themeName = themeNames[selectedTheme];
+
+                    // Generate AppleScript
+                    var applescript = 'tell application "iTerm"\\n' +
+                        'activate\\n' +
+                        'set themeURL to "' + themeUrl + '"\\n' +
+                        'set themeFile to POSIX file (POSIX path of (path to downloads folder) & "' + selectedTheme + '.itermcolors")\\n' +
+                        'tell current window\\n' +
+                        'create tab with default profile\\n' +
+                        'end tell\\n' +
+                        'do shell script "curl -s \\"" & themeURL & "\\" -o \\"" & POSIX path of themeFile & "\\"\\n' +
+                        'delay 1\\n' +
+                        'tell application "System Events"\\n' +
+                        'keystroke "," using command down\\n' +
+                        'delay 0.5\\n' +
+                        'end tell\\n' +
+                        'end tell\\n' +
+                        'return "Theme downloaded! Please import it manually in iTerm2 Preferences."';
+
+                    // Create and download AppleScript
+                    var blob = new Blob([applescript], { type: 'text/plain' });
+                    var url = URL.createObjectURL(blob);
+                    var a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'install-theme.scpt';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+
+                    setTimeout(function() {
+                        oneClickInstallBtn.classList.remove('installing');
+                        oneClickInstallBtn.classList.add('success');
+                        oneClickInstallBtn.innerHTML = '<span>✅</span><span>已下载安装脚本</span>';
+                        setTimeout(function() {
+                            oneClickInstallBtn.classList.remove('success');
+                            oneClickInstallBtn.innerHTML = '<span>⚡</span><span>一键安装（AppleScript）</span>';
+                        }, 3000);
+                    }, 1000);
+                });
+            }
+
+            // Rating system
+            var ratingStars = document.querySelectorAll('.rating-star');
+            var ratingCountEl = document.getElementById('ratingCount');
+
+            function updateRatingDisplay(theme) {
+                var ratings = themeRatings[theme] || [];
+                var avg = ratings.length > 0 ? (ratings.reduce(function(a, b) { return a + b; }, 0) / ratings.length).toFixed(1) : '0.0';
+                var count = ratings.length;
+                if (ratingCountEl) {
+                    ratingCountEl.textContent = count > 0 ? avg + ' (' + count + ' 人评分)' : '暂无评分';
+                }
+
+                // Update stars display
+                var userRating = localStorage.getItem('userRating_' + theme);
+                ratingStars.forEach(function(star) {
+                    var starRating = parseInt(star.getAttribute('data-rating'));
+                    star.classList.remove('active');
+                    if (userRating && starRating <= parseInt(userRating)) {
+                        star.classList.add('active');
+                    }
+                });
+            }
+
+            ratingStars.forEach(function(star) {
+                star.addEventListener('click', function() {
+                    if (!selectedTheme) return;
+
+                    var rating = parseInt(this.getAttribute('data-rating'));
+
+                    // Save rating
+                    if (!themeRatings[selectedTheme]) {
+                        themeRatings[selectedTheme] = [];
+                    }
+
+                    // Check if user already rated
+                    var oldRating = localStorage.getItem('userRating_' + selectedTheme);
+                    if (oldRating) {
+                        // Remove old rating
+                        var oldRatingIndex = themeRatings[selectedTheme].indexOf(parseInt(oldRating));
+                        if (oldRatingIndex > -1) {
+                            themeRatings[selectedTheme].splice(oldRatingIndex, 1);
+                        }
+                    }
+
+                    // Add new rating
+                    themeRatings[selectedTheme].push(rating);
+                    localStorage.setItem('themeRatings', JSON.stringify(themeRatings));
+                    localStorage.setItem('userRating_' + selectedTheme, rating);
+
+                    updateRatingDisplay(selectedTheme);
+                });
+
+                star.addEventListener('mouseenter', function() {
+                    var rating = parseInt(this.getAttribute('data-rating'));
+                    ratingStars.forEach(function(s, index) {
+                        if (index < rating) {
+                            s.classList.add('hovered');
+                        } else {
+                            s.classList.remove('hovered');
+                        }
+                    });
+                });
+
+                star.addEventListener('mouseleave', function() {
+                    ratingStars.forEach(function(s) {
+                        s.classList.remove('hovered');
+                    });
+                });
+            });
             
             // Keyboard shortcut
             document.addEventListener('keydown', function(e) {
@@ -1274,13 +1827,33 @@
 
         function updateConfigPanel() {
             if (!selectedTheme) return;
-            
+
             var themeName = themeNames[selectedTheme] || selectedTheme;
             var script = generateThemeScript(selectedTheme, selectedFontName);
-            
+
             if (selectedThemeEl) selectedThemeEl.textContent = themeName;
             if (selectedFontEl) selectedFontEl.textContent = selectedFontName;
             if (configScriptEl) configScriptEl.textContent = script;
+
+            // Update rating display
+            var ratingCountEl = document.getElementById('ratingCount');
+            var ratingStars = document.querySelectorAll('.rating-star');
+            var ratings = themeRatings[selectedTheme] || [];
+            var avg = ratings.length > 0 ? (ratings.reduce(function(a, b) { return a + b; }, 0) / ratings.length).toFixed(1) : '0.0';
+            var count = ratings.length;
+            if (ratingCountEl) {
+                ratingCountEl.textContent = count > 0 ? avg + ' (' + count + ' 人评分)' : '暂无评分';
+            }
+
+            // Update stars display
+            var userRating = localStorage.getItem('userRating_' + selectedTheme);
+            ratingStars.forEach(function(star) {
+                var starRating = parseInt(star.getAttribute('data-rating'));
+                star.classList.remove('active');
+                if (userRating && starRating <= parseInt(userRating)) {
+                    star.classList.add('active');
+                }
+            });
         }
 
         function showConfigPanel() {
