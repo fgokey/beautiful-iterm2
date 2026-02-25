@@ -289,6 +289,7 @@ write_dynamic_profile() {
   ensure_state_dir_writable
 
   FONT_BLOCK="$(printf '\n        "Normal Font": "%s",\n        "Non Ascii Font": "%s",' "$PROFILE_FONT_VALUE" "$PROFILE_FONT_VALUE")"
+  THEME_COLOR_BLOCK=''
   GLASS_BLOCK=''
   CURSOR_BLOCK=''
   STATUS_BAR_BLOCK=''
@@ -305,6 +306,25 @@ write_dynamic_profile() {
     STATUS_BAR_BLOCK='\n        "Show Status Bar": true,'
   fi
 
+  if command -v python3 >/dev/null 2>&1 && [ -f "$THEME_FILE" ]; then
+    THEME_COLOR_BLOCK="$(python3 - "$THEME_FILE" <<'EOF_PY'
+import json
+import plistlib
+import sys
+
+theme_file = sys.argv[1]
+with open(theme_file, "rb") as f:
+    data = plistlib.load(f)
+
+keys = sorted([k for k in data.keys() if "Color" in k])
+parts = []
+for key in keys:
+    parts.append(f'\\n        "{key}": {json.dumps(data[key], separators=(",", ":"))},')
+print("".join(parts), end="")
+EOF_PY
+)"
+  fi
+
   if [ -f "$DYNAMIC_PROFILE_FILE" ] && [ "\${DYNAMIC_PROFILE_MANAGED:-0}" != "1" ] && [ "\${DYNAMIC_PROFILE_BACKED_UP:-0}" != "1" ]; then
     if ! cp "$DYNAMIC_PROFILE_FILE" "$DYNAMIC_PROFILE_BACKUP_FILE"; then
       echo -e "\${RED}Failed to backup dynamic profile to: $DYNAMIC_PROFILE_BACKUP_FILE\${NC}"
@@ -318,7 +338,7 @@ write_dynamic_profile() {
 {
   "Profiles": [
     {
-      "Name": "$PROFILE_NAME",
+      "Name": "$PROFILE_NAME",$THEME_COLOR_BLOCK
       "Guid": "$PROFILE_GUID",$FONT_BLOCK$GLASS_BLOCK$CURSOR_BLOCK$STATUS_BAR_BLOCK
       "Tags": ["iterm2-theme-preview"]
     }
@@ -353,6 +373,22 @@ tell application "iTerm2"
     end repeat
   end if
   activate
+end tell
+EOF_OSA
+}
+
+apply_theme_preset_to_all_sessions() {
+  osascript <<EOF_OSA >/dev/null 2>&1 || true
+tell application "iTerm2"
+  repeat with w in windows
+    repeat with t in tabs of w
+      repeat with s in sessions of t
+        try
+          set color preset of s to "$THEME_NAME"
+        end try
+      end repeat
+    end repeat
+  end repeat
 end tell
 EOF_OSA
 }
@@ -435,6 +471,7 @@ install_theme() {
     write_dynamic_profile
     set_default_bookmark_guid
     apply_profile_to_current_session
+    apply_theme_preset_to_all_sessions
     echo -e "\${GREEN}Applied iTerm2 beautify profile preset\${NC}"
   fi
 
