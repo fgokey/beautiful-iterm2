@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "iTerm2 Theme Preview",
-  description: "iTerm2 theme preview with install scripts"
+  title: "iTerm💎美颜小助手💎",
+  description: "iTerm💎美颜小助手💎，支持主题预览与安装脚本"
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

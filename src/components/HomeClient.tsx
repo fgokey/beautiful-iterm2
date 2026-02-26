@@ -76,7 +76,7 @@ export function HomeClient() {
   return (
     <main className="page-shell">
       <section className="hero">
-        <h1>iTerm2 主题预览与脚本安装</h1>
+        <h1>iTerm💎美颜小助手💎</h1>
         <p>
           已收录 {THEMES.length} 个主题。左侧选主题，右侧固定显示详细终端预览和安装配置，无需回滚页面。
         </p>
